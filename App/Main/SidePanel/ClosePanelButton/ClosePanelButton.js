@@ -1,9 +1,12 @@
 import React from "react";
 import { Svg, Path, RadialGradient, Circle, Defs, Stop } from "react-native-svg";
+import { useDispatch } from "react-redux";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
+import { CLOSE_SIDE } from "../../../../redux/ui/components/ui.actions";
 const ClosePanelButton = ({ width = 50 }) => {
+    const dispath = useDispatch();
     return (
-        <AnimatedPressable>
+        <AnimatedPressable onPress={() => dispath({ type: CLOSE_SIDE })}>
             <Svg width={width} height={width} viewBox={`0 0 ${width} ${width}`} fill="none">
                 <Circle
                     cx={width / 2}
