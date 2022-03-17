@@ -1,24 +1,21 @@
-import Main from "./App/Main";
+import { NavigationContainer } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 import { NativeBaseProvider } from "native-base";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
-import store from "./redux";
-import { useFonts } from "expo-font";
+import LoadingScreen from "./App/LoadingScreen";
+import Main from "./App/Main/Main";
 import Fonts from "./assets/fonts";
+import store from "./redux";
 import theme from "./utils/theme";
 export default function App() {
-    const Raleway = useFonts(Fonts.Raleway);
-
-    if (!Raleway) {
-        return <View />;
-    }
+    const [LoadingFonts] = useFonts({ ...Fonts.Raleway, ...Fonts.Gisha });
     return (
         <Provider store={store}>
             <NavigationContainer>
                 <NativeBaseProvider theme={theme}>
                     <GestureHandlerRootView style={{ flex: 1 }}>
-                        <Main />
+                        {!LoadingFonts ? <LoadingScreen /> : <Main />}
                     </GestureHandlerRootView>
                 </NativeBaseProvider>
             </NavigationContainer>

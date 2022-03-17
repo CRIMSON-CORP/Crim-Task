@@ -1,5 +1,4 @@
 import { extendTheme } from "native-base";
-import Fonts from "../assets/fonts";
 
 const theme = extendTheme({
     colors: {
@@ -15,15 +14,25 @@ const theme = extendTheme({
     },
     fontConfig: {
         Raleway: {
-            100: {
-                normal: "thin",
-            },
-            200: { normal: "light" },
-            300: { normal: "regular" },
-            400: { normal: "medium" },
-            500: { normal: "bold" },
-            600: { normal: "extrabold" },
-            700: { normal: "black" },
+            100: { normal: "Raleway-Thin" },
+            200: { normal: "Raleway-Light" },
+            300: { normal: "Raleway-Regular" },
+            400: { normal: "Raleway-Medium" },
+            500: { normal: "Raleway-SemiBold" },
+            600: { normal: "Raleway-Bold" },
+            700: { normal: "Raleway-Extrabold" },
+            800: { normal: "Raleway-Black" },
+        },
+        Gisha: {
+            100: { normal: "Gisha" },
+            200: { normal: "Gisha" },
+            300: { normal: "Gisha" },
+            400: { normal: "Gisha" },
+            500: { normal: "Gisha" },
+            600: { normal: "Gisha" },
+            700: { normal: "Gisha" },
+            800: { normal: "Gisha" },
+            900: { normal: "Gisha" },
         },
     },
     fontSizes: {
@@ -42,7 +51,7 @@ const theme = extendTheme({
         "8xl": 96,
         "9xl": 128,
     },
-    fonts: { heading: "Roboto", body: "Roboto", mono: "Roboto" },
+    fonts: { heading: "Raleway", body: "Raleway", logo: "Gisha" },
     config: {
         initialColorMode: "light",
     },
