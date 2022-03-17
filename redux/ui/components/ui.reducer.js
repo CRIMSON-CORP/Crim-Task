@@ -1,6 +1,6 @@
 import * as ACTIONS from "./ui.actions";
 const ui = {
-    view: "Home",
+    view: "lists",
 };
 function uiReducer(state = ui, ACTION) {
     switch (ACTION.type) {
