@@ -1,6 +1,7 @@
 import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import { Box, Text } from "native-base";
 import { useSelector } from "react-redux";
+import TopBar from "./TopBar";
 const { width, height } = Dimensions.get("window");
 const MainPanel = () => {
     const title = useSelector((state) => state.uiReducer.view);
@@ -19,7 +20,7 @@ const MainPanel = () => {
                 StyleSheet.absoluteFill,
             ]}
         >
-            <Text>{title}</Text>
+            <TopBar />
         </Box>
     );
 };
