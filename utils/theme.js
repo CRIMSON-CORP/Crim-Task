@@ -55,6 +55,13 @@ const theme = extendTheme({
     config: {
         initialColorMode: "light",
     },
+    components: {
+        Heading: {
+            baseStyle: {
+                color: "white",
+            },
+        },
+    },
 });
 
 export default theme;
