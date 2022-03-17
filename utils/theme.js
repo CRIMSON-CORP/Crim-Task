@@ -61,6 +61,11 @@ const theme = extendTheme({
                 color: "white",
             },
         },
+        Text: {
+            baseStyle: {
+                color: "white",
+            },
+        },
     },
 });
 

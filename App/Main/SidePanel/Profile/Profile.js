@@ -1,12 +1,13 @@
-import { View, Text } from "react-native";
 import React from "react";
-import { Box } from "native-base";
+import { Box, VStack } from "native-base";
 import ProfilePhoto from "./ProfilePhoto";
+import ProfileName from "./ProfileName";
 const Profile = () => {
     return (
-        <Box>
+        <VStack space={12}>
             <ProfilePhoto />
-        </Box>
+            <ProfileName />
+        </VStack>
     );
 };
 
