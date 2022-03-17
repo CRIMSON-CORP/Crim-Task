@@ -1,11 +1,13 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { HStack, Text } from "native-base";
 
-const NavbarItem = () => {
+const NavbarItem = ({ icon, text }) => {
     return (
-        <View>
-            <Text>NavbarItem</Text>
-        </View>
+        <HStack space="8" alignItems="center">
+            {icon}
+            <Text fontSize={24} mt={-1}>
+                {text}
+            </Text>
+        </HStack>
     );
 };
 
