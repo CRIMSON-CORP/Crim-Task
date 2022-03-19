@@ -1,6 +1,11 @@
 import { createStore, combineReducers } from "redux";
 import taskReducer from "./tasks/components/task.reducer";
 import uiReducer from "./ui/components/ui.reducer";
-const combinedReducers = combineReducers({ taskReducer, uiReducer });
+import accountReducer from "./account/component/account.reducer";
+const combinedReducers = combineReducers({
+    task: taskReducer,
+    ui: uiReducer,
+    account: accountReducer,
+});
 const store = createStore(combinedReducers);
 export default store;

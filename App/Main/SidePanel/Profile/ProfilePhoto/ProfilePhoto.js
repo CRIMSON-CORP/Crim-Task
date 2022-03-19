@@ -1,7 +1,8 @@
 import { Center, Image, Box } from "native-base";
 import React from "react";
-import profile from "./profile.png";
+import { useSelector } from "react-redux";
 const ProfilePhoto = () => {
+    const profile = useSelector((state) => state.account.profilePhoto);
     return (
         <Center size={115}>
             <Box
