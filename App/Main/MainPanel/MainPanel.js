@@ -14,12 +14,11 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { useEffect } from "react";
-import Greeting from "./Greeting";
+import Greeting from "./List/Greeting";
 import { PanGestureHandler } from "react-native-gesture-handler";
 const { width } = Dimensions.get("window");
 import { OPEN_SIDE, CLOSE_SIDE } from "../../../redux/ui/components/ui.actions";
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
-const SWIPE_LIMIT = 120;
 const MainPanel = () => {
     const side_panel_opened = useSelector((state) => state.ui.side_panel_opened);
     const AnimatedPanelSharedValue = useSharedValue(0);
