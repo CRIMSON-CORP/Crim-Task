@@ -27,8 +27,8 @@ const MainPanel = () => {
     const dispath = useDispatch();
     useEffect(() => {
         AnimatedPanelSharedValue.value = withSpring(side_panel_opened ? 1 : 0, {
-            damping: 1,
-            overshootClamping: true,
+            damping: 8,
+            restDisplacementThreshold: 0.001,
         });
         if (side_panel_opened) {
             AnimatedPanelSharedValue.value = withSpring(1, { damping: 11 });
@@ -49,30 +49,40 @@ const MainPanel = () => {
 
     const gesture = useAnimatedGestureHandler({
         onStart: (e) => {
-            AnimatedPanelSharedValue.value = withTiming(
-                interpolate(e.absoluteX, [0, width], [0, 1]),
-                { duration: 100 }
-            );
-            AnimatedPanelGestureStartSharedValue.value = e.absoluteX;
+            AnimatedPanelGestureStartSharedValue.value = e.x;
+            if (AnimatedPanelGestureStartSharedValue.value <= width * 0.1) {
+                AnimatedPanelSharedValue.value = withTiming(
+                    interpolate(e.absoluteX, [0, width], [0, 1]),
+                    { duration: 100 }
+                );
+            }
         },
         onActive: (e) => {
-            if (
-                AnimatedPanelGestureStartSharedValue.value <= width * 0.1 ||
-                AnimatedPanelGestureStartSharedValue.value >= width * 0.9
-            ) {
+            if (AnimatedPanelGestureStartSharedValue.value <= width * 0.1) {
                 AnimatedPanelSharedValue.value = interpolate(e.absoluteX, [0, width], [0, 1]);
             }
         },
         onFinish: (e) => {
-            if (width - e.absoluteX <= width * 0.5) {
-                AnimatedPanelSharedValue.value = withSpring(1, { damping: 11 });
-                runOnJS(dispath)({ type: OPEN_SIDE });
-            } else {
-                AnimatedPanelSharedValue.value = withTiming(0, {
-                    duration: 500,
-                    easing: Easing.out(Easing.quad),
-                });
-                runOnJS(dispath)({ type: CLOSE_SIDE });
+            if (AnimatedPanelGestureStartSharedValue.value <= width * 0.1) {
+                if (width - e.absoluteX <= width * 0.5) {
+                    AnimatedPanelSharedValue.value = withSpring(
+                        1,
+                        {
+                            damping: 8,
+                            restDisplacementThreshold: 0.001,
+                        },
+                        () => runOnJS(dispath)({ type: OPEN_SIDE })
+                    );
+                } else {
+                    AnimatedPanelSharedValue.value = withTiming(
+                        0,
+                        {
+                            duration: 500,
+                            easing: Easing.out(Easing.quad),
+                        },
+                        () => runOnJS(dispath)({ type: CLOSE_SIDE })
+                    );
+                }
             }
         },
     });
