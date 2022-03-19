@@ -16,10 +16,13 @@ const ListCategory = () => {
     const AnimatedHStackSharedVlaue = useSharedValue(0);
     const AnimatedHStackStartSharedVlaue = useSharedValue(0);
     const gesture = useAnimatedGestureHandler({
-        onStart: (e) => {},
         onActive: (e) => {
             const translation = e.translationX + AnimatedHStackStartSharedVlaue.value;
-            if (translation <= 0 && translation >= -(categories.length * width * 0.2)) {
+            console.log(-((categories.length - 1) * (width * 0.6) + 80));
+            if (
+                translation <= 0 &&
+                translation >= -((categories.length - 1) * (width * 0.6) + 80)
+            ) {
                 AnimatedHStackSharedVlaue.value = translation;
             }
         },
