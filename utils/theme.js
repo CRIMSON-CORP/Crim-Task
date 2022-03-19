@@ -60,6 +60,14 @@ const theme = extendTheme({
             baseStyle: {
                 color: "white",
             },
+            defaultProps: () => {
+                const fontSize = 40;
+                const lineHeight = 40 * 1.4;
+                return {
+                    fontSize,
+                    lineHeight,
+                };
+            },
         },
         Text: {
             baseStyle: {

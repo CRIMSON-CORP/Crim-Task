@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Greeting = () => {
     const { last } = useSelector((state) => state.account.name);
-    const [greeting, setGreeting] = useState(null);
+    const [greeting, setGreeting] = useState("");
     const MorinngGreetings = [
         "What's up",
         "How are you",
@@ -26,36 +26,35 @@ const Greeting = () => {
         "Afternoon",
     ];
 
-    const EveningGreetings = [
-        `Good Evening ${last}`,
-        `How was your day ${last}?`,
-        `How have you been ${last}?`,
-    ];
+    const EveningGreetings = [`Good Evening`, `How was your day?`, `How have you been?`];
 
     useEffect(() => {
         const date = new Date().getHours();
         if (date <= 11) {
             setGreeting(
-                MorinngGreetings[
-                    Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)
-                ] +
-                    " " +
-                    last
+                MorinngGreetings[Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)]
             );
         } else if (date >= 12 && date <= 14) {
-            setGreeting(
-                AfternoonGreetings[Math.floor(Math.random() * AfternoonGreetings.length)] +
-                    " " +
-                    last
-            );
+            setGreeting(AfternoonGreetings[Math.floor(Math.random() * AfternoonGreetings.length)]);
         } else {
             setGreeting(EveningGreetings[Math.floor(Math.random() * EveningGreetings.length)]);
         }
     }, []);
+
+    function AddNameBeforeQuestionMark(text = "") {
+        if (text[text.length - 1] === "?") {
+            text.length = text.length - 1;
+            text = `${text} ${last}?`;
+            return text;
+        } else {
+            text = `${text} ${last}!`;
+            return text;
+        }
+    }
     return (
-        <Box w="80%">
+        <Box w="90%">
             <Heading fontSize={40} fontWeight={600}>
-                {greeting}
+                {AddNameBeforeQuestionMark(greeting)}
             </Heading>
         </Box>
     );
