@@ -1,4 +1,5 @@
 import { extendTheme } from "native-base";
+import { DefaultTheme } from "@react-navigation/native";
 
 const theme = extendTheme({
     colors: {
@@ -77,4 +78,11 @@ const theme = extendTheme({
     },
 });
 
-export default theme;
+const navigationCardTheme = {
+    ...DefaultTheme,
+    colors: {
+        backgroundColor: "transparent",
+    },
+};
+
+export { theme, navigationCardTheme };

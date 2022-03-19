@@ -1,7 +1,7 @@
-import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import { Box, VStack } from "native-base";
-import { useDispatch, useSelector } from "react-redux";
-import TopBar from "./TopBar";
+import { useEffect } from "react";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
     Easing,
     FadeIn,
@@ -13,12 +13,15 @@ import Animated, {
     withSpring,
     withTiming,
 } from "react-native-reanimated";
-import { useEffect } from "react";
-import Greeting from "./List/Greeting";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
+import { CLOSE_SIDE, OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import List from "./List";
+import TopBar from "./List/TopBar";
 const { width } = Dimensions.get("window");
-import { OPEN_SIDE, CLOSE_SIDE } from "../../../redux/ui/components/ui.actions";
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
+const SharedStack = createSharedElementStackNavigator();
+
 const MainPanel = () => {
     const side_panel_opened = useSelector((state) => state.ui.side_panel_opened);
     const AnimatedPanelSharedValue = useSharedValue(0);
@@ -85,6 +88,7 @@ const MainPanel = () => {
             }
         },
     });
+
     return (
         <PanGestureHandler onGestureEvent={gesture}>
             <AnimatedMainpanel
@@ -102,10 +106,14 @@ const MainPanel = () => {
                     AnimatedMainPanelStyles,
                 ]}
             >
-                <VStack space="10">
-                    <TopBar />
-                    <Greeting />
-                </VStack>
+                <SharedStack.Navigator
+                    initialRouteName="list"
+                    screenOptions={{
+                        headerMode: "none",
+                    }}
+                >
+                    <SharedStack.Screen name="list" component={List} />
+                </SharedStack.Navigator>
             </AnimatedMainpanel>
         </PanGestureHandler>
     );
