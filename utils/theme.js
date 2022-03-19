@@ -7,10 +7,10 @@ const theme = extendTheme({
             accent: "#E91E63",
             100: "#DB00FF",
             200: "#602EA6",
-            200: "#1A1040",
             300: "#372773",
-            400: "#0C0826",
-            500: "#00010D",
+            400: "#1A1040",
+            500: "#0C0826",
+            600: "#00010D",
         },
     },
     fontConfig: {
@@ -39,10 +39,10 @@ const theme = extendTheme({
     fontSizes: {
         "2xs": 10,
         xs: 12,
-        sm: 14,
-        md: 16,
-        lg: 18,
-        xl: 20,
+        sm: 18,
+        md: 28,
+        lg: 40,
+        xl: 56,
         "2xl": 24,
         "3xl": 30,
         "4xl": 36,
@@ -60,19 +60,19 @@ const theme = extendTheme({
         Heading: {
             baseStyle: {
                 color: "white",
+                lineHeight: 40 * 1.4,
+                fontWeight: "bold",
             },
-            defaultProps: () => {
-                const fontSize = 40;
-                const lineHeight = 40 * 1.4;
-                return {
-                    fontSize,
-                    lineHeight,
-                };
+            defaultProps: {
+                fontSize: "lg",
             },
         },
         Text: {
             baseStyle: {
                 color: "white",
+            },
+            defaultProps: {
+                fontSize: "sm",
             },
         },
     },

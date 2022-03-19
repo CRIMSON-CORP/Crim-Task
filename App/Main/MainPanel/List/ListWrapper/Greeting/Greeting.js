@@ -34,7 +34,7 @@ const Greeting = () => {
             setGreeting(
                 MorinngGreetings[Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)]
             );
-        } else if (date >= 12 && date <= 14) {
+        } else if (date >= 12 && date <= 16) {
             setGreeting(AfternoonGreetings[Math.floor(Math.random() * AfternoonGreetings.length)]);
         } else {
             setGreeting(EveningGreetings[Math.floor(Math.random() * EveningGreetings.length)]);
@@ -53,9 +53,7 @@ const Greeting = () => {
     }
     return (
         <Box w="90%">
-            <Heading fontSize={40} fontWeight={600}>
-                {AddNameBeforeQuestionMark(greeting)}
-            </Heading>
+            <Heading>{AddNameBeforeQuestionMark(greeting)}</Heading>
         </Box>
     );
 };

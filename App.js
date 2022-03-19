@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { useFonts } from "expo-font";
+import { useFonts } from "@use-expo/font";
 import { NativeBaseProvider } from "native-base";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";

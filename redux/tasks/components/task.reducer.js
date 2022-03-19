@@ -2,9 +2,43 @@ import * as ACTIONS from "./task.actions";
 import { generate } from "shortid";
 const taskStore = [
     {
-        id: 1,
-        task: "Going out",
-        completed: false,
+        categoryId: generate(),
+        categoryTitle: "Grocery",
+        categoryColor: "#DB00FF",
+        tasks: [
+            {
+                id: 1,
+                task: "Going out",
+                completed: true,
+            },
+            {
+                id: 1,
+                task: "Going out",
+                completed: false,
+            },
+        ],
+    },
+    {
+        categoryId: generate(),
+        categoryTitle: "Study",
+        categoryColor: "#E91E63",
+        tasks: [
+            {
+                id: 1,
+                task: "Going out",
+                completed: false,
+            },
+            {
+                id: 1,
+                task: "Going out",
+                completed: false,
+            },
+            {
+                id: 1,
+                task: "Going out",
+                completed: true,
+            },
+        ],
     },
 ];
 function taskReducer(state = taskStore, ACTION) {

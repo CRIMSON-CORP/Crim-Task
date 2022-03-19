@@ -1,12 +1,12 @@
 import { VStack } from "native-base";
 import React from "react";
-import Greeting from "./Greeting";
-import Topbar from "./TopBar";
+import Topbar from "../../../Reusables/TopBar";
+import ListWrapper from "./ListWrapper/";
 const List = () => {
     return (
         <VStack space="10">
             <Topbar />
-            <Greeting />
+            <ListWrapper />
         </VStack>
     );
 };

@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE, OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import List from "./List";
-import TopBar from "./List/TopBar";
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
 const SharedStack = createSharedElementStackNavigator();
@@ -90,11 +89,11 @@ const MainPanel = () => {
     });
 
     return (
-        <PanGestureHandler onGestureEvent={gesture}>
+        <PanGestureHandler onGestureEvent={gesture} minDist={20}>
             <AnimatedMainpanel
                 position="absolute"
                 flex={1}
-                bg={"primary.300"}
+                bg={"primary.200"}
                 p={5}
                 entering={FadeIn}
                 style={[
@@ -110,6 +109,9 @@ const MainPanel = () => {
                     initialRouteName="list"
                     screenOptions={{
                         headerMode: "none",
+                        cardStyle: {
+                            overflow: "visible",
+                        },
                     }}
                 >
                     <SharedStack.Screen name="list" component={List} />
