@@ -5691,6 +5691,11 @@ react-native-navigation@^7.26.0:
     react-lifecycles-compat "2.0.0"
     tslib "1.9.3"
 
+react-native-reanimated-carousel@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated-carousel/-/react-native-reanimated-carousel-2.3.2.tgz#285c56e2b68714a35dab0be483f01b0a35c96780"
+  integrity sha512-5HeYDPzY4jrLQhitRlr4iHFgnUfVCBcTpKv8HxzNBGyKVkOjmeDUwUxChrCi00CsHwJKVv3LT6dpAbF/D7E+IA==
+
 react-native-reanimated@~2.3.1:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.3.3.tgz#73de8ea495e59a091d848741e7037ac55d0235c4"
