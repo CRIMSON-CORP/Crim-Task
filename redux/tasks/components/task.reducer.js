@@ -10,11 +10,13 @@ const taskStore = [
                 id: 1,
                 task: "Going out",
                 completed: true,
+                timeStamp: 1647735565233,
             },
             {
                 id: 1,
                 task: "Going out",
                 completed: false,
+                timeStamp: 1647735565232,
             },
         ],
     },
@@ -25,18 +27,21 @@ const taskStore = [
         tasks: [
             {
                 id: 1,
-                task: "Going out",
+                task: "Latest",
                 completed: false,
+                timeStamp: 1647735565237,
             },
             {
                 id: 1,
-                task: "Going out",
+                task: "Backest",
                 completed: false,
+                timeStamp: 1647735565230,
             },
             {
                 id: 1,
                 task: "Going out",
                 completed: true,
+                timeStamp: 1647735565234,
             },
         ],
     },

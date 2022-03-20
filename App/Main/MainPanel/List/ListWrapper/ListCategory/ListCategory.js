@@ -1,15 +1,8 @@
-import { HStack, Text } from "native-base";
-import { VStack } from "native-base";
-import CategoryCardItem from "../../../../../Reusables/CategoryCardItem/CategoryCardItem";
-import { useSelector } from "react-redux";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated, {
-    useAnimatedGestureHandler,
-    useAnimatedStyle,
-    useSharedValue,
-} from "react-native-reanimated";
+import { Text, VStack } from "native-base";
 import { Dimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { useSelector } from "react-redux";
+import CategoryCardItem from "../../../../../Reusables/CategoryCardItem/CategoryCardItem";
 const { width } = Dimensions.get("window");
 const ListCategory = () => {
     const categories = useSelector((state) => state.tasks);
@@ -20,6 +13,7 @@ const ListCategory = () => {
             </Text>
             <Carousel
                 width={width * 0.6 + 20}
+                height={120}
                 loop={false}
                 showLength={0.5}
                 style={{
