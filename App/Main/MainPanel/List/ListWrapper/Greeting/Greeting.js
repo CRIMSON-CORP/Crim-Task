@@ -13,7 +13,7 @@ const Greeting = () => {
         "Good Morining",
         "Have a great day",
         "Look Alive",
-        "Morining",
+        "Morning",
     ];
 
     const AfternoonGreetings = [

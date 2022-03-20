@@ -96,6 +96,7 @@ const MainPanel = () => {
                 bg={"primary.200"}
                 p={5}
                 entering={FadeIn}
+                overflow="hidden"
                 style={[
                     {
                         paddingTop: StatusBar.currentHeight + 10,

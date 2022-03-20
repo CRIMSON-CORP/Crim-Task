@@ -7,13 +7,13 @@ const taskStore = [
         categoryColor: "#DB00FF",
         tasks: [
             {
-                id: 1,
+                id: generate(),
                 task: "Going out",
                 completed: true,
                 timeStamp: 1647735565233,
             },
             {
-                id: 1,
+                id: generate(),
                 task: "Going out",
                 completed: false,
                 timeStamp: 1647735565232,
@@ -26,19 +26,19 @@ const taskStore = [
         categoryColor: "#E91E63",
         tasks: [
             {
-                id: 1,
+                id: generate(),
                 task: "Latest",
                 completed: false,
                 timeStamp: 1647735565237,
             },
             {
-                id: 1,
+                id: generate(),
                 task: "Backest",
                 completed: false,
                 timeStamp: 1647735565230,
             },
             {
-                id: 1,
+                id: generate(),
                 task: "Going out",
                 completed: true,
                 timeStamp: 1647735565234,
@@ -55,15 +55,21 @@ function taskReducer(state = taskStore, ACTION) {
                 completed: false,
             };
             return [...state, task];
-        case ACTIONS.UPDATE_TASK:
-            return [
-                ...state.map((task) => {
-                    if (task.id == ACTION.payload.id) {
-                        task.completed = !task.completed;
-                    }
-                    return task;
-                }),
-            ];
+        case ACTIONS.UPDATE_TASK: {
+            const categoryIndex = state.findIndex(
+                (cat) => cat.categoryId === ACTION.payload.categoryId
+            );
+            const taskIndex = state[categoryIndex].tasks.findIndex(
+                (item) => item.id === ACTION.payload.itemId
+            );
+            const props = state[categoryIndex].tasks[taskIndex];
+            let newProps = {
+                ...props,
+                completed: !props.completed,
+            };
+            state[categoryIndex].tasks[taskIndex] = newProps;
+            return [...state];
+        }
         case ACTIONS.DELETE_TASK:
             return [...state.filter(({ id }) => id !== ACTION.payload.id)];
 
