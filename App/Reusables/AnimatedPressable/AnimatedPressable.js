@@ -1,36 +1,32 @@
-import { Box } from "native-base";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Pressable } from "native-base";
 import Animated, {
-    runOnJS,
-    useAnimatedGestureHandler,
     useAnimatedStyle,
     useSharedValue,
     withSpring,
     withTiming,
 } from "react-native-reanimated";
-const AnimatedBox = Animated.createAnimatedComponent(Box);
+const AnimatedPressableWrapper = Animated.createAnimatedComponent(Pressable);
 const AnimatedPressable = ({ children, onPress, style }) => {
-    const transformShared = useSharedValue(1);
-    const opacityShared = useSharedValue(1);
-    const gesture = useAnimatedGestureHandler({
-        onStart: () => {
-            transformShared.value = withTiming(0.7);
-            opacityShared.value = withTiming(0.7);
-        },
-        onFinish: () => {
-            transformShared.value = withSpring(1, { damping: 6 });
-            opacityShared.value = withTiming(1);
-            onPress && runOnJS(onPress)();
-        },
-    });
-    const AimatedBoxStyle = useAnimatedStyle(() => ({
-        opacity: opacityShared.value,
-        transform: [{ scale: transformShared.value }],
+    const AnimatedPressableScaleShared = useSharedValue(1);
+    const AnimatedPressableStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: AnimatedPressableScaleShared.value }],
     }));
+
+    function onPressIn() {
+        AnimatedPressableScaleShared.value = withTiming(0.9);
+    }
+    function onPressOut() {
+        AnimatedPressableScaleShared.value = withSpring(1);
+        onPress && onPress();
+    }
     return (
-        <PanGestureHandler onGestureEvent={gesture}>
-            <AnimatedBox style={[{ ...style }, AimatedBoxStyle]}>{children}</AnimatedBox>
-        </PanGestureHandler>
+        <AnimatedPressableWrapper
+            onPressIn={onPressIn}
+            onPressOut={onPressOut}
+            style={[style, AnimatedPressableStyle]}
+        >
+            {children}
+        </AnimatedPressableWrapper>
     );
 };
 

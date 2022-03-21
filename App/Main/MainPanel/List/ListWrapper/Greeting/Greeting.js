@@ -32,18 +32,30 @@ const Greeting = () => {
         const date = new Date().getHours();
         if (date <= 11) {
             setGreeting(
-                MorinngGreetings[Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)]
+                AddNameBeforeQuestionMark(
+                    MorinngGreetings[
+                        Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)
+                    ]
+                )
             );
         } else if (date >= 12 && date <= 16) {
-            setGreeting(AfternoonGreetings[Math.floor(Math.random() * AfternoonGreetings.length)]);
+            setGreeting(
+                AddNameBeforeQuestionMark(
+                    AfternoonGreetings[Math.floor(Math.random() * AfternoonGreetings.length)]
+                )
+            );
         } else {
-            setGreeting(EveningGreetings[Math.floor(Math.random() * EveningGreetings.length)]);
+            setGreeting(
+                AddNameBeforeQuestionMark(
+                    EveningGreetings[Math.floor(Math.random() * EveningGreetings.length)]
+                )
+            );
         }
     }, []);
 
     function AddNameBeforeQuestionMark(text = "") {
         if (text[text.length - 1] === "?") {
-            text.length = text.length - 1;
+            text = text.substring(0, text.length - 1);
             text = `${text} ${last}?`;
             return text;
         } else {
@@ -53,7 +65,7 @@ const Greeting = () => {
     }
     return (
         <Box w="90%">
-            <Heading>{AddNameBeforeQuestionMark(greeting)}</Heading>
+            <Heading>{greeting}</Heading>
         </Box>
     );
 };

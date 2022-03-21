@@ -8,13 +8,13 @@ const taskStore = [
         tasks: [
             {
                 id: generate(),
-                task: "Going out",
+                task: "Take out trash",
                 completed: true,
                 timeStamp: 1647735565233,
             },
             {
                 id: generate(),
-                task: "Going out",
+                task: "iron tomorrow's clothes",
                 completed: false,
                 timeStamp: 1647735565232,
             },
@@ -27,7 +27,7 @@ const taskStore = [
         tasks: [
             {
                 id: generate(),
-                task: "Latest",
+                task: "Solve calculus",
                 completed: false,
                 timeStamp: 1647735565237,
             },
@@ -39,7 +39,7 @@ const taskStore = [
             },
             {
                 id: generate(),
-                task: "Going out",
+                task: "Work on project",
                 completed: true,
                 timeStamp: 1647735565234,
             },
