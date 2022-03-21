@@ -3,14 +3,24 @@ import Menu from "./TopBarIcons/Menu";
 import Search from "./TopBarIcons/Search";
 import Bell from "./TopBarIcons/Bell";
 import AnimatedPressable from "../AnimatedPressable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
-const TopBar = () => {
+import BackArrow from "./TopBarIcons/BackArrow";
+const TopBar = ({ back }) => {
     const dispath = useDispatch();
+    const { navigation_ref } = useSelector((state) => state.ui);
     return (
         <HStack justifyContent={"space-between"}>
-            <AnimatedPressable onPress={() => dispath({ type: OPEN_SIDE })}>
-                <Menu />
+            <AnimatedPressable
+                onPress={() => {
+                    if (navigation_ref.canGoBack()) {
+                        navigation_ref.goBack();
+                    } else {
+                        dispath({ type: OPEN_SIDE });
+                    }
+                }}
+            >
+                {back ? <BackArrow /> : <Menu />}
             </AnimatedPressable>
             <HStack space="5">
                 <AnimatedPressable>

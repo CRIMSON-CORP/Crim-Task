@@ -1,8 +1,5 @@
 import { Box, HStack, Pressable, Text } from "native-base";
-import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
-    runOnJS,
-    useAnimatedGestureHandler,
     useAnimatedStyle,
     useSharedValue,
     withDelay,
@@ -17,46 +14,16 @@ import { UPDATE_TASK, DELETE_TASK } from "../../../redux/tasks/components/task.a
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { MotiView } from "moti";
-const { width } = Dimensions.get("window");
-const AnimatedHStack = Animated.createAnimatedComponent(HStack);
+import SwipableView from "../SwipableView";
 const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 const SWIPE_LIMIT = -120;
 const TaskItem = ({ task, completed, categoryColor, categoryId, itemId, index }) => {
     const dispath = useDispatch();
-    const scaleShared = useSharedValue(1);
-    const transitionX = useSharedValue(0);
     const AnimatedTextOpacityShared = useSharedValue(1);
     const AnimatedTextTranslateShared = useSharedValue(0);
     const AnimatedStrokeShared = useSharedValue(0);
-    const gesture = useAnimatedGestureHandler({
-        onStart: () => {
-            scaleShared.value = withTiming(0.95, { duration: 200 });
-        },
-        onActive: (e) => {
-            transitionX.value = Math.min(0, Math.max(SWIPE_LIMIT, e.translationX));
-        },
-        onFinish: () => {
-            scaleShared.value = withSpring(1, { damping: 1 });
-            if (transitionX.value < -80) {
-                transitionX.value = withTiming(-width, {}, () => {
-                    runOnJS(dispath)({
-                        type: DELETE_TASK,
-                        payload: {
-                            categoryId,
-                            itemId,
-                        },
-                    });
-                });
-            } else {
-                transitionX.value = withSpring(0);
-            }
-        },
-    });
-    const AnimatedHSTackStyles = useAnimatedStyle(() => ({
-        transform: [{ scale: scaleShared.value }, { translateX: transitionX.value }],
-    }));
 
     useEffect(() => {
         if (completed) {
@@ -92,27 +59,36 @@ const TaskItem = ({ task, completed, categoryColor, categoryId, itemId, index })
                 marginBottom: -60,
             }}
         >
-            <Pressable
-                onLongPress={() => null}
-                onPress={() => {
+            <SwipableView
+                swipeExe={() =>
                     dispath({
-                        type: UPDATE_TASK,
+                        type: DELETE_TASK,
                         payload: {
                             categoryId,
                             itemId,
                         },
-                    });
-                }}
+                    })
+                }
             >
-                <PanGestureHandler onGestureEvent={gesture}>
-                    <AnimatedHStack
+                <Pressable
+                    onLongPress={() => null}
+                    onPress={() => {
+                        dispath({
+                            type: UPDATE_TASK,
+                            payload: {
+                                categoryId,
+                                itemId,
+                            },
+                        });
+                    }}
+                >
+                    <HStack
                         alignItems={"center"}
                         p="5"
                         bg="primary.300"
                         rounded="15"
                         space="15"
                         shadow="5"
-                        style={AnimatedHSTackStyles}
                     >
                         <AnimatedCheckBox completed={completed} color={categoryColor} />
                         <Box justifyContent={"center"}>
@@ -137,9 +113,9 @@ const TaskItem = ({ task, completed, categoryColor, categoryId, itemId, index })
                                 opacity={0.5}
                             />
                         </Box>
-                    </AnimatedHStack>
-                </PanGestureHandler>
-            </Pressable>
+                    </HStack>
+                </Pressable>
+            </SwipableView>
         </MotiView>
     );
 };

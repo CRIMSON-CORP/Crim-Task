@@ -3,10 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import * as ACTIONS from "../../../../../redux/ui/components/ui.actions";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { View } from "moti";
+import { useEffect, useState } from "react";
 const NavbarItem = ({ icon, text, slug }) => {
     const dispath = useDispatch();
-    const ActiveNavItem = useSelector((state) => state.ui.view);
-    const Active = ActiveNavItem === slug;
+    const { navigation_ref } = useSelector((state) => state.ui);
+    const [Active, setActive] = useState(false);
+
+    useEffect(() => {
+        const unsub =
+            navigation_ref &&
+            navigation_ref.addListener("state", (e) => {
+                setActive(navigation_ref.getCurrentRoute().name === slug);
+            });
+
+        return unsub;
+    }, []);
     return (
         <View
             animate={{
@@ -15,7 +26,10 @@ const NavbarItem = ({ icon, text, slug }) => {
             }}
         >
             <AnimatedPressable
-                onPress={() => dispath({ type: ACTIONS.SET_PANEL_VIEW, payload: { view: slug } })}
+                onPress={() => {
+                    dispath({ type: ACTIONS.SET_PANEL_VIEW, payload: { view: slug } });
+                    navigation_ref && navigation_ref.navigate(slug);
+                }}
             >
                 <HStack space="8" alignItems="center">
                     {icon}

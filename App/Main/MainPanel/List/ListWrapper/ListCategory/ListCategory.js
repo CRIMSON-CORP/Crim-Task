@@ -1,3 +1,4 @@
+import { MotiView } from "moti";
 import { Text, VStack } from "native-base";
 import { Dimensions } from "react-native";
 
@@ -23,15 +24,31 @@ const ListCategory = () => {
                     overflow: "visible",
                 }}
                 data={categories}
-                renderItem={({ item }) => (
-                    <CategoryCardItem
-                        categoryColor={item.categoryColor}
-                        categoryTitle={item.categoryTitle}
-                        tasks={item.tasks}
-                        key={item.categoryId}
-                        mr="5"
-                        shadow="7"
-                    />
+                renderItem={({ item, index }) => (
+                    <MotiView
+                        from={{
+                            opacity: 0.5,
+                            transform: [{ scale: 0.8 }],
+                        }}
+                        transition={{
+                            type: "spring",
+                            delay: index * 300,
+                            damping: 8,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            transform: [{ scale: 1 }],
+                        }}
+                    >
+                        <CategoryCardItem
+                            categoryColor={item.categoryColor}
+                            categoryTitle={item.categoryTitle}
+                            tasks={item.tasks}
+                            key={item.categoryId}
+                            mr="5"
+                            shadow="7"
+                        />
+                    </MotiView>
                 )}
             />
         </VStack>

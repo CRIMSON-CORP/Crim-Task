@@ -61,7 +61,7 @@ const theme = extendTheme({
             baseStyle: {
                 color: "white",
                 lineHeight: 40 * 1.4,
-                fontWeight: "bold",
+                fontWeight: 600,
             },
             defaultProps: {
                 fontSize: "lg",

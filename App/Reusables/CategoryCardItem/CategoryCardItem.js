@@ -17,6 +17,7 @@ const CategoryCardItem = ({
     tasks = [],
     categoryTitle = "Grocery",
     categoryColor = "#DB00FF",
+    fwidth,
     ...props
 }) => {
     const taskCount = tasks.length;
@@ -55,7 +56,7 @@ const CategoryCardItem = ({
         }
     }, [progress]);
     return (
-        <Box {...props} bg="primary.300" rounded="15">
+        <Box {...props} bg="primary.300" rounded="15" w={fwidth && "100%"}>
             <Box bg="primary.300" rounded="15" style={StyleSheet.absoluteFillObject} />
             <VStack p="5" w={width * 0.6} space={15}>
                 <Text opacity={0.7}>{taskCount} Tasks</Text>
