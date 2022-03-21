@@ -8,6 +8,7 @@ import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withDelay,
+    withSequence,
     withTiming,
 } from "react-native-reanimated";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -23,9 +24,14 @@ const CategoryCardItem = ({
     let progress = (taskCompletedCount / taskCount) * 100 || 0;
     const AnimatedWidthShared = useSharedValue(progress);
     const AnimatedOpacityShared = useSharedValue(progress);
+    const AnimatedCelebrationOpacityShared = useSharedValue(0);
     const AnimatedBoxStyles = useAnimatedStyle(() => ({
         width: AnimatedWidthShared.value + "%",
         opacity: AnimatedOpacityShared.value,
+    }));
+
+    const AnimatedCelebrationOpacityStyles = useAnimatedStyle(() => ({
+        opacity: AnimatedCelebrationOpacityShared.value,
     }));
 
     useEffect(() => {
@@ -37,6 +43,15 @@ const CategoryCardItem = ({
             AnimatedOpacityShared.value = withDelay(800, withTiming(0));
         } else {
             AnimatedOpacityShared.value = withTiming(1);
+        }
+        if (progress === 100) {
+            AnimatedCelebrationOpacityShared.value = withDelay(
+                600,
+                withSequence(
+                    withTiming(1, { duration: 800 }),
+                    withDelay(500, withTiming(0, { duration: 800 }))
+                )
+            );
         }
     }, [progress]);
     return (
@@ -62,6 +77,18 @@ const CategoryCardItem = ({
                                 width: "100%",
                             }}
                             startColor={categoryColor + "35"}
+                            finalColor="#ffffff00"
+                        >
+                            <Box position="absolute" bg={categoryColor} w={"full"} h={0.5} />
+                        </Shadow>
+                    </AnimatedBox>
+                    <AnimatedBox style={AnimatedCelebrationOpacityStyles}>
+                        <Shadow
+                            viewStyle={{
+                                width: "100%",
+                            }}
+                            startColor={categoryColor + "65"}
+                            distance={15}
                             finalColor="#ffffff00"
                         >
                             <Box position="absolute" bg={categoryColor} w={"full"} h={0.5} />

@@ -51,7 +51,7 @@ const MainPanel = () => {
     const gesture = useAnimatedGestureHandler({
         onStart: (e) => {
             AnimatedPanelGestureStartSharedValue.value = e.x;
-            if (AnimatedPanelGestureStartSharedValue.value <= width * 0.1) {
+            if (AnimatedPanelGestureStartSharedValue.value <= 40) {
                 AnimatedPanelSharedValue.value = withTiming(
                     interpolate(e.absoluteX, [0, width], [0, 1]),
                     { duration: 100 }
@@ -59,12 +59,12 @@ const MainPanel = () => {
             }
         },
         onActive: (e) => {
-            if (AnimatedPanelGestureStartSharedValue.value <= width * 0.1) {
+            if (AnimatedPanelGestureStartSharedValue.value <= 40) {
                 AnimatedPanelSharedValue.value = interpolate(e.absoluteX, [0, width], [0, 1]);
             }
         },
         onFinish: (e) => {
-            if (AnimatedPanelGestureStartSharedValue.value <= width * 0.1) {
+            if (AnimatedPanelGestureStartSharedValue.value <= 40) {
                 if (width - e.absoluteX <= width * 0.5) {
                     AnimatedPanelSharedValue.value = withSpring(
                         1,
@@ -89,7 +89,7 @@ const MainPanel = () => {
     });
 
     return (
-        <PanGestureHandler onGestureEvent={gesture} minDist={20}>
+        <PanGestureHandler onGestureEvent={gesture} minDist={40}>
             <AnimatedMainpanel
                 position="absolute"
                 flex={1}
