@@ -17,12 +17,12 @@ const AnimatedPressable = ({ children, onPress, style }) => {
     }
     function onPressOut() {
         AnimatedPressableScaleShared.value = withSpring(1);
-        onPress && onPress();
     }
     return (
         <AnimatedPressableWrapper
             onPressIn={onPressIn}
             onPressOut={onPressOut}
+            onPress={() => onPress && onPress()}
             onLongPress={() => null}
             style={[style, AnimatedPressableStyle]}
         >

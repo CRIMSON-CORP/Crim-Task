@@ -9,9 +9,10 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { Dimensions } from "react-native";
+import PropTypes from "prop-types";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");
-const SWIPE_LIMIT = -120;
+const SWIPE_LIMIT = -180;
 const SwipableView = ({ children, swipeExe }) => {
     const scaleShared = useSharedValue(1);
     const transitionX = useSharedValue(0);
@@ -24,7 +25,7 @@ const SwipableView = ({ children, swipeExe }) => {
         },
         onFinish: () => {
             scaleShared.value = withSpring(1, { damping: 1 });
-            if (transitionX.value < -80) {
+            if (transitionX.value < -140) {
                 transitionX.value = withTiming(-width, {}, () => {
                     swipeExe && runOnJS(swipeExe)();
                 });
@@ -41,6 +42,10 @@ const SwipableView = ({ children, swipeExe }) => {
             <AnimatedBox style={AnimatedHSTackStyles}>{children}</AnimatedBox>
         </PanGestureHandler>
     );
+};
+SwipableView.propTypes = {
+    swipeExe: PropTypes.func,
+    children: PropTypes.element.isRequired,
 };
 
 export default SwipableView;

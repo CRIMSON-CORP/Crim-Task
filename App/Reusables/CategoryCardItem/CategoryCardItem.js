@@ -1,4 +1,4 @@
-import { VStack, Text, Box, Pressable } from "native-base";
+import { VStack, Text, Box } from "native-base";
 import React, { useEffect } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { Shadow } from "react-native-shadow-2";
@@ -58,7 +58,7 @@ const CategoryCardItem = ({
     return (
         <Box {...props} bg="primary.300" rounded="15" w={fwidth && "100%"}>
             <Box bg="primary.300" rounded="15" style={StyleSheet.absoluteFillObject} />
-            <VStack p="5" w={width * 0.6} space={15}>
+            <VStack p="5" w={fwidth ? "100%" : width * 0.6} space={15}>
                 <Text opacity={0.7}>{taskCount} Tasks</Text>
                 <Text
                     fontSize="md"
@@ -100,10 +100,11 @@ const CategoryCardItem = ({
         </Box>
     );
 };
-CategoryCardItem.prototype = {
-    task: PropTypes.array.isRequired,
+CategoryCardItem.propTypes = {
+    tasks: PropTypes.array.isRequired,
     categoryTitle: PropTypes.string.isRequired,
     categoryColor: PropTypes.string.isRequired,
+    fwidth: PropTypes.bool,
 };
 
 export default CategoryCardItem;

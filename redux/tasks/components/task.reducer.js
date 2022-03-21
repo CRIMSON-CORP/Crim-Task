@@ -79,7 +79,8 @@ function taskReducer(state = taskStore, ACTION) {
             );
             state[categoryIndex].tasks.splice(taskIndex, 1);
             return [...state];
-
+        case ACTIONS.DELETE_CATEGORY:
+            return [...state.filter((cat) => cat.categoryId !== ACTION.payload.id)];
         default:
             return state;
     }
