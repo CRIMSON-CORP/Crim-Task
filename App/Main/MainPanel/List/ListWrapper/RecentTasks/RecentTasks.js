@@ -2,6 +2,7 @@ import React from "react";
 import { Text, VStack } from "native-base";
 import { useSelector } from "react-redux";
 import TaskItem from "../../../../../Reusables/TaskItem/TaskItem";
+import { AnimatePresence } from "moti";
 
 const RecentTasks = () => {
     let AllTasksCategories = useSelector((state) => state.tasks);
@@ -22,8 +23,8 @@ const RecentTasks = () => {
             <Text fontWeight={"bold"} opacity={0.7}>
                 Recent Tasks
             </Text>
-            <VStack space={30}>
-                {AllSorted.map((item) => {
+            <AnimatePresence>
+                {AllSorted.map((item, index) => {
                     return (
                         <TaskItem
                             key={item.id}
@@ -32,10 +33,11 @@ const RecentTasks = () => {
                             completed={item.completed}
                             categoryColor={item.categoryColor}
                             categoryId={item.categoryId}
+                            index={index}
                         />
                     );
                 })}
-            </VStack>
+            </AnimatePresence>
         </VStack>
     );
 };

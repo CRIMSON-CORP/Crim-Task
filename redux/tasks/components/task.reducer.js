@@ -71,7 +71,14 @@ function taskReducer(state = taskStore, ACTION) {
             return [...state];
         }
         case ACTIONS.DELETE_TASK:
-            return [...state.filter(({ id }) => id !== ACTION.payload.id)];
+            const categoryIndex = state.findIndex(
+                (cat) => cat.categoryId === ACTION.payload.categoryId
+            );
+            const taskIndex = state[categoryIndex].tasks.findIndex(
+                (item) => item.id === ACTION.payload.itemId
+            );
+            state[categoryIndex].tasks.splice(taskIndex, 1);
+            return [...state];
 
         default:
             return state;

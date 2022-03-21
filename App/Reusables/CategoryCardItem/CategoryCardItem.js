@@ -20,7 +20,7 @@ const CategoryCardItem = ({
 }) => {
     const taskCount = tasks.length;
     const taskCompletedCount = tasks.filter((item) => item.completed).length;
-    let progress = (taskCompletedCount / taskCount) * 100;
+    let progress = (taskCompletedCount / taskCount) * 100 || 0;
     const AnimatedWidthShared = useSharedValue(progress);
     const AnimatedOpacityShared = useSharedValue(progress);
     const AnimatedBoxStyles = useAnimatedStyle(() => ({
@@ -34,9 +34,9 @@ const CategoryCardItem = ({
             easing: Easing.out(Easing.quad),
         });
         if (progress <= 0) {
-            AnimatedOpacityShared.value = withDelay(800, withTiming(progress <= 0 ? 0 : 1));
+            AnimatedOpacityShared.value = withDelay(800, withTiming(0));
         } else {
-            AnimatedOpacityShared.value = withTiming(progress <= 0 ? 0 : 1);
+            AnimatedOpacityShared.value = withTiming(1);
         }
     }, [progress]);
     return (

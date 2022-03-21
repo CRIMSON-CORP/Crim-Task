@@ -23,6 +23,7 @@ const AnimatedPressable = ({ children, onPress, style }) => {
         <AnimatedPressableWrapper
             onPressIn={onPressIn}
             onPressOut={onPressOut}
+            onLongPress={() => null}
             style={[style, AnimatedPressableStyle]}
         >
             {children}
