@@ -1,5 +1,5 @@
 import { Box, VStack } from "native-base";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
@@ -15,14 +15,18 @@ import Animated, {
 } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE, OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import List from "./List";
+import Category from "./Category";
+import { AnimatePresence } from "moti";
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
-const SharedStack = createSharedElementStackNavigator();
 
 const MainPanel = () => {
-    const side_panel_opened = useSelector((state) => state.ui.side_panel_opened);
+    const { side_panel_opened, view: currentView } = useSelector((state) => state.ui);
+    const [Views] = useState({
+        lists: <List key="lists" />,
+        categories: <Category key="categories" />,
+    });
     const AnimatedPanelSharedValue = useSharedValue(0);
     const AnimatedPanelGestureStartSharedValue = useSharedValue(0);
     const dispath = useDispatch();
@@ -106,17 +110,7 @@ const MainPanel = () => {
                     AnimatedMainPanelStyles,
                 ]}
             >
-                <SharedStack.Navigator
-                    initialRouteName="list"
-                    screenOptions={{
-                        headerMode: "none",
-                        cardStyle: {
-                            overflow: "visible",
-                        },
-                    }}
-                >
-                    <SharedStack.Screen name="list" component={List} />
-                </SharedStack.Navigator>
+                <AnimatePresence exitBeforeEnter={true}>{Views[currentView]}</AnimatePresence>
             </AnimatedMainpanel>
         </PanGestureHandler>
     );

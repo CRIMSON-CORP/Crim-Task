@@ -6,8 +6,8 @@ const Greeting = () => {
     const { last } = useSelector((state) => state.account.name);
     const [greeting, setGreeting] = useState("");
     const MorinngGreetings = [
-        "What's up",
-        "How are you",
+        "What's up?",
+        "How are you?",
         "Rise and Shine",
         "Hello there",
         "Good Morining",
@@ -17,8 +17,8 @@ const Greeting = () => {
     ];
 
     const AfternoonGreetings = [
-        "What's up",
-        "How are you",
+        "What's up?",
+        "How are you?",
         "Look Alive",
         "Greetings",
         "Hi",
