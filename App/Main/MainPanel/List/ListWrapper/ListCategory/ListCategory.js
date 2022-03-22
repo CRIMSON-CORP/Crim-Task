@@ -43,6 +43,7 @@ const ListCategory = () => {
                         <CategoryCardItem
                             categoryColor={item.categoryColor}
                             categoryTitle={item.categoryTitle}
+                            categoryId={item.categoryId}
                             tasks={item.tasks}
                             key={item.categoryId}
                             mr="5"

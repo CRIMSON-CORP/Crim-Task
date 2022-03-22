@@ -1,5 +1,5 @@
-import { Box, VStack } from "native-base";
-import { useEffect, useState } from "react";
+import { Box } from "native-base";
+import { useEffect } from "react";
 import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
@@ -16,19 +16,15 @@ import Animated, {
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE, OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import List from "./List";
-import Category from "./Category";
-const SharedStack = createSharedElementStackNavigator();
-import { AnimatePresence } from "moti";
+import Categories from "./Categories";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import SingleCategory from "./SingleCategory";
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
+const SharedStack = createSharedElementStackNavigator();
 
 const MainPanel = () => {
-    const { side_panel_opened, view: currentView } = useSelector((state) => state.ui);
-    const [Views] = useState({
-        lists: <List key="lists" />,
-        categories: <Category key="categories" />,
-    });
+    const { side_panel_opened } = useSelector((state) => state.ui);
     const AnimatedPanelSharedValue = useSharedValue(0);
     const AnimatedPanelGestureStartSharedValue = useSharedValue(0);
     const dispath = useDispatch();
@@ -100,12 +96,10 @@ const MainPanel = () => {
                 position="absolute"
                 flex={1}
                 bg={"primary.200"}
-                p={5}
                 entering={FadeIn}
                 overflow="hidden"
                 style={[
                     {
-                        paddingTop: StatusBar.currentHeight + 10,
                         borderRadius: 30,
                     },
                     StyleSheet.absoluteFill,
@@ -121,9 +115,9 @@ const MainPanel = () => {
                     }}
                 >
                     <SharedStack.Screen name="lists" component={List} />
-                    <SharedStack.Screen name="categories" component={Category} />
+                    <SharedStack.Screen name="categories" component={Categories} />
+                    <SharedStack.Screen name="singleCategory" component={SingleCategory} />
                 </SharedStack.Navigator>
-                {/* <AnimatePresence exitBeforeEnter={true}>{Views[currentView]}</AnimatePresence> */}
             </AnimatedMainpanel>
         </PanGestureHandler>
     );

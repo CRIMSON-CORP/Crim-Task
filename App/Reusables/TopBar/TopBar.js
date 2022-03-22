@@ -6,6 +6,7 @@ import AnimatedPressable from "../AnimatedPressable";
 import { useDispatch, useSelector } from "react-redux";
 import { OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import BackArrow from "./TopBarIcons/BackArrow";
+import { SharedElement } from "react-navigation-shared-element";
 const TopBar = ({ back }) => {
     const dispath = useDispatch();
     const { navigation_ref } = useSelector((state) => state.ui);
@@ -20,15 +21,27 @@ const TopBar = ({ back }) => {
                     }
                 }}
             >
-                {back ? <BackArrow /> : <Menu />}
+                {back ? (
+                    <SharedElement id="item.back">
+                        <BackArrow />
+                    </SharedElement>
+                ) : (
+                    <SharedElement id="item.menu">
+                        <Menu />
+                    </SharedElement>
+                )}
             </AnimatedPressable>
             <HStack space="5">
-                <AnimatedPressable>
-                    <Search />
-                </AnimatedPressable>
-                <AnimatedPressable>
-                    <Bell />
-                </AnimatedPressable>
+                <SharedElement id="item.search">
+                    <AnimatedPressable>
+                        <Search />
+                    </AnimatedPressable>
+                </SharedElement>
+                <SharedElement id="item.bell">
+                    <AnimatedPressable>
+                        <Bell />
+                    </AnimatedPressable>
+                </SharedElement>
             </HStack>
         </HStack>
     );
