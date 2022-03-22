@@ -1,5 +1,5 @@
 import { VStack, Box, Pressable, useColorModeValue, useTheme } from "native-base";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Dimensions, StyleSheet, Text } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import PropTypes from "prop-types";
@@ -11,9 +11,9 @@ import Animated, {
     withSequence,
     withTiming,
 } from "react-native-reanimated";
-import { useSelector } from "react-redux";
 import { SharedElement } from "react-navigation-shared-element";
 import { View } from "react-native";
+import { NavigationContext } from "../../../utils/context";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");
 const CategoryCardItem = ({
@@ -30,7 +30,7 @@ const CategoryCardItem = ({
     const AnimatedWidthShared = useSharedValue(progress);
     const AnimatedOpacityShared = useSharedValue(progress);
     const AnimatedCelebrationOpacityShared = useSharedValue(0);
-    const Navigation = useSelector((state) => state.ui.navigation_ref);
+    const { NavigationRef } = useContext(NavigationContext);
     const AnimatedBoxStyles = useAnimatedStyle(() => ({
         width: AnimatedWidthShared.value + "%",
         opacity: AnimatedOpacityShared.value,
@@ -66,7 +66,11 @@ const CategoryCardItem = ({
     return (
         <Pressable
             onPress={() =>
-                Navigation.navigate("singleCategory", { categoryId, taskCount, categoryTitle })
+                NavigationRef.navigate("singleCategory", {
+                    categoryId,
+                    taskCount,
+                    categoryTitle,
+                })
             }
         >
             <Box

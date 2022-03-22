@@ -3,19 +3,21 @@ import Menu from "./TopBarIcons/Menu";
 import Search from "./TopBarIcons/Search";
 import Bell from "./TopBarIcons/Bell";
 import AnimatedPressable from "../AnimatedPressable";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import BackArrow from "./TopBarIcons/BackArrow";
 import { SharedElement } from "react-navigation-shared-element";
+import { useContext } from "react";
+import { NavigationContext } from "../../../utils/context";
 const TopBar = ({ back }) => {
     const dispath = useDispatch();
-    const { navigation_ref } = useSelector((state) => state.ui);
+    const { NavigationRef } = useContext(NavigationContext);
     return (
         <HStack justifyContent={"space-between"}>
             <AnimatedPressable
                 onPress={() => {
-                    if (navigation_ref.canGoBack()) {
-                        navigation_ref.goBack();
+                    if (NavigationRef.canGoBack()) {
+                        NavigationRef.goBack();
                     } else {
                         dispath({ type: OPEN_SIDE });
                     }

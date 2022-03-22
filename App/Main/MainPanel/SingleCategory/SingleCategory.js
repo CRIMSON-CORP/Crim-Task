@@ -1,13 +1,12 @@
-import { StyleSheet, Dimensions, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import React from "react";
 import { Box, useTheme, VStack } from "native-base";
 import { SharedElement } from "react-navigation-shared-element";
 import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import TopBar from "../../../Reusables/TopBar";
 import { useSelector } from "react-redux";
-import { AnimatePresence, View as MotiView } from "moti";
+import { AnimatePresence } from "moti";
 import TaskItem from "../../../Reusables/TaskItem/TaskItem";
-import { SlideInUp } from "react-native-reanimated";
 const SingleCategory = ({ route }) => {
     const { categoryId, categoryTitle } = route.params;
     const categories = useSelector((state) => state.tasks);

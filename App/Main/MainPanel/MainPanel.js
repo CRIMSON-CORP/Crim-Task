@@ -19,6 +19,7 @@ import List from "./List";
 import Categories from "./Categories";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import SingleCategory from "./SingleCategory";
+import Fab from "./Fab";
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
 const SharedStack = createSharedElementStackNavigator();
@@ -118,6 +119,7 @@ const MainPanel = () => {
                     <SharedStack.Screen name="categories" component={Categories} />
                     <SharedStack.Screen name="singleCategory" component={SingleCategory} />
                 </SharedStack.Navigator>
+                <Fab />
             </AnimatedMainpanel>
         </PanGestureHandler>
     );
