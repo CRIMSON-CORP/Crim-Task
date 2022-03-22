@@ -1,6 +1,6 @@
-import { VStack, Text, Box, Pressable, useColorModeValue, useTheme } from "native-base";
+import { VStack, Box, Pressable, useColorModeValue, useTheme } from "native-base";
 import React, { useEffect } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Text } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import PropTypes from "prop-types";
 import Animated, {
@@ -64,7 +64,11 @@ const CategoryCardItem = ({
         colors: { primary },
     } = useTheme();
     return (
-        <Pressable onPress={() => Navigation.navigate("singleCategory", { categoryId, taskCount })}>
+        <Pressable
+            onPress={() =>
+                Navigation.navigate("singleCategory", { categoryId, taskCount, categoryTitle })
+            }
+        >
             <Box
                 {...props}
                 bg="primary.300"
@@ -76,8 +80,15 @@ const CategoryCardItem = ({
                 <SharedElement id={`item.${categoryId}.bg`} style={StyleSheet.absoluteFillObject}>
                     <View
                         style={[
-                            { backgroundColor: primary[300], borderRadius: 15 },
-                            StyleSheet.absoluteFillObject,
+                            {
+                                backgroundColor: primary[300],
+                                borderRadius: 15,
+                                position: "absolute",
+                                top: 5,
+                                left: 5,
+                                bottom: 5,
+                                right: 5,
+                            },
                         ]}
                     />
                 </SharedElement>
@@ -89,31 +100,39 @@ const CategoryCardItem = ({
                         }}
                     >
                         <Text
-                            opacity={0.7}
-                            position={"absolute"}
                             style={{
-                                textAlignVertical: "center",
                                 left: 20,
                                 top: 20,
+                                opacity: 0.7,
+                                position: "absolute",
+                                fontFamily: "Raleway-Medium",
+                                fontSize: 18,
+                                color: "white",
                             }}
                         >
                             {taskCount} Tasks
                         </Text>
                     </SharedElement>
-                    <Text
-                        fontSize="md"
-                        fontWeight="bold"
-                        alignItems={"center"}
-                        lineHeight={28}
+                    <SharedElement
+                        id={`item.${categoryId}.title`}
                         style={{
-                            textAlignVertical: "center",
-                            left: 20,
-                            top: 55,
+                            position: "absolute",
                         }}
-                        position={"absolute"}
                     >
-                        {categoryTitle}
-                    </Text>
+                        <Text
+                            style={{
+                                left: 20,
+                                top: 55,
+                                fontSize: 28,
+                                fontFamily: "Raleway-Bold",
+                                lineHeight: 28,
+                                color: "white",
+                            }}
+                            position={"absolute"}
+                        >
+                            {categoryTitle}
+                        </Text>
+                    </SharedElement>
                     <Box
                         bg="gray.600"
                         w="full"
