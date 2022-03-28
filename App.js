@@ -12,7 +12,6 @@ import store from "./redux";
 import { NavigationContext } from "./utils/context";
 import { theme, navigationCardTheme } from "./utils/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAsyncAccountData, getAsyncTaskData, getAsyncUIData } from "./utils/utils";
 import { AnimatePresence } from "moti";
 enableScreens();
 
@@ -32,7 +31,7 @@ export default function App() {
     return (
         <Provider store={store}>
             <NavigationContainer theme={navigationCardTheme} ref={NavigationRef}>
-                <AnimatePresence>
+                <AnimatePresence exitBeforeEnter>
                     {!Loading && (
                         <NavigationContext.Provider
                             value={{ NavigationRef: NavigationRef.current }}

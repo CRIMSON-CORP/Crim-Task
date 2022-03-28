@@ -1,9 +1,9 @@
 import { Box } from "native-base";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
 import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
-const Greeting = () => {
+const Greeting = memo(() => {
     const { last } = useSelector((state) => state.account.name);
     const [greeting, setGreeting] = useState("");
     const MorinngGreetings = [
@@ -35,7 +35,7 @@ const Greeting = () => {
 
     useEffect(() => {
         const date = new Date().getHours();
-        if (date <= 11) {
+        if (date <= 11 && last) {
             setGreeting(
                 MorinngGreetings[Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)]
             );
@@ -47,6 +47,6 @@ const Greeting = () => {
     }, [last]);
 
     return <Box w="90%">{greeting && <AnimatedText text={greeting} type="Heading" />}</Box>;
-};
+});
 
 export default Greeting;
