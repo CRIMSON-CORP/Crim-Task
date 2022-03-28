@@ -1,60 +1,10 @@
 import * as ACTIONS from "./task.actions";
 import { generate } from "shortid";
-const taskStore = [
-    {
-        categoryId: generate(),
-        categoryTitle: "Grocery",
-        categoryColor: "#DB00FF",
-        tasks: [
-            {
-                id: generate(),
-                task: "Take out trash",
-                completed: true,
-                timeStamp: 1647735565233,
-            },
-            {
-                id: generate(),
-                task: "iron tomorrow's clothes",
-                completed: false,
-                timeStamp: 1647735565232,
-            },
-        ],
-    },
-    {
-        categoryId: generate(),
-        categoryTitle: "Study",
-        categoryColor: "#E91E63",
-        tasks: [
-            {
-                id: generate(),
-                task: "Solve calculus",
-                completed: false,
-                timeStamp: 1647735565237,
-            },
-            {
-                id: generate(),
-                task: "Backest",
-                completed: false,
-                timeStamp: 1647735565230,
-            },
-            {
-                id: generate(),
-                task: "Work on project",
-                completed: true,
-                timeStamp: 1647735565234,
-            },
-        ],
-    },
-];
-function taskReducer(state = taskStore, ACTION) {
+
+function taskReducer(state = [], ACTION) {
     switch (ACTION.type) {
-        case ACTIONS.ADD_TASK:
-            const task = {
-                id: generate(),
-                task: ACTION.payload.description,
-                completed: false,
-            };
-            return [...state, task];
+        case ACTIONS.SET_INITIAL_STATE:
+            return [...ACTION.payload.data];
         case ACTIONS.UPDATE_TASK: {
             const categoryIndex = state.findIndex(
                 (cat) => cat.categoryId === ACTION.payload.categoryId
@@ -81,6 +31,26 @@ function taskReducer(state = taskStore, ACTION) {
             return [...state];
         case ACTIONS.DELETE_CATEGORY:
             return [...state.filter((cat) => cat.categoryId !== ACTION.payload.id)];
+        case ACTIONS.CREATE_CATEGORY:
+            const newCategory = {
+                categoryId: generate(),
+                categoryTitle: ACTION.payload.title,
+                categoryColor: ACTION.payload.color,
+                tasks: [],
+            };
+            return [newCategory, ...state];
+        case ACTIONS.CREATE_CATEGORY_TASK:
+            let category_index = state.findIndex(
+                (cat) => cat.categoryId === ACTION.payload.categoryId
+            );
+            const newTask = {
+                id: generate(),
+                task: ACTION.payload.subject,
+                completed: false,
+                timeStamp: Date.now(),
+            };
+            state[category_index].tasks.unshift(newTask);
+            return [...state];
         default:
             return state;
     }

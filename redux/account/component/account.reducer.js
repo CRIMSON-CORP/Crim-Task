@@ -1,12 +1,43 @@
+import * as ACTIONS from "./account.actions";
 const account = {
     name: {
-        first: "Chrstiana",
-        last: "Atinuke",
+        first: "",
+        last: "",
     },
-    profilePhoto: require("../../../assets/crim-task/profile.png"),
+    roundedPanelCorners: true,
 };
 function accountReducer(state = account, ACTION) {
     switch (ACTION.type) {
+        case ACTIONS.SET_ACCOUNT_INITIAL_STATE:
+            return {
+                ...ACTION.payload.data,
+            };
+        case ACTIONS.CHANGE_FIRST_NAME:
+            return {
+                ...state,
+                name: {
+                    ...state.name,
+                    first: ACTION.payload.data,
+                },
+            };
+        case ACTIONS.CHANGE_LAST_NAME:
+            return {
+                ...state,
+                name: {
+                    ...state.name,
+                    last: ACTION.payload.data,
+                },
+            };
+        case ACTIONS.CHANGE_ROUNDED_CORNER:
+            return {
+                ...state,
+                roundedPanelCorners: ACTION.payload.state,
+            };
+        case ACTIONS.CHANGE_PROFILE_PHOTO:
+            return {
+                ...state,
+                profilePhoto: ACTION.payload,
+            };
         default:
             return state;
     }

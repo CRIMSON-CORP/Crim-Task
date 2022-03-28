@@ -1,9 +1,10 @@
 import { Heading } from "native-base";
-
+import { useSelector } from "react-redux";
 const ProfileName = () => {
+    const user = useSelector((state) => state.account);
     return (
         <Heading fontSize={40} lineHeight={51} fontWeight={600}>
-            Atinuke Christianah
+            {user.name.last} {user.name.first}
         </Heading>
     );
 };

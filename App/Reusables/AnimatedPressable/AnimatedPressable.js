@@ -5,6 +5,7 @@ import Animated, {
     withSpring,
     withTiming,
 } from "react-native-reanimated";
+import PropTypes from "prop-types";
 const AnimatedPressableWrapper = Animated.createAnimatedComponent(Pressable);
 const AnimatedPressable = ({ children, onPress, style }) => {
     const AnimatedPressableScaleShared = useSharedValue(1);
@@ -29,6 +30,11 @@ const AnimatedPressable = ({ children, onPress, style }) => {
             {children}
         </AnimatedPressableWrapper>
     );
+};
+AnimatedPressable.proptypes = {
+    onPress: PropTypes.func,
+    style: PropTypes.object,
+    children: PropTypes.element,
 };
 
 export default AnimatedPressable;

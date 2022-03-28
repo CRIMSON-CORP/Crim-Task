@@ -78,7 +78,7 @@ const CategoryCardItem = ({
                 bg="primary.300"
                 rounded="15"
                 overflow={"hidden"}
-                w={fwidth && "100%"}
+                w={fwidth ? "100%" : width * 0.6}
                 h={120}
             >
                 <SharedElement id={`item.${categoryId}.bg`} style={StyleSheet.absoluteFillObject}>
@@ -132,6 +132,8 @@ const CategoryCardItem = ({
                                 lineHeight: 28,
                                 color: "white",
                             }}
+                            numberOfLines={1}
+                            adjustsFontSizeToFit
                             position={"absolute"}
                         >
                             {categoryTitle}

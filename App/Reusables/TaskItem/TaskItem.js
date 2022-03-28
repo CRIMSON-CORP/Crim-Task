@@ -7,9 +7,16 @@ import SwipableView from "../SwipableView";
 import AnimatedTaskText from "../AnimatedTaaskText/AnimatedTaskText";
 import ListAnimatePrescence from "../ListAnimatePrescence";
 
-const TaskItem = ({ task, completed, categoryColor, categoryId, itemId, dark }) => {
+const TaskItem = ({
+    task,
+    completed,
+    categoryColor,
+    categoryId,
+    itemId,
+    dark,
+    simultaneousHandlers,
+}) => {
     const dispath = useDispatch();
-
     return (
         <ListAnimatePrescence spacing={30} height={60}>
             <SwipableView
@@ -22,6 +29,7 @@ const TaskItem = ({ task, completed, categoryColor, categoryId, itemId, dark }) 
                         },
                     })
                 }
+                simultaneousHandlers={simultaneousHandlers}
             >
                 <Pressable
                     onLongPress={() => null}

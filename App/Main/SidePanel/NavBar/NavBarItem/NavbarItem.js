@@ -25,8 +25,8 @@ const NavbarItem = ({ icon, text, slug }) => {
         >
             <AnimatedPressable
                 onPress={() => {
-                    dispath({ type: ACTIONS.SET_PANEL_VIEW, payload: { view: slug } });
                     NavigationRef.navigate(slug);
+                    dispath({ type: ACTIONS.CLOSE_SIDE });
                 }}
             >
                 <HStack space="8" alignItems="center">

@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");
 const SWIPE_LIMIT = -180;
-const SwipableView = ({ children, swipeExe }) => {
+const SwipableView = ({ children, swipeExe, simultaneousHandlers }) => {
     const scaleShared = useSharedValue(1);
     const transitionX = useSharedValue(0);
     const gesture = useAnimatedGestureHandler({
@@ -38,7 +38,7 @@ const SwipableView = ({ children, swipeExe }) => {
         transform: [{ scale: scaleShared.value }, { translateX: transitionX.value }],
     }));
     return (
-        <PanGestureHandler onGestureEvent={gesture}>
+        <PanGestureHandler onGestureEvent={gesture} simultaneousHandlers={simultaneousHandlers}>
             <AnimatedBox style={AnimatedHSTackStyles}>{children}</AnimatedBox>
         </PanGestureHandler>
     );
