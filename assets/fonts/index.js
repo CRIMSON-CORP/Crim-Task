@@ -11,6 +11,7 @@ const Fonts = {
     },
     Gisha: {
         Gisha: require("./Gisha/gisha.ttf"),
+        GishaBold: require("./Gisha/gishabd.ttf"),
     },
 };
 

@@ -18,7 +18,6 @@ import TopBar from "../../../Reusables/TopBar";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { Dimensions } from "react-native";
 import {
     CHANGE_FIRST_NAME,
     CHANGE_LAST_NAME,

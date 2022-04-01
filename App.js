@@ -9,43 +9,84 @@ import LoadingScreen from "./App/LoadingScreen";
 import Main from "./App/Main/Main";
 import Fonts from "./assets/fonts";
 import store from "./redux";
-import { NavigationContext } from "./utils/context";
+import { AuthContext, NavigationContext } from "./utils/context";
 import { theme, navigationCardTheme } from "./utils/theme";
+import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AnimatePresence } from "moti";
+import EnteringScreen from "./App/EnteringScreen";
+import Onboarding from "./App/Onboarding";
+import CreateAccount from "./App/CreateAccount";
 enableScreens();
-
+const Stack = createStackNavigator();
 export default function App() {
+    return (
+        <Provider store={store}>
+            <MainWrapper />
+        </Provider>
+    );
+}
+function MainWrapper() {
     const [Loading, setLoading] = useState(true);
+    const [userExist, setUserExist] = useState(false);
     const NavigationRef = useRef();
     useEffect(() => {
         async function getData() {
-            const AsyncData = await AsyncStorage.getItem("crim-task-data");
-            if (AsyncData) {
+            try {
+                const AsyncData = await AsyncStorage.getItem("crim-task-data");
                 await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
+                if (AsyncData) {
+                    setUserExist(true);
+                } else {
+                    setUserExist(false);
+                }
+            } catch (err) {
+                console.log(err);
+            } finally {
                 setLoading(false);
             }
         }
         getData();
     }, []);
     return (
-        <Provider store={store}>
-            <NavigationContainer theme={navigationCardTheme} ref={NavigationRef}>
-                <AnimatePresence exitBeforeEnter>
-                    {!Loading && (
-                        <NavigationContext.Provider
-                            value={{ NavigationRef: NavigationRef.current }}
-                        >
-                            <NativeBaseProvider theme={theme}>
-                                <GestureHandlerRootView style={{ flex: 1 }}>
-                                    <Main />
-                                </GestureHandlerRootView>
-                            </NativeBaseProvider>
-                        </NavigationContext.Provider>
-                    )}
-                    {Loading && <LoadingScreen />}
-                </AnimatePresence>
-            </NavigationContainer>
-        </Provider>
+        <NavigationContainer theme={navigationCardTheme} ref={NavigationRef}>
+            <NativeBaseProvider theme={theme}>
+                {Loading ? (
+                    <LoadingScreen />
+                ) : (
+                    <NavigationContext.Provider value={{ NavigationRef: NavigationRef.current }}>
+                        <GestureHandlerRootView style={{ flex: 1 }}>
+                            <AuthContext.Provider value={{ userExist, setUserExist }}>
+                                <Stack.Navigator
+                                    screenOptions={{
+                                        headerMode: "none",
+                                        cardStyle: {
+                                            overflow: "visible",
+                                        },
+                                    }}
+                                >
+                                    {userExist && <Stack.Screen name="main" component={Main} />}
+                                    {!userExist && (
+                                        <>
+                                            <Stack.Screen
+                                                name="entering"
+                                                component={EnteringScreen}
+                                            />
+                                            <Stack.Screen
+                                                name="onboarding"
+                                                component={Onboarding}
+                                            />
+                                            <Stack.Screen
+                                                name="createAcc"
+                                                component={CreateAccount}
+                                            />
+                                        </>
+                                    )}
+                                </Stack.Navigator>
+                            </AuthContext.Provider>
+                        </GestureHandlerRootView>
+                    </NavigationContext.Provider>
+                )}
+            </NativeBaseProvider>
+        </NavigationContainer>
     );
 }

@@ -1,8 +1,8 @@
-import Svg, { Ellipse, Path, Polygon, Rect } from "react-native-svg";
+import Svg, { Ellipse, Path, Polygon, Rect, Circle } from "react-native-svg";
 
 const IdleTask = () => {
     return (
-        <Svg width="906" height="510.5" viewBox="0 0 906 510.5">
+        <Svg width="100%" height="100%" viewBox="0 0 906 510.5">
             <Ellipse cx="834.77953" cy="505.5" rx="24" ry="4" fill="#f2f2f2" />
             <Rect x="860.77953" y="123.5" width="2" height="42" fill="#f2f2f2" />
             <Rect x="828.77953" y="96.5" width="12" height="414" fill="#f2f2f2" />
