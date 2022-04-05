@@ -1,4 +1,4 @@
-import { Box, HStack, Input, Text, useTheme } from "native-base";
+import { Box, HStack, Input, useTheme } from "native-base";
 import Menu from "./TopBarIcons/Menu";
 import Search from "./TopBarIcons/Search";
 import Bell from "./TopBarIcons/Bell";
@@ -92,7 +92,7 @@ const TopBar = ({ back }) => {
             <HStack justifyContent={"space-between"}>
                 <AnimatePresence>
                     {!OpenSearch && (
-                        <MotiView {...scaleTransition}>
+                        <MotiView>
                             <AnimatedPressable
                                 onPress={() => {
                                     if (NavigationRef.canGoBack()) {
@@ -134,7 +134,7 @@ const TopBar = ({ back }) => {
                                     </AnimatedPressable>
                                 </MotiView>
                             ) : (
-                                <MotiView {...scaleTransition} key={1}>
+                                <MotiView key={1}>
                                     <AnimatedPressable>
                                         <Bell />
                                     </AnimatedPressable>

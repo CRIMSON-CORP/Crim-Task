@@ -21,25 +21,25 @@ const DATA = [
     {
         index: 0,
         heading: "Note them.",
-        desc: "Note tasks down as soon as you discover them, add them to the list with just a 3-step process.",
+        desc: "Note tasks down as soon as you discover them, and add them to the your list in just three easy ways!",
         art: <Art1 />,
     },
     {
         index: 1,
         heading: "Work on them.",
-        desc: "Work on them as soon as you notice you have spare time, so you utilize your time doing productive things.",
+        desc: "Work on them in your spare time, so your time can be better utilized productively.",
         art: <Art2 />,
     },
     {
         index: 2,
         heading: "Complete them.",
-        desc: "Make sure to complete your noted tasks and then feel they joy of accomplishing and having a pruductive life!.",
+        desc: "Make sure to complete your noted tasks and then feel the satisfaction of accomplishment and having a prouductive life!",
         art: <Art3 />,
     },
     {
         index: 3,
         heading: "Enjoy!",
-        desc: "Spend and enjoy free time with loved ones knowing you dont have anything to worry, and have a more fulfilled life!.",
+        desc: "Have a fulfilled life, spending and enjoying time with your loved ones konwing you have nothing to worry about!",
         art: <Art4 />,
     },
 ];
@@ -67,7 +67,10 @@ const Onboarding = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <Box w={width} h={height} px="6">
                         <VStack flex={1}>
-                            <Center flex={0.6}>{item.art}</Center>
+                            <Center flex={0.6} position="relative">
+                                <BlobBackground />
+                                {item.art}
+                            </Center>
                             <VStack flex={0.4} spacing={"6"}>
                                 <Heading>{item.heading}</Heading>
                                 <Text>{item.desc}</Text>
@@ -78,7 +81,12 @@ const Onboarding = ({ navigation }) => {
             />
             <Indicators progress={progress} />
             <AnimatedPressable
-                style={{ alignSelf: "flex-end" }}
+                style={{
+                    alignSelf: "flex-end",
+                    width: 200,
+                    height: 50,
+                    justifyContent: "center",
+                }}
                 onPress={() => navigation.navigate("createAcc")}
             >
                 <HStack alignItems={"center"} m="5" space="3">
@@ -127,7 +135,12 @@ const Onboarding = ({ navigation }) => {
                             </MotiView>
                         )}
                     </AnimatePresence>
-                    <Entypo name="chevron-thin-right" color={"white"} size={20} />
+                    <Entypo
+                        name="chevron-thin-right"
+                        color={"white"}
+                        size={20}
+                        style={{ position: "absolute", right: 0 }}
+                    />
                 </HStack>
             </AnimatedPressable>
         </Box>
@@ -141,10 +154,29 @@ function Background({ progress }) {
     }));
     return <AnimatedBox style={[AnimatedBackgroundStyles, StyleSheet.absoluteFill]} />;
 }
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
+
+function BlobBackground() {
+    return (
+        <Svg
+            width={291}
+            height={304}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ position: "absolute" }}
+        >
+            <Path
+                d="M244.305 40.65c19.524 16.306 34.76 51.417 42.153 75.576 6.913 22.594 2.954 37.501-.429 60.784-3.393 23.36-11.941 48.261-25.294 67.731-14.23 20.747-32.039 38.628-54.977 49.303-23.492 10.933-51.033 11.015-76.545 5.601-24.813-5.266-45.738-20.16-65.69-35.788-20.09-15.735-39.889-32.464-50.744-55.413C1.567 184.739-.43 158.279 1.275 132.259c1.809-27.614 5.62-56.046 21.644-78.6C39.345 30.542 63.557 11.465 91.482 5.296c26.904-5.943 61.078-6.9 88.021-.667 24.917 5.765 45.195 19.648 64.802 36.022z"
+                fill="#fff"
+            />
+        </Svg>
+    );
+}
 
 function Indicators({ progress }) {
     return (
-        <HStack justifyContent={"center"} space="2">
+        <HStack justifyContent={"center"} space="2" my="10">
             {DATA.map((_, i) => (
                 <IndicatorCenter progress={progress} index={i} key={i} />
             ))}
@@ -165,15 +197,7 @@ function IndicatorCenter({ progress, index }) {
             },
         ],
     }));
-    return (
-        <AnimatedPressable
-            onPress={() => {
-                progress.value = withTiming(index * width);
-            }}
-        >
-            <AnimatedCenter style={AnimatedCenterStyles} size={"2.5"} bg="white" rounded="full" />
-        </AnimatedPressable>
-    );
+    return <AnimatedCenter style={AnimatedCenterStyles} size={"2.5"} bg="white" rounded="full" />;
 }
 
 function Square({ progress }) {

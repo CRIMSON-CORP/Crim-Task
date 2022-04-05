@@ -69,3 +69,7 @@ export async function getAsyncAccountData() {
         };
     }
 }
+
+export function ClearStore() {
+    store.dispatch({ type: "CLEAR_ALL_DATA" });
+}

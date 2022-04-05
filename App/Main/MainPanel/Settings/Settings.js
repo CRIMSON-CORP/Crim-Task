@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import ScreenAnimatePrescence from "../../../Reusables/ScreenAnimatePrescence";
 import {
@@ -24,13 +24,17 @@ import {
     CHANGE_PROFILE_PHOTO,
     CHANGE_ROUNDED_CORNER,
 } from "../../../../redux/account/component/account.actions";
-import { debounce } from "../../../../utils/utils";
+import { ClearStore, debounce } from "../../../../utils/utils";
 import * as ImagePicker from "expo-image-picker";
+import AnimatedPressable from "../../../Reusables/AnimatedPressable";
+import { AuthContext } from "../../../../utils/context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Settings = () => {
     const user = useSelector((state) => state.account);
     const dispatch = useDispatch();
     const [userState, setUserState] = useState(user);
     const [image, setImage] = useState(user.profilePhoto);
+    const { setUserExist } = useContext(AuthContext);
     async function PickImage() {
         const permission = await ImagePicker.getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
@@ -64,7 +68,6 @@ const Settings = () => {
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{
-                        paddingBottom: 40,
                         padding: 20,
                         flexGrow: 1,
                     }}
@@ -109,7 +112,7 @@ const Settings = () => {
                                         )}
                                     </Center>
                                     <Text opacity={60} onPress={() => PickImage()}>
-                                        Change Profile Photo
+                                        Tap to change Profile Photo
                                     </Text>
                                 </VStack>
                                 <VStack bg="#ffffff30" px="5" py="3" rounded="15">
@@ -209,6 +212,30 @@ const Settings = () => {
                                         offThumbColor="gray.300"
                                     />
                                 </HStack>
+                                <VStack bg="#ff000050" px="5" py="3" rounded="15" space="2.5">
+                                    <Text fontSize="sm">Delete Profile</Text>
+                                    <Text fontSize="xs">
+                                        Deleteing your profile deletes your progress including your
+                                        tasks and categories, this action is irreversible!
+                                    </Text>
+                                    <AnimatedPressable
+                                        onPress={() => {
+                                            ClearStore();
+                                            AsyncStorage.removeItem("crim-task-data");
+                                            setUserExist(false);
+                                        }}
+                                    >
+                                        <Box bg="red.700" w="full" p="4" py="2" rounded="10">
+                                            <Text
+                                                textAlign="center"
+                                                color="white"
+                                                fontWeight={"700"}
+                                            >
+                                                Delete Profile
+                                            </Text>
+                                        </Box>
+                                    </AnimatedPressable>
+                                </VStack>
                             </VStack>
                         </Box>
                     </KeyboardAvoidingView>

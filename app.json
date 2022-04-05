@@ -20,7 +20,7 @@
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/crim-task/icon.png",
-                "backgroundColor": "#ff0000"
+                "backgroundColor": "#00000000"
             },
             "package": "com.crim_son.crimtask"
         },

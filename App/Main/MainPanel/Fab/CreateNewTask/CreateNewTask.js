@@ -1,5 +1,5 @@
-import { Box, Heading, Text, VStack, Input } from "native-base";
-import { useState, useEffect, useContext } from "react";
+import { Box, Text, VStack, Input } from "native-base";
+import { useState, useEffect } from "react";
 import Animated, {
     interpolate,
     interpolateColor,
@@ -12,7 +12,6 @@ import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { useDispatch, useSelector } from "react-redux";
 import { CREATE_CATEGORY_TASK } from "../../../../../redux/tasks/components/task.actions";
 import FabCTA from "../FabCTA";
-import { NavigationContext } from "../../../../../utils/context";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 function CreateNewTask() {
@@ -21,8 +20,6 @@ function CreateNewTask() {
         categoryId: cat.categoryId,
         categoryTitle: cat.categoryTitle,
     }));
-    const translate = useSharedValue(0);
-    const start = useSharedValue(0);
     const [ActiveCategoryId, setActiveCategoryId] = useState(categories[0].categoryId);
     const [subject, setSubject] = useState("");
     const dispatch = useDispatch();
@@ -89,15 +86,13 @@ export default CreateNewTask;
 
 function Pill({ categoryId, ActiveCategoryId, categoryTitle, setActiveCategoryId }) {
     const ActiveShared = useSharedValue(0);
-    const styles = useAnimatedStyle(() => ({
-        borderColor: interpolateColor(
-            ActiveShared.value,
-            [0, 1],
-            ["#00000000", "#ffffffff"],
-            "RGB"
-        ),
-        transform: [{ scale: interpolate(ActiveShared.value, [0, 1], [1, 1.07]) }],
-    }));
+    const styles = useAnimatedStyle(() => {
+        let borderColor = interpolateColor(ActiveShared.value, [0, 1], ["#ff0000", "#ffffff"]);
+        return {
+            borderColor,
+            transform: [{ scale: interpolate(ActiveShared.value, [0, 1], [1, 1.07]) }],
+        };
+    });
     useEffect(() => {
         if (ActiveCategoryId === categoryId) {
             ActiveShared.value = withSpring(1);

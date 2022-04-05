@@ -38,6 +38,8 @@ function accountReducer(state = account, ACTION) {
                 ...state,
                 profilePhoto: ACTION.payload,
             };
+        case "CLEAR_ALL_DATA":
+            return {};
         default:
             return state;
     }

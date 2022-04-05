@@ -51,6 +51,8 @@ function taskReducer(state = [], ACTION) {
             };
             state[category_index].tasks.unshift(newTask);
             return [...state];
+        case "CLEAR_ALL_DATA":
+            return [];
         default:
             return state;
     }

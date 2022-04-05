@@ -1,11 +1,10 @@
 import { Box } from "native-base";
-import { useEffect, useState, memo } from "react";
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
 const Greeting = memo(() => {
-    const { last } = useSelector((state) => state.account.name);
-    const [greeting, setGreeting] = useState("");
+    const { last } = useSelector((state) => state.account.name) || {};
     const MorinngGreetings = [
         `What's up ${last}?`,
         `How are you ${last}?`,
@@ -33,20 +32,39 @@ const Greeting = memo(() => {
         `How have you been ${last}?`,
     ];
 
-    useEffect(() => {
-        const date = new Date().getHours();
-        if (date <= 11 && last) {
-            setGreeting(
-                MorinngGreetings[Math.floor(Math.random() * (MorinngGreetings.length - 0 + 1) + 0)]
-            );
-        } else if (date >= 12 && date <= 16) {
-            setGreeting(AfternoonGreetings[Math.floor(Math.random() * AfternoonGreetings.length)]);
-        } else {
-            setGreeting(EveningGreetings[Math.floor(Math.random() * EveningGreetings.length)]);
-        }
-    }, [last]);
+    const date = new Date().getHours();
+    if (date <= 11 && last) {
+        return (
+            <Box w="90%">
+                <AnimatedText
+                    text={MorinngGreetings[Math.floor(Math.random() * MorinngGreetings.length + 1)]}
+                    type="Heading"
+                />
+            </Box>
+        );
+    } else if (date >= 12 && date <= 16) {
+        return (
+            <Box w="90%">
+                <AnimatedText
+                    text={
+                        AfternoonGreetings[
+                            Math.floor(Math.random() * AfternoonGreetings.length) + 1
+                        ]
+                    }
+                    type="Heading"
+                />
+            </Box>
+        );
+    }
 
-    return <Box w="90%">{greeting && <AnimatedText text={greeting} type="Heading" />}</Box>;
+    return (
+        <Box w="90%">
+            <AnimatedText
+                text={EveningGreetings[Math.floor(Math.random() * EveningGreetings.length) + 1]}
+                type="Heading"
+            />
+        </Box>
+    );
 });
 
 export default Greeting;

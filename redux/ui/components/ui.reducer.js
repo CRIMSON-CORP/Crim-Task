@@ -10,6 +10,8 @@ function uiReducer(state = ui, ACTION) {
             return { ...state, side_panel_opened: true };
         case ACTIONS.CLOSE_SIDE:
             return { ...state, side_panel_opened: false };
+        case "CLEAR_ALL_DATA":
+            return {};
         default:
             return state;
     }

@@ -16,12 +16,12 @@ import AnimatedPressable from "../Reusables/AnimatedPressable";
 import BackArrow from "../Reusables/TopBar/TopBarIcons/BackArrow";
 import * as ImagePicker from "expo-image-picker";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import { AntDesign } from "@expo/vector-icons";
 import UserIcon from "../Reusables/UserIcon/UserIcon";
 import { AuthContext } from "../../utils/context";
 import { useDispatch } from "react-redux";
 import { SET_ACCOUNT_INITIAL_STATE } from "../../redux/account/component/account.actions";
-
+import { Dimensions, Alert } from "react-native";
+const { height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
     const [image, setImage] = useState(null);
     const { setUserExist } = useContext(AuthContext);
@@ -47,17 +47,17 @@ const CreateAccount = ({ navigation }) => {
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <KeyboardAvoidingView flex={1}>
-                        <VStack p="6" pt="3" justifyContent={"space-between"} flex={1}>
+                        <VStack p="6" pt="3" justifyContent={"space-between"} flex={1} space="10">
                             <AnimatedPressable
                                 style={{ alignSelf: "flex-start" }}
                                 onPress={() => navigation.goBack()}
                             >
                                 <BackArrow />
                             </AnimatedPressable>
-                            <VStack space="5">
+                            <VStack space="5" flex={1}>
                                 <VStack space="2.5" alignItems={"center"} alignSelf="flex-start">
                                     <Center
-                                        size={200}
+                                        size={height * 0.2}
                                         rounded="full"
                                         borderWidth="2"
                                         borderColor="#FFFFFF7D"
@@ -71,8 +71,8 @@ const CreateAccount = ({ navigation }) => {
                                                         uri: `data:image/*;base64,${image.uri}`,
                                                     }}
                                                     alt="prfile photo"
-                                                    w={200}
-                                                    h={200}
+                                                    w={height * 0.2}
+                                                    h={height * 0.2}
                                                     resizeMode="cover"
                                                     onError={() => {
                                                         setImage(null);
@@ -80,7 +80,10 @@ const CreateAccount = ({ navigation }) => {
                                                 />
                                             </Pressable>
                                         ) : (
-                                            <UserIcon size={90} onPress={() => PickImage()} />
+                                            <UserIcon
+                                                size={height * 0.1}
+                                                onPress={() => PickImage()}
+                                            />
                                         )}
                                     </Center>
                                     <Text opacity={60} onPress={() => PickImage()} fontWeight={300}>
@@ -90,13 +93,13 @@ const CreateAccount = ({ navigation }) => {
 
                                 <Box
                                     px={6}
-                                    py={14}
+                                    py={3}
                                     rounded={10}
                                     bg="#602EA5A3"
                                     borderWidth={2}
                                     borderColor="#ffffff80"
                                 >
-                                    <VStack space="2.5">
+                                    <VStack>
                                         <Text fontWeight={300} opacity={50}>
                                             Firstname
                                         </Text>
@@ -119,7 +122,7 @@ const CreateAccount = ({ navigation }) => {
                                     borderWidth={2}
                                     borderColor="#ffffff80"
                                 >
-                                    <VStack space="2.5">
+                                    <VStack>
                                         <Text fontWeight={300} opacity={50}>
                                             Lastname
                                         </Text>
@@ -137,20 +140,26 @@ const CreateAccount = ({ navigation }) => {
                             </VStack>
                             <AnimatedPressable
                                 onPress={() => {
-                                    setUserExist(true);
-                                    dispatch({
-                                        type: SET_ACCOUNT_INITIAL_STATE,
-                                        payload: {
-                                            data: {
-                                                name: {
-                                                    first: fname,
-                                                    last: lname,
+                                    if (fname && lname) {
+                                        setUserExist(true);
+                                        dispatch({
+                                            type: SET_ACCOUNT_INITIAL_STATE,
+                                            payload: {
+                                                data: {
+                                                    name: {
+                                                        first: fname,
+                                                        last: lname,
+                                                    },
+                                                    profilePhoto: image,
+                                                    roundedPanelCorners: true,
                                                 },
-                                                profilePhoto: image,
-                                                roundedPanelCorners: true,
                                             },
-                                        },
-                                    });
+                                        });
+                                    } else
+                                        Alert.alert(
+                                            "Empty Field",
+                                            "Firstname and Lastname should be filled! "
+                                        );
                                 }}
                             >
                                 <Box w="full" p="4" bg="white" rounded="10">
