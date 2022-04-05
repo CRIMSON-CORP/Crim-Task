@@ -87,7 +87,7 @@ export default CreateNewTask;
 function Pill({ categoryId, ActiveCategoryId, categoryTitle, setActiveCategoryId }) {
     const ActiveShared = useSharedValue(0);
     const styles = useAnimatedStyle(() => {
-        let borderColor = interpolateColor(ActiveShared.value, [0, 1], ["#ff0000", "#ffffff"]);
+        let borderColor = interpolateColor(ActiveShared.value, [0, 1], ["#00000000", "#ffffffff"]);
         return {
             borderColor,
             transform: [{ scale: interpolate(ActiveShared.value, [0, 1], [1, 1.07]) }],
