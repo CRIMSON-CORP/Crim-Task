@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
 import { NavigationContext } from "../../../../../utils/context";
 import { AntDesign } from "@expo/vector-icons";
+import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 const ProfilePhoto = () => {
     const profile = useSelector((state) => state.account.profilePhoto);
     const { NavigationRef } = useContext(NavigationContext);
@@ -39,7 +40,7 @@ const ProfilePhoto = () => {
                             alt="profile"
                         />
                     ) : (
-                        <AntDesign name="user" color="white" size={65} style={{ opacity: 0.8 }} />
+                        <UserIcon size={60} onPress={() => PickImage()} />
                     )}
                 </Center>
             </Pressable>
