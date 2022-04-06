@@ -1,19 +1,11 @@
 import { Box, Text, VStack, Input } from "native-base";
-import { useState, useEffect } from "react";
-import Animated, {
-    interpolate,
-    interpolateColor,
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
-    withTiming,
-} from "react-native-reanimated";
+import { useState } from "react";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { useDispatch, useSelector } from "react-redux";
 import { CREATE_CATEGORY_TASK } from "../../../../../redux/tasks/components/task.actions";
 import FabCTA from "../FabCTA";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
-const AnimatedBox = Animated.createAnimatedComponent(Box);
+import { View as MotiView } from "moti";
 function CreateNewTask() {
     const state_categories = useSelector((state) => state.tasks);
     const categories = state_categories.map((cat) => ({
@@ -85,37 +77,23 @@ function CreateNewTask() {
 export default CreateNewTask;
 
 function Pill({ categoryId, ActiveCategoryId, categoryTitle, setActiveCategoryId }) {
-    const ActiveShared = useSharedValue(0);
-    const styles = useAnimatedStyle(() => {
-        let borderColor = interpolateColor(ActiveShared.value, [0, 1], ["#00000000", "#ffffffff"]);
-        return {
-            borderColor,
-            transform: [{ scale: interpolate(ActiveShared.value, [0, 1], [1, 1.07]) }],
-        };
-    });
-    useEffect(() => {
-        if (ActiveCategoryId === categoryId) {
-            ActiveShared.value = withSpring(1);
-        } else {
-            ActiveShared.value = withTiming(0);
-        }
-    }, [ActiveCategoryId]);
-
     return (
         <AnimatedPressable onPress={() => setActiveCategoryId(categoryId)}>
-            <AnimatedBox
-                style={styles}
-                rounded={15}
-                borderWidth={"2"}
-                bg="#ffffff20"
-                px="4"
-                py="2.5"
-                mr="4"
+            <MotiView
+                style={{
+                    borderRadius: 15,
+                    borderWidth: 2,
+                    backgroundColor: "#ffffff20",
+                    paddingHorizontal: 16,
+                    paddingVertical: 10,
+                    marginRight: 16,
+                    borderColor: ActiveCategoryId === categoryId ? "white" : "transparent",
+                }}
             >
                 <Text fontWeight="600" lineHeight={18}>
                     {categoryTitle}
                 </Text>
-            </AnimatedBox>
+            </MotiView>
         </AnimatedPressable>
     );
 }
