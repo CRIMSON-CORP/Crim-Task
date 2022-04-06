@@ -53,8 +53,9 @@ function MainWrapper() {
         getData();
     }, []);
     const onLayOutView = useCallback(async () => {
+        console.log("layout");
         if (!Loading) {
-            await hideAsync();
+            setTimeout(async () => await hideAsync(), 500);
         }
     }, [Loading]);
     return (
