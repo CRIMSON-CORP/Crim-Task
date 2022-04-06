@@ -11,16 +11,19 @@ import Animated, {
 const AnimatedTextComponent = Animated.createAnimatedComponent(Text);
 const AnimatedHeadingComponent = Animated.createAnimatedComponent(Heading);
 const AnimatedText = ({ text = "", type }) => {
-    const TextArray = text.split(" ");
     const TextJSX = useMemo(() => {
-        return TextArray.map((t, index) => {
-            return (
-                <Box key={index} overflow="hidden" flexDirection="row">
-                    <EachCharater char={t} index={index} type={type} wordIndex={index} />
-                    <Text>{index === TextArray.length - 1 ? "" : "   "}</Text>
-                </Box>
-            );
-        });
+        if (text.trim()) {
+            const TextArray = text.split(" ");
+            return TextArray.map((t, index) => {
+                return (
+                    <Box key={index} overflow="hidden" flexDirection="row">
+                        <EachCharater char={t} index={index} type={type} wordIndex={index} />
+                        <Text>{index === TextArray.length - 1 ? "" : "   "}</Text>
+                    </Box>
+                );
+            });
+        }
+        return null;
     }, [text, type]);
     return (
         <Box flexWrap="wrap" flexDirection={"row"}>

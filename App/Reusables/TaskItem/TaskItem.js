@@ -34,6 +34,7 @@ const TaskItem = ({
                 <Pressable
                     onLongPress={() => null}
                     onPress={() => {
+                        console.log("update");
                         dispath({
                             type: UPDATE_TASK,
                             payload: {

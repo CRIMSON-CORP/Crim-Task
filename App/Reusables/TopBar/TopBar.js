@@ -62,6 +62,13 @@ const TopBar = ({ back }) => {
             setValue("");
         }
     }, [value, OpenSearch]);
+    useEffect(() => {
+        const unsub = NavigationRef.addListener("state", (e) => {
+            setOpenSearch(false);
+        });
+
+        return unsub;
+    }, []);
 
     return (
         <Box zIndex={99999}>
@@ -79,7 +86,6 @@ const TopBar = ({ back }) => {
                                 width,
                                 height,
                                 backgroundColor: colors.primary[300],
-                                position: "absolute",
                                 left: -20,
                                 top: -StatusBar.currentHeight - 10,
                             },

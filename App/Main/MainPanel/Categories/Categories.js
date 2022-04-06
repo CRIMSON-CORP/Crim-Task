@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import ScreenAnimatePrescence from "../../../Reusables/ScreenAnimatePrescence";
 import { Box, Heading, Image, Text, VStack } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
 import { ScrollView } from "react-native-gesture-handler";
@@ -11,6 +10,7 @@ import { AnimatePresence } from "moti";
 import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
 import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispath = useDispatch();
@@ -21,69 +21,67 @@ const Categories = () => {
     }, []);
     return (
         <Box flex={1}>
-            <ScreenPaddingWrapper noFlex>
-                <ScreenAnimatePrescence>
+            <SafeAreaView style={{ flex: 1 }}>
+                <VStack space="10" p="5">
+                    <TopBar back />
                     <VStack space="10">
-                        <TopBar back />
-                        <VStack space="10">
-                            <Heading>Categories</Heading>
-                        </VStack>
+                        <Heading>Categories</Heading>
                     </VStack>
-                </ScreenAnimatePrescence>
-            </ScreenPaddingWrapper>
-            <Box flex={1} pt="10">
-                {categories.length ? (
-                    <ScrollView
-                        ref={scrollRef}
-                        contentContainerStyle={{
-                            flexGrow: 1,
-                            paddingHorizontal: 20,
-                        }}
-                    >
-                        <AnimatePresence>
-                            {categories.map((item) => (
-                                <ListAnimatePrescence
-                                    key={item.categoryId}
-                                    spacing={40}
-                                    height={120}
-                                >
-                                    <SwipableView
-                                        swipeExe={() =>
-                                            dispath({
-                                                type: DELETE_CATEGORY,
-                                                payload: { id: item.categoryId },
-                                            })
-                                        }
-                                        simultaneousHandlers={refState}
+                </VStack>
+                <Box flex={1} pt="10">
+                    {categories.length ? (
+                        <ScrollView
+                            ref={scrollRef}
+                            contentContainerStyle={{
+                                flexGrow: 1,
+                                paddingHorizontal: 20,
+                            }}
+                        >
+                            <AnimatePresence>
+                                {categories.map((item) => (
+                                    <ListAnimatePrescence
+                                        key={item.categoryId}
+                                        spacing={40}
+                                        height={120}
                                     >
-                                        <CategoryCardItem
-                                            categoryColor={item.categoryColor}
-                                            categoryTitle={item.categoryTitle}
-                                            categoryId={item.categoryId}
-                                            tasks={item.tasks}
-                                            mr="5"
-                                            shadow="7"
-                                            fwidth={true}
-                                        />
-                                    </SwipableView>
-                                </ListAnimatePrescence>
-                            ))}
-                        </AnimatePresence>
-                    </ScrollView>
-                ) : (
-                    <Box justifyContent="flex-start" h={250} p={5}>
-                        <Image
-                            source={IdleCategory}
-                            resizeMode="contain"
-                            h="full"
-                            alt="idle category"
-                        />
-                        <Text textAlign={"center"} fontSize={11}>
-                            You have no Categories, press the "+" button to add a new Category
-                        </Text>
-                    </Box>
-                )}
-            </Box>
+                                        <SwipableView
+                                            swipeExe={() =>
+                                                dispath({
+                                                    type: DELETE_CATEGORY,
+                                                    payload: { id: item.categoryId },
+                                                })
+                                            }
+                                            simultaneousHandlers={refState}
+                                        >
+                                            <CategoryCardItem
+                                                categoryColor={item.categoryColor}
+                                                categoryTitle={item.categoryTitle}
+                                                categoryId={item.categoryId}
+                                                tasks={item.tasks}
+                                                mr="5"
+                                                shadow="7"
+                                                fwidth={true}
+                                            />
+                                        </SwipableView>
+                                    </ListAnimatePrescence>
+                                ))}
+                            </AnimatePresence>
+                        </ScrollView>
+                    ) : (
+                        <Box justifyContent="flex-start" h={250} p={5}>
+                            <Image
+                                source={IdleCategory}
+                                resizeMode="contain"
+                                h="full"
+                                alt="idle category"
+                            />
+                            <Text textAlign={"center"} fontSize={11}>
+                                You have no Categories, press the "+" button to add a new Category
+                            </Text>
+                        </Box>
+                    )}
+                </Box>
+            </SafeAreaView>
         </Box>
     );
 };

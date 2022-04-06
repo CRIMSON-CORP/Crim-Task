@@ -32,7 +32,7 @@ function CreateNewKnowCategoryTask() {
                     maxLength={50}
                     px="5"
                     value={subject}
-                    onChangeText={(text) => setSubject(text.trim())}
+                    onChangeText={(text) => setSubject(text)}
                 />
             </VStack>
             <FabCTA
@@ -43,7 +43,7 @@ function CreateNewKnowCategoryTask() {
                         dispatch({
                             type: CREATE_CATEGORY_TASK,
                             payload: {
-                                subject,
+                                subject: subject.trim(),
                                 categoryId: currentCategoryId,
                             },
                         }))

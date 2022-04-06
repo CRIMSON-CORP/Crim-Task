@@ -87,7 +87,7 @@ const CreateAccount = ({ navigation }) => {
                                         )}
                                     </Center>
                                     <Text opacity={60} onPress={() => PickImage()} fontWeight={300}>
-                                        Add proile picture
+                                        Add profile picture
                                     </Text>
                                 </VStack>
 

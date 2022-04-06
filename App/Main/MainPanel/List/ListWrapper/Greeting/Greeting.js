@@ -4,7 +4,7 @@ import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
 function Greeting() {
     const { last } = useSelector((state) => state.account.name) || {};
-    console.log("Render Greeting");
+    console.log("last", last);
     const MorinngGreetings = [
         `What's up ${last}?`,
         `How are you ${last}?`,
@@ -33,11 +33,13 @@ function Greeting() {
     ];
 
     const date = new Date().getHours();
-    if (date <= 11 && last) {
+    if (date <= 11) {
         return (
             <Box w="90%">
                 <AnimatedText
-                    text={MorinngGreetings[Math.floor(Math.random() * MorinngGreetings.length + 1)]}
+                    text={MorinngGreetings[
+                        Math.floor(Math.random() * MorinngGreetings.length)
+                    ].trim()}
                     type="Heading"
                 />
             </Box>
@@ -46,20 +48,20 @@ function Greeting() {
         return (
             <Box w="90%">
                 <AnimatedText
-                    text={
-                        AfternoonGreetings[
-                            Math.floor(Math.random() * AfternoonGreetings.length) + 1
-                        ]
-                    }
+                    text={AfternoonGreetings[
+                        Math.floor(Math.random() * AfternoonGreetings.length)
+                    ].trim()}
                     type="Heading"
                 />
             </Box>
         );
-    } else if (date > 17) {
+    } else if (date >= 17) {
         return (
             <Box w="90%">
                 <AnimatedText
-                    text={EveningGreetings[Math.floor(Math.random() * EveningGreetings.length) + 1]}
+                    text={EveningGreetings[
+                        Math.floor(Math.random() * EveningGreetings.length)
+                    ].trim(S)}
                     type="Heading"
                 />
             </Box>

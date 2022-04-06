@@ -37,8 +37,15 @@ const AnimatedTaskText = ({ task, completed }) => {
     }, [completed]);
 
     return (
-        <Box justifyContent={"center"}>
-            <AnimatedText style={AnimatedTextStyles} fontWeight={400} lineHeight={20} fontSize="sm">
+        <Box justifyContent={"center"} flex={1}>
+            <AnimatedText
+                style={AnimatedTextStyles}
+                fontWeight={400}
+                lineHeight={20}
+                fontSize="sm"
+                adjustsFontSizeToFit
+                flexWrap="wrap"
+            >
                 {task}
             </AnimatedText>
             <AnimatedBox

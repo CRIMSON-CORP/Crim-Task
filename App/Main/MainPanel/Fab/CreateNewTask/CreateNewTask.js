@@ -37,7 +37,7 @@ function CreateNewTask() {
                     maxLength={50}
                     px="5"
                     value={subject}
-                    onChangeText={(text) => setSubject(text.trim())}
+                    onChangeText={(text) => setSubject(text)}
                 />
             </VStack>
             <VStack space="5">
@@ -64,7 +64,7 @@ function CreateNewTask() {
                         dispatch({
                             type: CREATE_CATEGORY_TASK,
                             payload: {
-                                subject,
+                                subject: subject.trim(),
                                 categoryId: ActiveCategoryId,
                             },
                         }))
