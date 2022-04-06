@@ -138,7 +138,7 @@ const CreateAccount = ({ navigation }) => {
                                 </Box>
                                 <Box
                                     px={6}
-                                    py={14}
+                                    py={3}
                                     rounded={10}
                                     bg="#602EA5A3"
                                     borderWidth={2}
@@ -150,7 +150,7 @@ const CreateAccount = ({ navigation }) => {
                                         </Text>
                                         <Input
                                             size="lg"
-                                            px={0}
+                                            p={0}
                                             color="white"
                                             variant="unstyled"
                                             selectionColor="white"
