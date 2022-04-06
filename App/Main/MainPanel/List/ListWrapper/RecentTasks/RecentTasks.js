@@ -1,9 +1,9 @@
 import React from "react";
-import { Text, VStack } from "native-base";
+import { Image, Text, VStack } from "native-base";
 import { useSelector } from "react-redux";
 import TaskItem from "../../../../../Reusables/TaskItem/TaskItem";
 import { AnimatePresence } from "moti";
-import IdleTask from "../../../../../Reusables/IdleTask/IdleTask";
+import IdleTask from "../../../../../../assets/crim-task/idle/idle_task.png";
 
 const RecentTasks = () => {
     let AllTasksCategories = useSelector((state) => state.tasks);
@@ -43,7 +43,7 @@ const RecentTasks = () => {
                     })
                 ) : (
                     <VStack justifyContent="flex-start" h={120} p={5} space="2">
-                        <IdleTask />
+                        <Image source={IdleTask} resizeMode="contain" h="full" alt="idle Task" />
                         <Text textAlign={"center"} fontSize={10}>
                             You have no Tasks, press the "+" button to add a new Task when you have
                             a category

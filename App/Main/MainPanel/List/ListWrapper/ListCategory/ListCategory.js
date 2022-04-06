@@ -1,11 +1,10 @@
 import { MotiView } from "moti";
-import { Box, Text, VStack } from "native-base";
+import { Box, Image, Text, VStack } from "native-base";
 import { Dimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { useSelector } from "react-redux";
 import CategoryCardItem from "../../../../../Reusables/CategoryCardItem/CategoryCardItem";
-import IdleCategory from "../../../../../Reusables/IdleCategory";
-
+import IdleCategory from "../../../../../../assets/crim-task/idle/idle_category.png";
 const { width } = Dimensions.get("window");
 const ListCategory = () => {
     const categories = useSelector((state) => state.tasks);
@@ -56,7 +55,12 @@ const ListCategory = () => {
                 />
             ) : (
                 <VStack justifyContent="flex-start" h={120} p={5} space="2">
-                    <IdleCategory />
+                    <Image
+                        source={IdleCategory}
+                        resizeMode="contain"
+                        h="full"
+                        alt="idle category"
+                    />
                     <Text textAlign={"center"} fontSize={10}>
                         You have no Categories, press the "+" button to add a new Category
                     </Text>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ScreenAnimatePrescence from "../../../Reusables/ScreenAnimatePrescence";
-import { Box, Heading, Text, VStack } from "native-base";
+import { Box, Heading, Image, Text, VStack } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions
 import { AnimatePresence } from "moti";
 import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
 import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
-import IdleCategory from "../../../Reusables/IdleCategory";
+import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispath = useDispatch();
@@ -72,7 +72,12 @@ const Categories = () => {
                     </ScrollView>
                 ) : (
                     <Box justifyContent="flex-start" h={250} p={5}>
-                        <IdleCategory />
+                        <Image
+                            source={IdleCategory}
+                            resizeMode="contain"
+                            h="full"
+                            alt="idle category"
+                        />
                         <Text textAlign={"center"} fontSize={11}>
                             You have no Categories, press the "+" button to add a new Category
                         </Text>

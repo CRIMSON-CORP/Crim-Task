@@ -1,7 +1,7 @@
 import { AnimatePresence, View as MotiView } from "moti";
-import { Box, useTheme, VStack } from "native-base";
+import { Box, Image, useTheme, VStack, Text } from "native-base";
 import { useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Easing } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import TaskItem from "../../../Reusables/TaskItem/TaskItem";
 import TopBar from "../../../Reusables/TopBar";
+import IdleTask from "../../../../assets/crim-task/idle/idle_task.png";
+
 const SingleCategory = ({ route }) => {
     const { categoryId, categoryTitle } = route.params;
     const categories = useSelector((state) => state.tasks);
@@ -76,55 +78,75 @@ const SingleCategory = ({ route }) => {
                 </VStack>
             </ScreenPaddingWrapper>
             <Box w="full" style={{ marginTop: 100 }} flex={1}>
-                <ScrollView
-                    contentContainerStyle={{
-                        padding: 20,
-                        flexGrow: 1,
-                    }}
-                    ref={ScrollRef}
-                >
-                    <AnimatePresence>
-                        {tasks.map((item, index) => {
-                            return (
-                                <MotiView
-                                    from={{
-                                        transform: [{ translateY: 400 }],
-                                        opacity: 0,
-                                    }}
-                                    transition={{
-                                        transform: {
-                                            delay: 700 + index * 100,
-                                            type: "timing",
-                                            duration: 700,
-                                            easing: Easing.out(Easing.quad),
-                                        },
-                                        opacity: {
-                                            delay: 900,
-                                            duration: 100,
-                                        },
-                                    }}
-                                    animate={{
-                                        transform: [{ translateY: 0 }],
-                                        opacity: 1,
-                                    }}
-                                    key={item.id}
-                                >
-                                    <TaskItem
+                {tasks.length ? (
+                    <ScrollView
+                        contentContainerStyle={{
+                            padding: 20,
+                            flexGrow: 1,
+                        }}
+                        ref={ScrollRef}
+                    >
+                        <AnimatePresence>
+                            {tasks.map((item, index) => {
+                                return (
+                                    <MotiView
+                                        from={{
+                                            transform: [{ translateY: 400 }],
+                                            opacity: 0,
+                                        }}
+                                        transition={{
+                                            transform: {
+                                                delay: 700 + index * 100,
+                                                type: "timing",
+                                                duration: 700,
+                                                easing: Easing.out(Easing.quad),
+                                            },
+                                            opacity: {
+                                                delay: 900,
+                                                duration: 100,
+                                            },
+                                        }}
+                                        animate={{
+                                            transform: [{ translateY: 0 }],
+                                            opacity: 1,
+                                        }}
                                         key={item.id}
-                                        itemId={item.id}
-                                        task={item.task}
-                                        completed={item.completed}
-                                        categoryColor={item.categoryColor}
-                                        categoryId={item.categoryId}
-                                        index={index}
-                                        dark
-                                        simultaneousHandlers={ScrollRef}
-                                    />
-                                </MotiView>
-                            );
-                        })}
-                    </AnimatePresence>
-                </ScrollView>
+                                    >
+                                        <TaskItem
+                                            key={item.id}
+                                            itemId={item.id}
+                                            task={item.task}
+                                            completed={item.completed}
+                                            categoryColor={item.categoryColor}
+                                            categoryId={item.categoryId}
+                                            index={index}
+                                            dark
+                                            simultaneousHandlers={ScrollRef}
+                                        />
+                                    </MotiView>
+                                );
+                            })}
+                        </AnimatePresence>
+                    </ScrollView>
+                ) : (
+                    <MotiView
+                        from={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1500 }}
+                    >
+                        <VStack justifyContent="flex-start" h={160} p={5} space="2">
+                            <Image
+                                source={IdleTask}
+                                resizeMode="contain"
+                                h="full"
+                                alt="idle Task"
+                            />
+                            <Text textAlign={"center"} fontSize={10}>
+                                You have no Tasks, press the "+" button to add a new Task
+                            </Text>
+                        </VStack>
+                    </MotiView>
+                )}
             </Box>
         </Box>
     );
