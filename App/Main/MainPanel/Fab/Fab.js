@@ -81,7 +81,7 @@ const Fab = () => {
     }
 
     return (
-        <Box justifyContent={"center"} bg="red.200">
+        <Box justifyContent={"center"}>
             <MotiView
                 style={[
                     {

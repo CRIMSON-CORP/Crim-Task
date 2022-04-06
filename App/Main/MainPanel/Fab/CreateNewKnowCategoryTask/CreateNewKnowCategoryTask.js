@@ -29,7 +29,9 @@ function CreateNewKnowCategoryTask() {
                     selectionColor="white"
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
-                    maxLength={50}
+                    maxLength={30}
+                    numberOfLines={1}
+                    adjustFontSizeToFit
                     px="5"
                     value={subject}
                     onChangeText={(text) => setSubject(text)}
