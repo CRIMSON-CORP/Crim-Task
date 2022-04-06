@@ -6,7 +6,7 @@ import Profile from "./Profile";
 
 const SidePanel = () => {
     return (
-        <Box flex={1} padding={60} pr={95}>
+        <Box flex={1} padding={60} pr={105}>
             <VStack>
                 <Box alignItems={"flex-end"}>
                     <ClosePanelButton />
