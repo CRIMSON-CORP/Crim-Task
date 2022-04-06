@@ -4,7 +4,6 @@ import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
 function Greeting() {
     const { last } = useSelector((state) => state.account.name) || {};
-    console.log("last", last);
     const MorinngGreetings = [
         `What's up ${last}?`,
         `How are you ${last}?`,
