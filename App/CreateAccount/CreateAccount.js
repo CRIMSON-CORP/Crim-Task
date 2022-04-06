@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import {
     Box,
     Center,
-    Heading,
     Image,
     Input,
     KeyboardAvoidingView,
@@ -19,8 +18,14 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import UserIcon from "../Reusables/UserIcon/UserIcon";
 import { AuthContext } from "../../utils/context";
 import { useDispatch } from "react-redux";
-import { SET_ACCOUNT_INITIAL_STATE } from "../../redux/account/component/account.actions";
+import {
+    CHANGE_FIRST_NAME,
+    CHANGE_LAST_NAME,
+    CHANGE_PROFILE_PHOTO,
+    SET_ACCOUNT_INITIAL_STATE,
+} from "../../redux/account/component/account.actions";
 import { Dimensions, Alert } from "react-native";
+import { debounce } from "../../utils/utils";
 const { height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
     const [image, setImage] = useState(null);
@@ -39,6 +44,12 @@ const CreateAccount = ({ navigation }) => {
         });
         if (!data.cancelled) {
             setImage({ uri: data.base64 });
+            dispatch({
+                type: CHANGE_PROFILE_PHOTO,
+                payload: {
+                    uri: data.base64,
+                },
+            });
         }
     }
     return (
@@ -104,13 +115,24 @@ const CreateAccount = ({ navigation }) => {
                                             Firstname
                                         </Text>
                                         <Input
-                                            variant={"unstyled"}
                                             size="lg"
+                                            p={0}
                                             color="white"
+                                            variant="unstyled"
                                             selectionColor="white"
-                                            p="0"
                                             value={fname}
-                                            onChangeText={(text) => setFname(text.trim())}
+                                            onChangeText={(e) => {
+                                                setFname(e);
+                                                debounce(
+                                                    dispatch({
+                                                        type: CHANGE_FIRST_NAME,
+                                                        payload: {
+                                                            data: e.trim(),
+                                                        },
+                                                    }),
+                                                    2000
+                                                );
+                                            }}
                                         />
                                     </VStack>
                                 </Box>
@@ -127,13 +149,24 @@ const CreateAccount = ({ navigation }) => {
                                             Lastname
                                         </Text>
                                         <Input
-                                            variant={"unstyled"}
                                             size="lg"
+                                            px={0}
                                             color="white"
+                                            variant="unstyled"
                                             selectionColor="white"
-                                            p="0"
                                             value={lname}
-                                            onChangeText={(text) => setLname(text.trim())}
+                                            onChangeText={(e) => {
+                                                setLname(e);
+                                                debounce(
+                                                    dispatch({
+                                                        type: CHANGE_LAST_NAME,
+                                                        payload: {
+                                                            data: e.trim(),
+                                                        },
+                                                    }),
+                                                    2000
+                                                );
+                                            }}
                                         />
                                     </VStack>
                                 </Box>
@@ -146,10 +179,6 @@ const CreateAccount = ({ navigation }) => {
                                             type: SET_ACCOUNT_INITIAL_STATE,
                                             payload: {
                                                 data: {
-                                                    name: {
-                                                        first: fname,
-                                                        last: lname,
-                                                    },
                                                     profilePhoto: image,
                                                     roundedPanelCorners: true,
                                                 },

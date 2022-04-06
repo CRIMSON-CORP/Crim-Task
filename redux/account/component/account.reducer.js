@@ -10,6 +10,7 @@ function accountReducer(state = account, ACTION) {
     switch (ACTION.type) {
         case ACTIONS.SET_ACCOUNT_INITIAL_STATE:
             return {
+                ...state,
                 ...ACTION.payload.data,
             };
         case ACTIONS.CHANGE_FIRST_NAME:

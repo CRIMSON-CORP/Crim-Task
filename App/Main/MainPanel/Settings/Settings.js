@@ -101,7 +101,7 @@ const Settings = () => {
                                             color="white"
                                             variant="unstyled"
                                             selectionColor="white"
-                                            value={userState.name.first}
+                                            value={userState?.name?.first}
                                             onChangeText={(e) => {
                                                 setUserState((prev) => ({
                                                     ...prev,
@@ -133,7 +133,7 @@ const Settings = () => {
                                             color="white"
                                             variant="unstyled"
                                             selectionColor="white"
-                                            value={userState.name.last}
+                                            value={userState?.name?.last}
                                             onChangeText={(e) => {
                                                 setUserState((prev) => ({
                                                     ...prev,
