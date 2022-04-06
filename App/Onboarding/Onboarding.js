@@ -1,17 +1,16 @@
-import { Box, Center, FlatList, Heading, HStack, Text, VStack } from "native-base";
+import { Box, Center, FlatList, Heading, HStack, Text, VStack, Image } from "native-base";
 import Animated, {
     Extrapolate,
     interpolate,
     interpolateColor,
     useAnimatedStyle,
     useSharedValue,
-    withTiming,
 } from "react-native-reanimated";
 import { Art1, Art2, Art3, Art4 } from "./Arts";
 import { Dimensions, StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import AnimatedPressable from "../Reusables/AnimatedPressable";
-import { AnimatePresence, useAnimationState, View as MotiView } from "moti";
+import { AnimatePresence, View as MotiView } from "moti";
 import { useState } from "react";
 const { width, height } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -22,25 +21,25 @@ const DATA = [
         index: 0,
         heading: "Note them.",
         desc: "Note tasks down as soon as you discover them, and add them to the your list in just three easy ways!",
-        art: <Art1 />,
+        art: Art1,
     },
     {
         index: 1,
         heading: "Work on them.",
         desc: "Work on them in your spare time, so your time can be better utilized productively.",
-        art: <Art2 />,
+        art: Art2,
     },
     {
         index: 2,
         heading: "Complete them.",
         desc: "Make sure to complete your noted tasks and then feel the satisfaction of accomplishment and having a prouductive life!",
-        art: <Art3 />,
+        art: Art3,
     },
     {
         index: 3,
         heading: "Enjoy!",
         desc: "Have a fulfilled life, spending and enjoying time with your loved ones konwing you have nothing to worry about!",
-        art: <Art4 />,
+        art: Art4,
     },
 ];
 const Onboarding = ({ navigation }) => {
@@ -69,7 +68,12 @@ const Onboarding = ({ navigation }) => {
                         <VStack flex={1}>
                             <Center flex={0.6} position="relative">
                                 <BlobBackground />
-                                {item.art}
+                                <Image
+                                    source={item.art}
+                                    w={width * 0.7}
+                                    alt="Art"
+                                    resizeMode="contain"
+                                />
                             </Center>
                             <VStack flex={0.4} spacing={"6"}>
                                 <Heading>{item.heading}</Heading>

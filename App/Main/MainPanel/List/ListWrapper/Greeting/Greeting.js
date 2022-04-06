@@ -55,16 +55,21 @@ const Greeting = memo(() => {
                 />
             </Box>
         );
-    }
-
-    return (
-        <Box w="90%">
-            <AnimatedText
-                text={EveningGreetings[Math.floor(Math.random() * EveningGreetings.length) + 1]}
-                type="Heading"
-            />
-        </Box>
-    );
+    } else if (date > 17) {
+        return (
+            <Box w="90%">
+                <AnimatedText
+                    text={EveningGreetings[Math.floor(Math.random() * EveningGreetings.length) + 1]}
+                    type="Heading"
+                />
+            </Box>
+        );
+    } else
+        return (
+            <Box w="90%">
+                <AnimatedText text="Hello!" type="Heading" />
+            </Box>
+        );
 });
 
 export default Greeting;
