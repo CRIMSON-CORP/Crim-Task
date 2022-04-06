@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 import PropTypes from "prop-types";
-const UserIcon = ({ size, style, onPress }) => {
+const UserIcon = ({ size, style, onPress, notClickable }) => {
     return (
         <Svg
             width={size}
@@ -8,6 +8,7 @@ const UserIcon = ({ size, style, onPress }) => {
             viewBox="0 0 78 73"
             fill="none"
             style={style}
+            pointerEvents={`${notClickable ? "none" : "auto"}`}
             onPress={() => onPress && onPress()}
         >
             <Path
@@ -31,6 +32,7 @@ UserIcon.propTypes = {
     size: PropTypes.number,
     style: PropTypes.object,
     onPress: PropTypes.func,
+    notClickable: PropTypes.bool,
 };
 
 export default UserIcon;
