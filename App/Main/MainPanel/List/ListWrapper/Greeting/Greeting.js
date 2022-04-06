@@ -60,7 +60,7 @@ function Greeting() {
                 <AnimatedText
                     text={EveningGreetings[
                         Math.floor(Math.random() * EveningGreetings.length)
-                    ].trim(S)}
+                    ].trim()}
                     type="Heading"
                 />
             </Box>
