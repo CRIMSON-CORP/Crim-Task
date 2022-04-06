@@ -210,7 +210,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                                     selectionColor="white"
                                     color="white"
                                     value={value}
-                                    onChangeText={(text) => setValue(text)}
+                                    onChangeText={(text) => setValue(text.trim())}
                                     w={width - 180}
                                     placeholder="Search Tasks..."
                                 />

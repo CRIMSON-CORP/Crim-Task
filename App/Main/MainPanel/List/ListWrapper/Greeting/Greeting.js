@@ -1,10 +1,10 @@
 import { Box } from "native-base";
-import { memo } from "react";
 import { useSelector } from "react-redux";
 import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
-const Greeting = memo(() => {
+function Greeting() {
     const { last } = useSelector((state) => state.account.name) || {};
+    console.log("Render Greeting");
     const MorinngGreetings = [
         `What's up ${last}?`,
         `How are you ${last}?`,
@@ -70,6 +70,6 @@ const Greeting = memo(() => {
                 <AnimatedText text="Hello!" type="Heading" />
             </Box>
         );
-});
+}
 
 export default Greeting;

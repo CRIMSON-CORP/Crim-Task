@@ -110,7 +110,7 @@ const CreateAccount = ({ navigation }) => {
                                             selectionColor="white"
                                             p="0"
                                             value={fname}
-                                            onChangeText={(text) => setFname(text)}
+                                            onChangeText={(text) => setFname(text.trim())}
                                         />
                                     </VStack>
                                 </Box>
@@ -133,7 +133,7 @@ const CreateAccount = ({ navigation }) => {
                                             selectionColor="white"
                                             p="0"
                                             value={lname}
-                                            onChangeText={(text) => setLname(text)}
+                                            onChangeText={(text) => setLname(text.trim())}
                                         />
                                     </VStack>
                                 </Box>

@@ -79,7 +79,7 @@ function CreateNewCategory() {
                     maxLength={20}
                     px="5"
                     value={title}
-                    onChangeText={(text) => setTitle(text)}
+                    onChangeText={(text) => setTitle(text.trim())}
                 />
             </VStack>
             <VStack space="30">

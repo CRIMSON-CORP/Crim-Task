@@ -29,10 +29,10 @@ function CreateNewKnowCategoryTask() {
                     selectionColor="white"
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
-                    maxLength={20}
+                    maxLength={50}
                     px="5"
                     value={subject}
-                    onChangeText={(text) => setSubject(text)}
+                    onChangeText={(text) => setSubject(text.trim())}
                 />
             </VStack>
             <FabCTA

@@ -107,14 +107,14 @@ const Settings = () => {
                                                     ...prev,
                                                     name: {
                                                         ...prev.name,
-                                                        first: e,
+                                                        first: e.trim(),
                                                     },
                                                 }));
                                                 debounce(
                                                     dispatch({
                                                         type: CHANGE_FIRST_NAME,
                                                         payload: {
-                                                            data: e,
+                                                            data: e.trim(),
                                                         },
                                                     }),
                                                     2000
@@ -139,14 +139,14 @@ const Settings = () => {
                                                     ...prev,
                                                     name: {
                                                         ...prev.name,
-                                                        last: e,
+                                                        last: e.trim(),
                                                     },
                                                 }));
                                                 debounce(
                                                     dispatch({
                                                         type: CHANGE_LAST_NAME,
                                                         payload: {
-                                                            data: e,
+                                                            data: e.trim(),
                                                         },
                                                     }),
                                                     2000
