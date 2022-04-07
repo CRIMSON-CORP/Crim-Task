@@ -10,7 +10,6 @@ import { View as MotiView } from "moti";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { CREATE_CATEGORY } from "../../../../../redux/tasks/components/task.actions";
-import { FabButtonContext } from "../../../../../utils/context";
 import { Dimensions } from "react-native";
 import FabCTA from "../FabCTA";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
@@ -26,6 +25,20 @@ const categoryColors = [
     "#E67E22",
     "#7FFF00",
     "#9932CC",
+];
+
+const categoryNameExamples = [
+    "Travel",
+    "Health",
+    "Sports",
+    "Gym",
+    "Groceries",
+    "Important",
+    "Work",
+    "Bucket List",
+    "School",
+    "Hobbies",
+    "Personal",
 ];
 function CreateNewCategory() {
     const translate = useSharedValue(0);
@@ -77,6 +90,12 @@ function CreateNewCategory() {
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
                     maxLength={20}
+                    placeholder={
+                        categoryNameExamples[
+                            Math.floor(Math.random() * categoryNameExamples.length)
+                        ]
+                    }
+                    placeholderTextColor={"#ffffffdd"}
                     px="5"
                     value={title}
                     onChangeText={(text) => setTitle(text.trim())}

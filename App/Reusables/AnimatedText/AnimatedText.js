@@ -9,12 +9,12 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 const AnimatedHeadingComponent = Animated.createAnimatedComponent(Heading);
-const AnimatedText = ({ text = "" }) => {
+const AnimatedText = ({ text = "", delay }) => {
     const TextArray = text.split(" ");
     const TextJSX = TextArray.map((word, index) => {
         return (
             <Box key={index} overflow="hidden" flexDirection="row">
-                <EachWord word={word} index={index} wordIndex={index} />
+                <EachWord word={word} index={index} wordIndex={index} delay={delay} />
                 <Text>{index === TextArray.length - 1 ? "" : "   "}</Text>
             </Box>
         );
@@ -28,19 +28,19 @@ const AnimatedText = ({ text = "" }) => {
 
 export default memo(AnimatedText);
 
-function EachWord({ word, wordIndex }) {
+function EachWord({ word, wordIndex, delay }) {
     const EachChar = word.split("");
     const TextJSX = EachChar.map((t, index) => {
         return (
             <Box key={index} overflow="hidden" flexDirection="row">
-                <EachLetter char={t} index={index} wordIndex={wordIndex} />
+                <EachLetter char={t} index={index} wordIndex={wordIndex} delay={delay} />
             </Box>
         );
     });
     return <Box flexDirection={"row"}>{TextJSX}</Box>;
 }
 
-function EachLetter({ char, index, wordIndex }) {
+function EachLetter({ char, index, wordIndex, delay }) {
     const transition = useSharedValue(0);
     const styles = useAnimatedStyle(() => ({
         opacity: transition.value,
@@ -48,7 +48,7 @@ function EachLetter({ char, index, wordIndex }) {
     }));
     useEffect(() => {
         transition.value = withDelay(
-            1000 + wordIndex * 100 + index * 50,
+            (delay ? 3000 : 700) + wordIndex * 100 + index * 50,
             withTiming(1, {
                 duration: 100 + wordIndex * 50 + index * 50,
                 easing: Easing.out(Easing.quad),

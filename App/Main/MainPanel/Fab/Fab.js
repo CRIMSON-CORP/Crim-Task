@@ -27,7 +27,7 @@ const Fab = () => {
     const [canPress, setCanPress] = useState(true);
     const [open, setOpen] = useState(false);
     const [backDropOpen, setBackDropOpen] = useState(false);
-    const [AnimateOpen, setAnimateOPen] = useState(false);
+    const [AnimateOpen, setAnimateOpen] = useState(false);
     const [showFab, setShowFab] = useState(true);
     const Styles = useAnimatedStyle(() => ({
         transform: [{ scale: rad.value }],
@@ -48,7 +48,7 @@ const Fab = () => {
     function ToggleOpenFab(toggle) {
         ("worklet");
         if (toggle) {
-            runOnJS(setAnimateOPen)(true);
+            runOnJS(setAnimateOpen)(true);
             if (canPress) {
                 runOnJS(setBackDropOpen)(true);
                 runOnJS(setCanPress)(false);
@@ -67,7 +67,7 @@ const Fab = () => {
         } else {
             if (canPress) {
                 runOnJS(setCanPress)(false);
-                runOnJS(setAnimateOPen)(false);
+                runOnJS(setAnimateOpen)(false);
                 content.value = withTiming(200, {}, () => runOnJS(setOpen)(false));
                 rad.value = withDelay(
                     500,

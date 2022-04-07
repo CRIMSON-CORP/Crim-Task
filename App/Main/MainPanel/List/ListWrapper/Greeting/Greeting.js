@@ -39,6 +39,7 @@ function Greeting() {
                     text={MorinngGreetings[
                         Math.floor(Math.random() * MorinngGreetings.length)
                     ].trim()}
+                    delay
                 />
             </Box>
         );
@@ -49,6 +50,7 @@ function Greeting() {
                     text={AfternoonGreetings[
                         Math.floor(Math.random() * AfternoonGreetings.length)
                     ].trim()}
+                    delay
                 />
             </Box>
         );
@@ -59,13 +61,14 @@ function Greeting() {
                     text={EveningGreetings[
                         Math.floor(Math.random() * EveningGreetings.length)
                     ].trim()}
+                    delay
                 />
             </Box>
         );
     } else
         return (
             <Box w="90%">
-                <AnimatedText text="Hello!" />
+                <AnimatedText text="Hello!" delay />
             </Box>
         );
 }

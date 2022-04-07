@@ -87,7 +87,7 @@ const TopBar = ({ back }) => {
                                 height,
                                 backgroundColor: colors.primary[300],
                                 left: -20,
-                                top: -StatusBar.currentHeight - 10,
+                                top: -StatusBar.currentHeight - 20,
                             },
                         ]}
                     >
