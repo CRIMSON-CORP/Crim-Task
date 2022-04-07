@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "native-base";
-import { useEffect, useMemo } from "react";
+import { memo, useEffect } from "react";
 import Animated, {
     Easing,
     interpolate,
@@ -8,23 +8,17 @@ import Animated, {
     withDelay,
     withTiming,
 } from "react-native-reanimated";
-const AnimatedTextComponent = Animated.createAnimatedComponent(Text);
 const AnimatedHeadingComponent = Animated.createAnimatedComponent(Heading);
-const AnimatedText = ({ text = "", type }) => {
-    const TextJSX = useMemo(() => {
-        if (text.trim()) {
-            const TextArray = text.split(" ");
-            return TextArray.map((t, index) => {
-                return (
-                    <Box key={index} overflow="hidden" flexDirection="row">
-                        <EachCharater char={t} index={index} type={type} wordIndex={index} />
-                        <Text>{index === TextArray.length - 1 ? "" : "   "}</Text>
-                    </Box>
-                );
-            });
-        }
-        return null;
-    }, [text, type]);
+const AnimatedText = ({ text = "" }) => {
+    const TextArray = text.split(" ");
+    const TextJSX = TextArray.map((word, index) => {
+        return (
+            <Box key={index} overflow="hidden" flexDirection="row">
+                <EachWord word={word} index={index} wordIndex={index} />
+                <Text>{index === TextArray.length - 1 ? "" : "   "}</Text>
+            </Box>
+        );
+    });
     return (
         <Box flexWrap="wrap" flexDirection={"row"}>
             {TextJSX}
@@ -32,23 +26,21 @@ const AnimatedText = ({ text = "", type }) => {
     );
 };
 
-export default AnimatedText;
+export default memo(AnimatedText);
 
-function EachCharater({ char, type, wordIndex }) {
-    const EachChar = char.split("");
-    const TextJSX = useMemo(() => {
-        return EachChar.map((t, index) => {
-            return (
-                <Box key={index} overflow="hidden" flexDirection="row">
-                    <EachLetter char={t} index={index} type={type} wordIndex={wordIndex} />
-                </Box>
-            );
-        });
-    }, [char, type]);
+function EachWord({ word, wordIndex }) {
+    const EachChar = word.split("");
+    const TextJSX = EachChar.map((t, index) => {
+        return (
+            <Box key={index} overflow="hidden" flexDirection="row">
+                <EachLetter char={t} index={index} wordIndex={wordIndex} />
+            </Box>
+        );
+    });
     return <Box flexDirection={"row"}>{TextJSX}</Box>;
 }
 
-function EachLetter({ char, type, index, wordIndex }) {
+function EachLetter({ char, index, wordIndex }) {
     const transition = useSharedValue(0);
     const styles = useAnimatedStyle(() => ({
         opacity: transition.value,
@@ -56,14 +48,12 @@ function EachLetter({ char, type, index, wordIndex }) {
     }));
     useEffect(() => {
         transition.value = withDelay(
-            700 + wordIndex * 100 + index * 50,
+            1000 + wordIndex * 100 + index * 50,
             withTiming(1, {
                 duration: 100 + wordIndex * 50 + index * 50,
                 easing: Easing.out(Easing.quad),
             })
         );
     }, []);
-    if (type === "Heading")
-        return <AnimatedHeadingComponent style={styles}>{char}</AnimatedHeadingComponent>;
-    return <AnimatedTextComponent style={styles}>{char}</AnimatedTextComponent>;
+    return <AnimatedHeadingComponent style={styles}>{char}</AnimatedHeadingComponent>;
 }

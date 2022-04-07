@@ -1,5 +1,5 @@
-import { VStack, Box, Pressable, useColorModeValue, useTheme } from "native-base";
-import React, { useContext, useEffect } from "react";
+import { VStack, Box, Pressable, useTheme } from "native-base";
+import React, { memo, useContext, useEffect } from "react";
 import { Dimensions, StyleSheet, Text } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import PropTypes from "prop-types";
@@ -186,4 +186,4 @@ CategoryCardItem.propTypes = {
     fwidth: PropTypes.bool,
 };
 
-export default CategoryCardItem;
+export default memo(CategoryCardItem);

@@ -47,7 +47,7 @@ const Settings = () => {
             <SafeAreaView style={{ flex: 1, padding: 20 }}>
                 <VStack space={10} flexGrow={1}>
                     <TopBar back />
-                    <AnimatedText text="Settings" type="Heading" />
+                    <AnimatedText text="Settings" />
                     <Box flex={1} pb={4}>
                         <ScrollView showsVerticalScrollIndicator={false}>
                             <Box>

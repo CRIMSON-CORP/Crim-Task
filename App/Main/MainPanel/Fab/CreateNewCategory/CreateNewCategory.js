@@ -62,7 +62,7 @@ function CreateNewCategory() {
     return (
         <VStack w="full" space={35}>
             <VStack w="full">
-                <AnimatedText text="Create a new Category" type="Heading" />
+                <AnimatedText text="Create a new Category" />
             </VStack>
             <VStack space="30">
                 <Text fontSize="sm" opacity={0.7}>

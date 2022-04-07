@@ -14,7 +14,7 @@ function CreateNewKnowCategoryTask() {
         <VStack w="full" space={35}>
             <VStack w="full">
                 <Box w={"80%"}>
-                    <AnimatedText text="Create a new Task" type="Heading" />
+                    <AnimatedText text="Create a new Task" />
                 </Box>
             </VStack>
             <VStack space="30">
