@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import { Box, Center, Input, Text, VStack, Switch, HStack, Image, Pressable } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
@@ -17,6 +16,7 @@ import { AuthContext } from "../../../../utils/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UserIcon from "../../../Reusables/UserIcon/UserIcon";
 import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Settings = () => {
     const user = useSelector((state) => state.account);
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Settings = () => {
     }
     return (
         <Box flex={1}>
-            <ScreenPaddingWrapper>
+            <SafeAreaView style={{ flex: 1, padding: 20 }}>
                 <VStack space={10} flexGrow={1}>
                     <TopBar back />
                     <AnimatedText text="Settings" type="Heading" />
@@ -221,7 +221,7 @@ const Settings = () => {
                         </ScrollView>
                     </Box>
                 </VStack>
-            </ScreenPaddingWrapper>
+            </SafeAreaView>
         </Box>
     );
 };

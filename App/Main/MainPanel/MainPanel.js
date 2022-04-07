@@ -99,7 +99,6 @@ const MainPanel = () => {
     return (
         <PanGestureHandler onGestureEvent={gesture}>
             <AnimatedMainpanel
-                position="absolute"
                 flex={1}
                 bg={"primary.200"}
                 entering={FadeIn}

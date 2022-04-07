@@ -1,12 +1,11 @@
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Image, useTheme, VStack, Text } from "native-base";
 import { useRef } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Easing } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
 import { useSelector } from "react-redux";
-import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import TaskItem from "../../../Reusables/TaskItem/TaskItem";
 import TopBar from "../../../Reusables/TopBar";
 import IdleTask from "../../../../assets/crim-task/idle/idle_task.png";
@@ -28,7 +27,7 @@ const SingleCategory = ({ route }) => {
             <SharedElement id={`item.${categoryId}.bg`} style={StyleSheet.absoluteFillObject}>
                 <View style={[{ backgroundColor: primary[300] }, StyleSheet.absoluteFillObject]} />
             </SharedElement>
-            <ScreenPaddingWrapper noFlex>
+            <Box p="5" style={{ paddingTop: StatusBar.currentHeight + 20 }}>
                 <VStack space="10">
                     <TopBar back />
                     <VStack>
@@ -76,7 +75,7 @@ const SingleCategory = ({ route }) => {
                         </SharedElement>
                     </VStack>
                 </VStack>
-            </ScreenPaddingWrapper>
+            </Box>
             <Box w="full" style={{ marginTop: 100 }} flex={1}>
                 {tasks.length ? (
                     <ScrollView

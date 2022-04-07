@@ -8,7 +8,6 @@ import SwipableView from "../../../Reusables/SwipableView";
 import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions";
 import { AnimatePresence } from "moti";
 import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
-import ScreenPaddingWrapper from "../../../Reusables/ScreenPaddingWrapper";
 import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 const Categories = () => {
