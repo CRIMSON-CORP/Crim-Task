@@ -91,6 +91,7 @@ function CreateNewCategory() {
                     underlineColorAndroid={"transparent"}
                     maxLength={20}
                     placeholder={
+                        "e.g. " +
                         categoryNameExamples[
                             Math.floor(Math.random() * categoryNameExamples.length)
                         ]
@@ -98,7 +99,7 @@ function CreateNewCategory() {
                     placeholderTextColor={"#ffffffdd"}
                     px="5"
                     value={title}
-                    onChangeText={(text) => setTitle(text.trim())}
+                    onChangeText={(text) => setTitle(text)}
                 />
             </VStack>
             <VStack space="30">
@@ -160,7 +161,7 @@ function CreateNewCategory() {
                         dispatch({
                             type: CREATE_CATEGORY,
                             payload: {
-                                title,
+                                title: title.trim(),
                                 color: categoryColors[ActiveColorIndex],
                             },
                         }))

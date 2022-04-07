@@ -74,7 +74,7 @@ function CreateNewTask() {
                         }}
                         transition={{
                             type: "spring",
-                            damping: 15,
+                            damping: 13,
                         }}
                     />
                     {categories.map(({ categoryTitle, categoryId }) => (
