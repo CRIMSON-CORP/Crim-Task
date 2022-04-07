@@ -186,4 +186,4 @@ CategoryCardItem.propTypes = {
     fwidth: PropTypes.bool,
 };
 
-export default memo(CategoryCardItem);
+export default CategoryCardItem;
