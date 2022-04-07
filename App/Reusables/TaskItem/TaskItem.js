@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import SwipableView from "../SwipableView";
 import AnimatedTaskText from "../AnimatedTaaskText/AnimatedTaskText";
 import ListAnimatePrescence from "../ListAnimatePrescence";
+import { memo } from "react";
 
 const TaskItem = ({
     task,
@@ -68,4 +69,4 @@ TaskItem.propTypes = {
     categoryId: PropTypes.string.isRequired,
     dark: PropTypes.bool,
 };
-export default TaskItem;
+export default memo(TaskItem);

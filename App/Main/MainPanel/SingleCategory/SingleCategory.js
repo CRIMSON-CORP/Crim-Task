@@ -3,7 +3,6 @@ import { Box, Image, useTheme, VStack, Text } from "native-base";
 import { useRef } from "react";
 import { StyleSheet, View, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Easing } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
 import { useSelector } from "react-redux";
 import TaskItem from "../../../Reusables/TaskItem/TaskItem";
@@ -84,45 +83,22 @@ const SingleCategory = ({ route }) => {
                             flexGrow: 1,
                         }}
                         ref={ScrollRef}
+                        showsVerticalScrollIndicator={false}
                     >
                         <AnimatePresence>
                             {tasks.map((item, index) => {
                                 return (
-                                    <MotiView
-                                        from={{
-                                            transform: [{ translateY: 400 }],
-                                            opacity: 0,
-                                        }}
-                                        transition={{
-                                            transform: {
-                                                delay: 700 + index * 100,
-                                                type: "timing",
-                                                duration: 700,
-                                                easing: Easing.out(Easing.quad),
-                                            },
-                                            opacity: {
-                                                delay: 900,
-                                                duration: 100,
-                                            },
-                                        }}
-                                        animate={{
-                                            transform: [{ translateY: 0 }],
-                                            opacity: 1,
-                                        }}
+                                    <TaskItem
                                         key={item.id}
-                                    >
-                                        <TaskItem
-                                            key={item.id}
-                                            itemId={item.id}
-                                            task={item.task}
-                                            completed={item.completed}
-                                            categoryColor={item.categoryColor}
-                                            categoryId={item.categoryId}
-                                            index={index}
-                                            dark
-                                            simultaneousHandlers={ScrollRef}
-                                        />
-                                    </MotiView>
+                                        itemId={item.id}
+                                        task={item.task}
+                                        completed={item.completed}
+                                        categoryColor={item.categoryColor}
+                                        categoryId={item.categoryId}
+                                        index={index}
+                                        dark
+                                        simultaneousHandlers={ScrollRef}
+                                    />
                                 );
                             })}
                         </AnimatePresence>
