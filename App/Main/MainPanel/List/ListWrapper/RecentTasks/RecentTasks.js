@@ -19,7 +19,7 @@ const RecentTasks = () => {
         });
     });
     let AllSorted = AllTasks.sort((a, b) => b.timeStamp - a.timeStamp);
-    AllSorted.length = AllSorted.length > 4 ? 3 : AllSorted.length;
+    AllSorted.length = AllSorted.length > 3 ? 3 : AllSorted.length;
     return (
         <VStack space={30}>
             <Text fontWeight={"bold"} opacity={0.7}>

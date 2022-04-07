@@ -7,6 +7,7 @@ import Animated, {
     withSequence,
     withDelay,
 } from "react-native-reanimated";
+import PropTypes from "prop-types";
 const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const AnimatedTaskText = ({ task, completed }) => {
@@ -43,7 +44,8 @@ const AnimatedTaskText = ({ task, completed }) => {
                 fontWeight={400}
                 lineHeight={20}
                 fontSize="sm"
-                adjustsFontSizeToFit
+                numberOfLines={1}
+                w="full"
                 flexWrap="wrap"
             >
                 {task}
@@ -61,6 +63,11 @@ const AnimatedTaskText = ({ task, completed }) => {
             />
         </Box>
     );
+};
+
+AnimatedTaskText.propTypes = {
+    task: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
 };
 
 export default AnimatedTaskText;
