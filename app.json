@@ -2,7 +2,7 @@
     "expo": {
         "name": "Crim-Task",
         "slug": "crim-task",
-        "version": "1.4.18",
+        "version": "1.4.19",
         "orientation": "portrait",
         "icon": "./assets/crim-task/icon.png",
         "splash": {
@@ -18,6 +18,7 @@
             "supportsTablet": false
         },
         "android": {
+            "versionCode": 1,
             "adaptiveIcon": {
                 "foregroundImage": "./assets/crim-task/icon.png",
                 "backgroundColor": "#0C0826"
