@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Box, Center, Input, Text, VStack, Switch, HStack, Image, Pressable } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
@@ -10,7 +10,11 @@ import {
     CHANGE_ROUNDED_CORNER,
 } from "../../../../redux/account/component/account.actions";
 import { ClearStore, debounce } from "../../../../utils/utils";
-import * as ImagePicker from "expo-image-picker";
+import {
+    getMediaLibraryPermissionsAsync,
+    requestMediaLibraryPermissionsAsync,
+    launchImageLibraryAsync,
+} from "expo-image-picker";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import { AuthContext } from "../../../../utils/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,12 +28,12 @@ const Settings = () => {
     const [image, setImage] = useState(user.profilePhoto);
     const { setUserExist } = useContext(AuthContext);
     async function PickImage() {
-        const permission = await ImagePicker.getMediaLibraryPermissionsAsync();
+        const permission = await getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
-            await ImagePicker.requestMediaLibraryPermissionsAsync();
+            await requestMediaLibraryPermissionsAsync();
             return PickImage();
         }
-        const data = await ImagePicker.launchImageLibraryAsync({
+        const data = await launchImageLibraryAsync({
             base64: true,
         });
         if (!data.cancelled) {

@@ -1,4 +1,3 @@
-import React from "react";
 import { Box } from "native-base";
 import SidePanel from "./SidePanel/SidePanel";
 import MainPanel from "./MainPanel/MainPanel";

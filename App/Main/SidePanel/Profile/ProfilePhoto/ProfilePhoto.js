@@ -1,5 +1,5 @@
 import { Center, Image, Box, useTheme } from "native-base";
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
 import { NavigationContext } from "../../../../../utils/context";

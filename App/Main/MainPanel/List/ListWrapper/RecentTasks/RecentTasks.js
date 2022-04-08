@@ -1,4 +1,3 @@
-import React from "react";
 import { Image, Text, VStack } from "native-base";
 import { useSelector } from "react-redux";
 import TaskItem from "../../../../../Reusables/TaskItem/TaskItem";

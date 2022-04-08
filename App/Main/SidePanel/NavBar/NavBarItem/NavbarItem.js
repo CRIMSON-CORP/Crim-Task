@@ -1,6 +1,6 @@
 import { HStack, Text } from "native-base";
 import { useDispatch } from "react-redux";
-import * as ACTIONS from "../../../../../redux/ui/components/ui.actions";
+import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { View } from "moti";
 import { useContext, useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const NavbarItem = ({ icon, text, slug }) => {
             <AnimatedPressable
                 onPress={() => {
                     NavigationRef.navigate(slug);
-                    dispath({ type: ACTIONS.CLOSE_SIDE });
+                    dispath({ type: CLOSE_SIDE });
                 }}
             >
                 <HStack space="8" alignItems="center">

@@ -1,4 +1,3 @@
-import React from "react";
 import Svg, { G, Path } from "react-native-svg";
 import { Dimensions, StyleSheet } from "react-native";
 import { useTheme } from "native-base";

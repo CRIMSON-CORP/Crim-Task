@@ -1,5 +1,5 @@
 import { VStack, Box, Pressable, useTheme } from "native-base";
-import React, { memo, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Dimensions, StyleSheet, Text } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import PropTypes from "prop-types";

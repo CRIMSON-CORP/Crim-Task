@@ -1,4 +1,3 @@
-import React from "react";
 import { Svg, Path, RadialGradient, Circle, Defs, Stop } from "react-native-svg";
 import { useDispatch } from "react-redux";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";

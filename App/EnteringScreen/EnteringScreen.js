@@ -1,9 +1,8 @@
-import React from "react";
 import { Box, Heading, Text, VStack } from "native-base";
 import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AnimatedPressable from "../Reusables/AnimatedPressable";
-import Animated, { FadeIn, FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const EnteringScreen = ({ navigation }) => {
     return (

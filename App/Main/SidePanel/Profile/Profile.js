@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, VStack } from "native-base";
 import ProfilePhoto from "./ProfilePhoto";
 import ProfileName from "./ProfileName";

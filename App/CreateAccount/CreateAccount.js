@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
     Box,
     Center,
@@ -13,7 +13,11 @@ import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AnimatedPressable from "../Reusables/AnimatedPressable";
 import BackArrow from "../Reusables/TopBar/TopBarIcons/BackArrow";
-import * as ImagePicker from "expo-image-picker";
+import {
+    getMediaLibraryPermissionsAsync,
+    requestMediaLibraryPermissionsAsync,
+    launchImageLibraryAsync,
+} from "expo-image-picker";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import UserIcon from "../Reusables/UserIcon/UserIcon";
 import { AuthContext } from "../../utils/context";
@@ -34,12 +38,12 @@ const CreateAccount = ({ navigation }) => {
     const [lname, setLname] = useState("");
     const dispatch = useDispatch();
     async function PickImage() {
-        const permission = await ImagePicker.getMediaLibraryPermissionsAsync();
+        const permission = await getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
-            await ImagePicker.requestMediaLibraryPermissionsAsync();
+            await requestMediaLibraryPermissionsAsync();
             return PickImage();
         }
-        const data = await ImagePicker.launchImageLibraryAsync({
+        const data = await launchImageLibraryAsync({
             base64: true,
         });
         if (!data.cancelled) {
