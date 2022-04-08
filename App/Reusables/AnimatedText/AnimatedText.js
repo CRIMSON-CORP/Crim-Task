@@ -48,7 +48,7 @@ function EachLetter({ char, index, wordIndex, delay }) {
     }));
     useEffect(() => {
         transition.value = withDelay(
-            (delay ? 3000 : 700) + wordIndex * 100 + index * 50,
+            (delay ? 2000 : 700) + wordIndex * 100 + index * 50,
             withTiming(1, {
                 duration: 100 + wordIndex * 50 + index * 50,
                 easing: Easing.out(Easing.quad),

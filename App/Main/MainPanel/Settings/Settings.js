@@ -205,7 +205,7 @@ const Settings = () => {
                                                 setUserExist(false);
                                             }}
                                         >
-                                            <Box bg="red.700" w="full" p="4" py="2" rounded="10">
+                                            <Box bg="red.700" w="full" p="4" py="3" rounded="10">
                                                 <Text
                                                     textAlign="center"
                                                     color="white"

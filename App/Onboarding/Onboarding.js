@@ -38,7 +38,7 @@ const DATA = [
     {
         index: 3,
         heading: "Enjoy!",
-        desc: "Have a fulfilled life, spending and enjoying time with your loved ones konwing you have nothing to worry about!",
+        desc: "Have a fulfilled life, spending and enjoying time with your loved ones knowing you have nothing to worry about!",
         art: Art4,
     },
 ];

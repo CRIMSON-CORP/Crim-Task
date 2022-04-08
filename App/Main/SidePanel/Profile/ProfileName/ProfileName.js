@@ -5,8 +5,8 @@ const ProfileName = () => {
     const user = useSelector((state) => state.account);
     return (
         <Heading fontSize={40} lineHeight={51} fontWeight={600}>
-            {user?.name?.first}
-            {user?.name?.last} {"\n"}
+            {user?.name?.first} {"\n"}
+            {user?.name?.last}
         </Heading>
     );
 };

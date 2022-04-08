@@ -35,6 +35,7 @@ const Categories = () => {
                                 flexGrow: 1,
                                 paddingHorizontal: 20,
                             }}
+                            showsVerticalScrollIndicator={false}
                         >
                             <AnimatePresence>
                                 {categories.map((item) => (
