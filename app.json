@@ -2,7 +2,7 @@
     "expo": {
         "name": "Crim-Task",
         "slug": "crim-task",
-        "version": "1.4.22",
+        "version": "1.5.0",
         "orientation": "portrait",
         "icon": "./assets/crim-task/icon.png",
         "splash": {

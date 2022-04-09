@@ -3,20 +3,21 @@ import { Box, Heading, Image, Text, VStack } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import CategoryCardItem from "../../../Reusables/CategoryCardItem/CategoryCardItem";
 import SwipableView from "../../../Reusables/SwipableView";
 import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions";
 import { AnimatePresence } from "moti";
 import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
 import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native";
+import CategoryListItem from "../../../Reusables/CategoryListItem";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispath = useDispatch();
     const scrollRef = useRef();
     return (
         <Box flex={1}>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={customStyles.flex}>
                 <VStack space="10" p="5">
                     <TopBar back />
                     <VStack space="10">
@@ -28,7 +29,7 @@ const Categories = () => {
                         <ScrollView
                             ref={scrollRef}
                             contentContainerStyle={{
-                                flexGrow: 1,
+                                ...customStyles.flex,
                                 paddingHorizontal: 20,
                             }}
                             showsVerticalScrollIndicator={false}
@@ -49,7 +50,7 @@ const Categories = () => {
                                             }
                                             simultaneousHandlers={scrollRef}
                                         >
-                                            <CategoryCardItem
+                                            <CategoryListItem
                                                 categoryColor={item.categoryColor}
                                                 categoryTitle={item.categoryTitle}
                                                 categoryId={item.categoryId}
@@ -81,5 +82,11 @@ const Categories = () => {
         </Box>
     );
 };
+
+const customStyles = StyleSheet.create({
+    flex: {
+        flexGrow: 1,
+    },
+});
 
 export default Categories;

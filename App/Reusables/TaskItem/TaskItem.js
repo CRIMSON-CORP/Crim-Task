@@ -7,6 +7,7 @@ import SwipableView from "../SwipableView";
 import AnimatedTaskText from "../AnimatedTaaskText/AnimatedTaskText";
 import ListAnimatePrescence from "../ListAnimatePrescence";
 import { memo } from "react";
+import { useFab } from "../../../utils/context";
 
 const TaskItem = ({
     task,
@@ -18,6 +19,7 @@ const TaskItem = ({
     simultaneousHandlers,
 }) => {
     const dispath = useDispatch();
+    const { setFlag, ToggleOpenFab } = useFab();
     return (
         <ListAnimatePrescence spacing={30} height={60} animkey={task.id}>
             <SwipableView
@@ -33,7 +35,15 @@ const TaskItem = ({
                 simultaneousHandlers={simultaneousHandlers}
             >
                 <Pressable
-                    onLongPress={() => null}
+                    onLongPress={() => {
+                        setFlag({
+                            flag: "EDIT_TASK",
+                            subject: task,
+                            currentCategoryId: categoryId,
+                            itemId,
+                        });
+                        ToggleOpenFab(true);
+                    }}
                     onPress={() => {
                         dispath({
                             type: UPDATE_TASK,

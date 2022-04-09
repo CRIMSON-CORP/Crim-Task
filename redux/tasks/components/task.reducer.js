@@ -51,6 +51,47 @@ function taskReducer(state = [], ACTION) {
             };
             state[category_index].tasks.unshift(newTask);
             return [...state];
+        case ACTIONS.EDIT_CATEGORY:
+            let category__index = state.findIndex(
+                (cat) => cat.categoryId === ACTION.payload.categoryId
+            );
+            const props = state[category__index];
+
+            const newProps = {
+                ...props,
+                categoryTitle: ACTION.payload.title,
+                categoryColor: ACTION.payload.color,
+            };
+            state[category__index] = newProps;
+            return [...state];
+        case ACTIONS.EDIT_TASK: {
+            const categoryIndex = state.findIndex(
+                (cat) => cat.categoryId === ACTION.payload.currentCategoryId
+            );
+            const taskIndex = state[categoryIndex].tasks.findIndex(
+                (item) => item.id === ACTION.payload.itemId
+            );
+
+            const props = state[categoryIndex].tasks[taskIndex];
+
+            // edit task
+            let newProps = {
+                ...props,
+                task: ACTION.payload.subject,
+            };
+            if (ACTION.payload.categoryId === ACTION.payload.currentCategoryId) {
+                state[categoryIndex].tasks[taskIndex] = newProps;
+            } else {
+                const newCategoryindex = state.findIndex(
+                    (cat) => cat.categoryId === ACTION.payload.categoryId
+                );
+                // remove task from former category
+                state[categoryIndex].tasks.splice(taskIndex, 1);
+                //  Add item to new category
+                state[newCategoryindex].tasks.push(newProps);
+            }
+            return [...state];
+        }
         case "CLEAR_ALL_DATA":
             return [];
         default:

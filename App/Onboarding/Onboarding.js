@@ -12,6 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import AnimatedPressable from "../Reusables/AnimatedPressable";
 import { AnimatePresence, View as MotiView } from "moti";
 import { useState } from "react";
+import Svg, { Path } from "react-native-svg";
 const { width, height } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const AnimatedCenter = Animated.createAnimatedComponent(Center);
@@ -42,6 +43,17 @@ const DATA = [
         art: Art4,
     },
 ];
+const buttonAnimation = {
+    from: { opacity: 0, transform: [{ translateY: 50 }] },
+    exit: {
+        opacity: 0,
+        transform: [{ translateY: -50 }],
+    },
+    animate: {
+        opacity: 1,
+        transform: [{ translateY: 0 }],
+    },
+};
 const Onboarding = ({ navigation }) => {
     const progress = useSharedValue(0);
     const [scrollEnd, setScrollEnd] = useState(false);
@@ -98,19 +110,10 @@ const Onboarding = ({ navigation }) => {
                         {scrollEnd ? (
                             <MotiView
                                 key="create"
-                                from={{
-                                    opacity: 0,
-                                    transform: [{ translateY: 50 }],
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                    transform: [{ translateY: -50 }],
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                    transform: [{ translateY: 0 }],
-                                }}
-                                style={{ position: "absolute", right: 20 }}
+                                from={buttonAnimation.from}
+                                exit={buttonAnimation.exit}
+                                animate={buttonAnimation.animate}
+                                style={[customStyles.absolute, { right: 20 }]}
                             >
                                 <Text fontFamily={"Gisha"} fontSize={24}>
                                     Create Profile
@@ -119,19 +122,10 @@ const Onboarding = ({ navigation }) => {
                         ) : (
                             <MotiView
                                 key="skip"
-                                style={{ position: "absolute", right: 20 }}
-                                from={{
-                                    opacity: 0,
-                                    transform: [{ translateY: 50 }],
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                    transform: [{ translateY: -50 }],
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                    transform: [{ translateY: 0 }],
-                                }}
+                                style={[customStyles.absolute, { right: 20 }]}
+                                from={buttonAnimation.from}
+                                exit={buttonAnimation.exit}
+                                animate={buttonAnimation.animate}
                             >
                                 <Text fontFamily={"Gisha"} fontSize={24}>
                                     Skip
@@ -143,7 +137,7 @@ const Onboarding = ({ navigation }) => {
                         name="chevron-thin-right"
                         color={"white"}
                         size={20}
-                        style={{ position: "absolute", right: 0 }}
+                        style={[customStyles.absolute, { right: 0 }]}
                     />
                 </HStack>
             </AnimatedPressable>
@@ -158,7 +152,6 @@ function Background({ progress }) {
     }));
     return <AnimatedBox style={[AnimatedBackgroundStyles, StyleSheet.absoluteFill]} />;
 }
-import Svg, { Path } from "react-native-svg";
 
 function BlobBackground() {
     return (
@@ -167,7 +160,7 @@ function BlobBackground() {
             height={304}
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ position: "absolute" }}
+            style={customStyles.absolute}
         >
             <Path
                 d="M244.305 40.65c19.524 16.306 34.76 51.417 42.153 75.576 6.913 22.594 2.954 37.501-.429 60.784-3.393 23.36-11.941 48.261-25.294 67.731-14.23 20.747-32.039 38.628-54.977 49.303-23.492 10.933-51.033 11.015-76.545 5.601-24.813-5.266-45.738-20.16-65.69-35.788-20.09-15.735-39.889-32.464-50.744-55.413C1.567 184.739-.43 158.279 1.275 132.259c1.809-27.614 5.62-56.046 21.644-78.6C39.345 30.542 63.557 11.465 91.482 5.296c26.904-5.943 61.078-6.9 88.021-.667 24.917 5.765 45.195 19.648 64.802 36.022z"
@@ -238,4 +231,10 @@ function Square({ progress }) {
         />
     );
 }
+
+const customStyles = StyleSheet.create({
+    absolute: {
+        position: "absolute",
+    },
+});
 export default Onboarding;

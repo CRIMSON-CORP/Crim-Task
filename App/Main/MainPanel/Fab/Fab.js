@@ -15,20 +15,15 @@ import { Dimensions } from "react-native";
 import { AnimatePresence, View as MotiView } from "moti";
 import CreateNewCategory from "./CreateNewCategory";
 import CreateNewTask from "./CreateNewTask";
-import { FabButtonContext, NavigationContext } from "../../../../utils/context";
+import { NavigationContext, useFab } from "../../../../utils/context";
 import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask/CreateNewKnowCategoryTask";
 import { useSelector } from "react-redux";
 const { width: w, height: h } = Dimensions.get("screen");
 export const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 const Fab = () => {
-    const rad = useSharedValue(0);
-    const content = useSharedValue(200);
-    const [canPress, setCanPress] = useState(true);
-    const [open, setOpen] = useState(false);
-    const [backDropOpen, setBackDropOpen] = useState(false);
-    const [AnimateOpen, setAnimateOpen] = useState(false);
-    const [showFab, setShowFab] = useState(true);
+    const { rad, content, backDropOpen, open, ToggleOpenFab, showFab, AnimateOpen, setShowFab } =
+        useFab();
     const Styles = useAnimatedStyle(() => ({
         transform: [{ scale: rad.value }],
     }));
@@ -40,45 +35,12 @@ const Fab = () => {
     const { NavigationRef } = useContext(NavigationContext);
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", (e) => {
-            setShowFab(NavigationRef.getCurrentRoute().name !== "settings");
+            let routename = NavigationRef.getCurrentRoute().name;
+            setShowFab(routename !== "settings" && routename !== "search");
         });
 
         return unsub;
     }, []);
-    function ToggleOpenFab(toggle) {
-        ("worklet");
-        if (toggle) {
-            runOnJS(setAnimateOpen)(true);
-            if (canPress) {
-                runOnJS(setBackDropOpen)(true);
-                runOnJS(setCanPress)(false);
-                rad.value = withTiming(
-                    40,
-                    { duration: 700, easing: Easing.out(Easing.quad) },
-                    () => {
-                        runOnJS(setCanPress)(true);
-                    }
-                );
-                setTimeout(() => {
-                    runOnJS(setOpen)(true);
-                    content.value = withDelay(200, withTiming(0, { duration: 700 }));
-                }, 200);
-            }
-        } else {
-            if (canPress) {
-                runOnJS(setCanPress)(false);
-                runOnJS(setAnimateOpen)(false);
-                content.value = withTiming(200, {}, () => runOnJS(setOpen)(false));
-                rad.value = withDelay(
-                    500,
-                    withTiming(0, { duration: 500, easing: Easing.out(Easing.quad) }, () => {
-                        runOnJS(setCanPress)(true);
-                        runOnJS(setBackDropOpen)(false);
-                    })
-                );
-            }
-        }
-    }
 
     return (
         <Box justifyContent={"center"}>
@@ -108,15 +70,13 @@ const Fab = () => {
                 right={65 / 4 + 20}
                 style={[Styles]}
             />
-            <FabButtonContext.Provider value={{ ToggleOpenFab }}>
-                <AnimatedBox style={ContentStyles}>
-                    {open && (
-                        <Center p="5" h="full">
-                            <FabScreen />
-                        </Center>
-                    )}
-                </AnimatedBox>
-            </FabButtonContext.Provider>
+            <AnimatedBox style={ContentStyles}>
+                {open && (
+                    <Center p="5" h="full">
+                        <FabScreen />
+                    </Center>
+                )}
+            </AnimatedBox>
             <AnimatedPressable
                 onPress={() => {
                     ToggleOpenFab(!open);
@@ -178,15 +138,25 @@ function FabScreen() {
     const currentRoute = NavigationRef.getCurrentRoute().name;
     const categories = useSelector((state) => state.tasks);
     const catRef = useRef(categories.length);
-    switch (currentRoute) {
-        case "lists":
-            if (catRef.current) return <CreateNewTask />;
-            return <CreateNewCategory />;
-        case "categories":
-            return <CreateNewCategory />;
-        case "singleCategory":
-            return <CreateNewKnowCategoryTask />;
-        default:
-            return <CreateNewTask />;
+    const { flag } = useFab();
+    if (flag.flag) {
+        switch (flag.flag) {
+            case "EDIT_CATEGORY":
+                return <CreateNewCategory flag={flag} />;
+            case "EDIT_TASK":
+                return <CreateNewTask flag={flag} />;
+        }
+    } else {
+        switch (currentRoute) {
+            case "lists":
+                if (catRef.current) return <CreateNewTask />;
+                return <CreateNewCategory />;
+            case "categories":
+                return <CreateNewCategory />;
+            case "singleCategory":
+                return <CreateNewKnowCategoryTask />;
+            default:
+                return <CreateNewTask />;
+        }
     }
 }

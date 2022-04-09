@@ -34,7 +34,7 @@ const AnimatedPressable = ({ children, onPress, style }) => {
 AnimatedPressable.proptypes = {
     onPress: PropTypes.func,
     style: PropTypes.object,
-    children: PropTypes.element,
+    children: PropTypes.element.isRequired,
 };
 
 export default AnimatedPressable;

@@ -2,20 +2,29 @@ import { Box, Text, VStack, Input, useTheme } from "native-base";
 import { useEffect, useRef, useState } from "react";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { useDispatch, useSelector } from "react-redux";
-import { CREATE_CATEGORY_TASK } from "../../../../../redux/tasks/components/task.actions";
+import {
+    CREATE_CATEGORY_TASK,
+    EDIT_TASK,
+} from "../../../../../redux/tasks/components/task.actions";
 import FabCTA from "../FabCTA";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
 import { View as MotiView } from "moti";
-function CreateNewTask() {
+function CreateNewTask({ flag }) {
     const state_categories = useSelector((state) => state.tasks);
     const categories = state_categories.map((cat) => ({
         categoryId: cat.categoryId,
         categoryTitle: cat.categoryTitle,
     }));
-    const [ActiveCategoryId, setActiveCategoryId] = useState(categories[0].categoryId);
-    const [subject, setSubject] = useState("");
+    const [ActiveCategoryId, setActiveCategoryId] = useState(
+        flag
+            ? categories.find((cat) => cat.categoryId === flag.currentCategoryId).categoryId
+            : categories[0].categoryId
+    );
+    const [subject, setSubject] = useState(flag ? flag.subject : "");
     const [pillsDimensions, setPillsDimensions] = useState([]);
-    const [ActiveIndexIndicator, setActiveIndexIndicator] = useState(0);
+    const [ActiveIndexIndicator, setActiveIndexIndicator] = useState(
+        flag ? categories.findIndex((cat) => cat.id === flag.currentCategoryId).categoryId : 0
+    );
     const { colors } = useTheme();
     const dispatch = useDispatch();
     const pillContainerRef = useRef();
@@ -26,7 +35,7 @@ function CreateNewTask() {
         <VStack w="full" space={35}>
             <VStack w="full">
                 <Box w={"80%"}>
-                    <AnimatedText text="Create a new Task" />
+                    <AnimatedText text={`${flag ? "Edit Task" : "Create a new Task"}`} />
                 </Box>
             </VStack>
             <VStack space="30">
@@ -38,7 +47,7 @@ function CreateNewTask() {
                     variant="underlined"
                     color="white"
                     isFullWidth
-                    selectionColor="white"
+                    selectionColor={colors.primary.accent}
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
                     maxLength={35}
@@ -50,7 +59,7 @@ function CreateNewTask() {
             </VStack>
             <VStack space="5">
                 <Text fontSize="sm" opacity={0.7}>
-                    Task Category
+                    {flag ? "Move to another Category" : "Select Task Category"}
                 </Text>
                 <Box px={1} flexWrap="wrap" flexDirection="row" ref={pillContainerRef}>
                     <MotiView
@@ -84,15 +93,19 @@ function CreateNewTask() {
                 </Box>
             </VStack>
             <FabCTA
-                title="Create New Task"
+                title={`${flag ? "Edit Task" : "Create New Task"}`}
                 onClick={
                     subject &&
                     (() => {
                         dispatch({
-                            type: CREATE_CATEGORY_TASK,
+                            type: flag ? EDIT_TASK : CREATE_CATEGORY_TASK,
                             payload: {
                                 subject: subject.trim(),
                                 categoryId: ActiveCategoryId,
+                                ...(flag && {
+                                    itemId: flag.itemId,
+                                    currentCategoryId: flag.currentCategoryId,
+                                }),
                             },
                         });
                     })

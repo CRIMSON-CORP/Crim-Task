@@ -8,7 +8,7 @@ import { OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import BackArrow from "./TopBarIcons/BackArrow";
 import { SharedElement } from "react-navigation-shared-element";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { NavigationContext } from "../../../utils/context";
+import { NavigationContext, useSearch } from "../../../utils/context";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Dimensions, StyleSheet, StatusBar } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -33,68 +33,18 @@ const scaleTransition = {
 const TopBar = ({ back }) => {
     const dispath = useDispatch();
     const { NavigationRef } = useContext(NavigationContext);
-    const { colors } = useTheme();
-    const [OpenSearch, setOpenSearch] = useState(false);
-    const [results, setResults] = useState([]);
-    const [value, setValue] = useState("");
-
-    const categories = useSelector((state) => state.tasks);
-    const FindResults = useCallback(() => {
-        let res = [];
-        if (!value) return setResults([]);
-        categories.forEach((cat) => {
-            cat.tasks.forEach((t) => {
-                t.task.toLowerCase().match(value.toLowerCase()) &&
-                    res.push({
-                        ...t,
-                        categoryId: cat.categoryId,
-                        categoryColor: cat.categoryColor,
-                    });
-            });
-        });
-        setResults(res);
-    }, [value, categories]);
-
-    useEffect(() => {
-        debounce(FindResults(), 1000);
-        if (!OpenSearch) {
-            setResults([]);
-            setValue("");
-        }
-    }, [value, OpenSearch]);
+    const { OpenSearch, setOpenSearch, value, setValue, FindResults } = useSearch();
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", (e) => {
-            setOpenSearch(false);
+            if (!NavigationRef.getCurrentRoute().name === "search") {
+                setOpenSearch(false);
+            }
         });
-
         return unsub;
     }, []);
 
     return (
-        <Box zIndex={99999}>
-            <AnimatePresence>
-                {OpenSearch && (
-                    <MotiView
-                        from={{
-                            opacity: 0,
-                        }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        style={[
-                            StyleSheet.absoluteFill,
-                            {
-                                width,
-                                height,
-                                backgroundColor: colors.primary[300],
-                                left: -20,
-                                top: -StatusBar.currentHeight - 20,
-                            },
-                        ]}
-                    >
-                        <SearchResultList results={results} value={value} />
-                    </MotiView>
-                )}
-            </AnimatePresence>
+        <Box zIndex={999}>
             <HStack justifyContent={"space-between"}>
                 <AnimatePresence>
                     {!OpenSearch && (
@@ -121,7 +71,7 @@ const TopBar = ({ back }) => {
                         </MotiView>
                     )}
                 </AnimatePresence>
-                <HStack space="5" left={0}>
+                <HStack space="5" left={0} zIndex={999}>
                     <SharedElement id="item.search">
                         <SearchBar
                             setOpenSearch={setOpenSearch}
@@ -135,7 +85,12 @@ const TopBar = ({ back }) => {
                         <AnimatePresence exitBeforeEnter>
                             {OpenSearch ? (
                                 <MotiView {...scaleTransition} key={2}>
-                                    <AnimatedPressable onPress={() => setOpenSearch(false)}>
+                                    <AnimatedPressable
+                                        onPress={() => {
+                                            NavigationRef.goBack();
+                                            setOpenSearch(false);
+                                        }}
+                                    >
                                         <AntDesign name="close" size={30} color="white" />
                                     </AnimatedPressable>
                                 </MotiView>
@@ -158,8 +113,9 @@ export default TopBar;
 
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     const { colors } = useTheme();
+    const { NavigationRef } = useContext(NavigationContext);
     return (
-        <Box>
+        <Box zIndex={999}>
             <MotiView
                 animate={{
                     width: OpenSearch ? width - 140 : 30,
@@ -204,7 +160,14 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                             </MotiView>
                         )}
                     </AnimatePresence>
-                    <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>
+                    <AnimatedPressable
+                        onPress={() =>
+                            setOpenSearch((prev) => {
+                                !prev ? NavigationRef.navigate("search") : NavigationRef.goBack();
+                                return !prev;
+                            })
+                        }
+                    >
                         <Search />
                     </AnimatedPressable>
                     <AnimatePresence>
@@ -226,27 +189,6 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                     </AnimatePresence>
                 </HStack>
             </MotiView>
-        </Box>
-    );
-}
-
-function SearchResultList({ results }) {
-    return (
-        <Box pt="32" p="5">
-            {results.map((item, index) => {
-                return (
-                    <TaskItem
-                        key={item.id}
-                        itemId={item.id}
-                        task={item.task}
-                        completed={item.completed}
-                        categoryColor={item.categoryColor}
-                        categoryId={item.categoryId}
-                        index={index}
-                        dark
-                    />
-                );
-            })}
         </Box>
     );
 }

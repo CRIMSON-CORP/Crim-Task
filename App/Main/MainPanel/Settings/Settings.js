@@ -32,6 +32,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import UserIcon from "../../../Reusables/UserIcon/UserIcon";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AnimatePresence, View } from "moti";
 const Settings = () => {
     const user = useSelector((state) => state.account);
     const dispatch = useDispatch();
@@ -58,6 +59,23 @@ const Settings = () => {
             });
         }
     }
+    const imageStyles = {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+    };
+    const animation = {
+        show: {
+            opacity: 1,
+            scale: 1,
+        },
+        hide: {
+            opacity: 0,
+            scale: 0.5,
+        },
+    };
     return (
         <Box flex={1}>
             <SafeAreaView style={{ flex: 1, padding: 20 }}>
@@ -75,36 +93,63 @@ const Settings = () => {
                                             bg={"#ffffff30"}
                                             overflow={"hidden"}
                                         >
-                                            {image ? (
-                                                <Pressable
-                                                    onPress={() => PickImage()}
-                                                    w="full"
-                                                    h="full"
-                                                >
-                                                    <Image
-                                                        source={{
-                                                            uri: `data:image/*;base64,${image.uri}`,
-                                                        }}
-                                                        alt="prfile photo"
-                                                        w="full"
-                                                        h="full"
-                                                        resizeMode="cover"
-                                                        onError={() => {
-                                                            setImage(null);
-                                                        }}
-                                                    />
-                                                </Pressable>
-                                            ) : (
-                                                <UserIcon
-                                                    size={90}
-                                                    color="white"
-                                                    onPress={() => PickImage()}
-                                                />
-                                            )}
+                                            <AnimatePresence>
+                                                {image ? (
+                                                    <View
+                                                        key="image"
+                                                        style={imageStyles}
+                                                        from={animation.hide}
+                                                        animate={animation.show}
+                                                        exit={animation.hide}
+                                                    >
+                                                        <Pressable
+                                                            onPress={() => PickImage()}
+                                                            w="full"
+                                                            h="full"
+                                                        >
+                                                            <Image
+                                                                source={{
+                                                                    uri: `data:image/*;base64,${image.uri}`,
+                                                                }}
+                                                                alt="prfile photo"
+                                                                w="full"
+                                                                h="full"
+                                                                resizeMode="cover"
+                                                                onError={() => {
+                                                                    setImage(null);
+                                                                }}
+                                                            />
+                                                        </Pressable>
+                                                    </View>
+                                                ) : (
+                                                    <View
+                                                        key="icon"
+                                                        style={imageStyles}
+                                                        from={animation.hide}
+                                                        animate={animation.show}
+                                                        exit={animation.hide}
+                                                    >
+                                                        <UserIcon
+                                                            size={90}
+                                                            color="white"
+                                                            onPress={() => PickImage()}
+                                                        />
+                                                    </View>
+                                                )}
+                                            </AnimatePresence>
                                         </Center>
-                                        <Text opacity={60} onPress={() => PickImage()}>
-                                            Tap to change Profile Photo
-                                        </Text>
+                                        <VStack space="1" alignItems={"center"}>
+                                            <AnimatedPressable onPress={() => PickImage()}>
+                                                <Text opacity={60}>
+                                                    Tap to change Profile Photo
+                                                </Text>
+                                            </AnimatedPressable>
+                                            <AnimatedPressable onPress={() => setImage(null)}>
+                                                <Text opacity={60} color="red.400">
+                                                    Remove Profile Photo
+                                                </Text>
+                                            </AnimatedPressable>
+                                        </VStack>
                                     </VStack>
                                     <VStack bg="#ffffff30" px="5" py="3" rounded="15">
                                         <Text fontSize={14} opacity={0.6} fontWeight={600}>

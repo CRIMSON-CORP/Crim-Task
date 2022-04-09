@@ -9,7 +9,7 @@ import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { View as MotiView } from "moti";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
-import { CREATE_CATEGORY } from "../../../../../redux/tasks/components/task.actions";
+import { CREATE_CATEGORY, EDIT_CATEGORY } from "../../../../../redux/tasks/components/task.actions";
 import { Dimensions } from "react-native";
 import FabCTA from "../FabCTA";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
@@ -48,11 +48,13 @@ const categoryNameExamples = [
     "Hobbies",
     "Personal",
 ];
-function CreateNewCategory() {
+function CreateNewCategory({ flag }) {
     const translate = useSharedValue(0);
     const start = useSharedValue(0);
-    const [ActiveColorIndex, setActiveColorIndex] = useState(0);
-    const [title, setTitle] = useState("");
+    const [ActiveColorIndex, setActiveColorIndex] = useState(
+        flag ? categoryColors.findIndex((color) => flag.color === color) : 0
+    );
+    const [title, setTitle] = useState(flag ? flag.title : "");
     const loadedRef = useRef(false);
     const dispatch = useDispatch();
     const { colors } = useTheme();
@@ -87,7 +89,7 @@ function CreateNewCategory() {
     return (
         <VStack w="full" space={35}>
             <VStack w="full">
-                <AnimatedText text="Create a new Category" />
+                <AnimatedText text={`${flag ? "Edit Category" : "Create a new Category"}`} />
             </VStack>
             <VStack space="30">
                 <Text fontSize="sm" opacity={0.7}>
@@ -161,15 +163,16 @@ function CreateNewCategory() {
                 </Box>
             </VStack>
             <FabCTA
-                title="Create New Category"
+                title={`${flag ? "Edit Category" : "Create New Category"}`}
                 onClick={
                     title &&
                     (() =>
                         dispatch({
-                            type: CREATE_CATEGORY,
+                            type: flag ? EDIT_CATEGORY : CREATE_CATEGORY,
                             payload: {
                                 title: title.trim(),
                                 color: categoryColors[ActiveColorIndex],
+                                ...(flag && { categoryId: flag.categoryId }),
                             },
                         }))
                 }

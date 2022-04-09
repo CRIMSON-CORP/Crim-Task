@@ -32,42 +32,36 @@ const SingleCategory = ({ route }) => {
                     <VStack>
                         <SharedElement
                             id={`item.${categoryId}.title`}
-                            style={{
-                                position: "absolute",
-                            }}
+                            style={customStyles.absolute}
                         >
                             <Text
-                                style={{
-                                    textAlignVertical: "center",
-                                    left: 0,
-                                    top: 0,
-                                    position: "absolute",
-                                    fontSize: 40,
-                                    fontFamily: "Raleway-Bold",
-                                    lineHeight: 40,
-                                    color: "white",
-                                }}
+                                style={[
+                                    {
+                                        top: 0,
+                                        fontSize: 40,
+                                        lineHeight: 40,
+                                    },
+                                    customStyles.absolute,
+                                    customStyles.textStyles,
+                                ]}
                             >
                                 {categoryTitle}
                             </Text>
                         </SharedElement>
                         <SharedElement
                             id={`item.${categoryId}.tasks`}
-                            style={{
-                                position: "absolute",
-                            }}
+                            style={customStyles.absolute}
                         >
                             <Text
-                                style={{
-                                    textAlignVertical: "center",
-                                    left: 0,
-                                    top: 60,
-                                    color: "white",
-                                    opacity: 0.7,
-                                    position: "absolute",
-                                    fontFamily: "Raleway-Bold",
-                                    fontSize: 18,
-                                }}
+                                style={[
+                                    {
+                                        top: 60,
+                                        opacity: 0.7,
+                                        fontSize: 18,
+                                    },
+                                    customStyles.absolute,
+                                    customStyles.textStyles,
+                                ]}
                             >
                                 {taskCount} Tasks
                             </Text>
@@ -139,5 +133,16 @@ SingleCategory.sharedElements = ({ route }) => {
         { id: "item.bell" },
     ];
 };
+const customStyles = StyleSheet.create({
+    textStyles: {
+        textAlignVertical: "center",
+        left: 0,
+        color: "white",
+        fontFamily: "Raleway-Bold",
+    },
+    absolute: {
+        position: "absolute",
+    },
+});
 
 export default SingleCategory;
