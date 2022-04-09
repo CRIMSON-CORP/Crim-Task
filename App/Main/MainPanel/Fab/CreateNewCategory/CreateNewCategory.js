@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Text, VStack, Input } from "native-base";
+import { Box, Center, Heading, Text, VStack, Input, useTheme } from "native-base";
 import { useState, useContext, useRef, useEffect } from "react";
 import Animated, {
     useAnimatedGestureHandler,
@@ -13,18 +13,26 @@ import { CREATE_CATEGORY } from "../../../../../redux/tasks/components/task.acti
 import { Dimensions } from "react-native";
 import FabCTA from "../FabCTA";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
-const { width: w, height: h } = Dimensions.get("screen");
+const { width: w } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const categoryColors = [
     "#D002F5",
+    "#FFFFFF",
     "#E91E63",
     "#00CB53",
     "#602EA5",
+    "#FF7F50",
     "#E7B400",
     "#D60606",
-    "#E67E22",
-    "#7FFF00",
     "#9932CC",
+    "#3D5AFE",
+    "#FFD700",
+    "#40C4FF",
+    "#1DE9B6",
+    "#00C853",
+    "#76FF03",
+    "#EEFF41",
+    "#FF6F00",
 ];
 
 const categoryNameExamples = [
@@ -47,6 +55,7 @@ function CreateNewCategory() {
     const [title, setTitle] = useState("");
     const loadedRef = useRef(false);
     const dispatch = useDispatch();
+    const { colors } = useTheme();
     const placeholder = useRef(
         categoryNameExamples[Math.floor(Math.random() * categoryNameExamples.length)]
     ).current;
@@ -89,7 +98,7 @@ function CreateNewCategory() {
                     variant="underlined"
                     color="white"
                     isFullWidth
-                    selectionColor="white"
+                    selectionColor={colors.primary.accent}
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
                     maxLength={20}

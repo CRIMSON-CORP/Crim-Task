@@ -1,5 +1,16 @@
 import { useContext, useState } from "react";
-import { Box, Center, Input, Text, VStack, Switch, HStack, Image, Pressable } from "native-base";
+import {
+    Box,
+    Center,
+    Input,
+    Text,
+    VStack,
+    Switch,
+    HStack,
+    Image,
+    Pressable,
+    useTheme,
+} from "native-base";
 import TopBar from "../../../Reusables/TopBar";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +38,7 @@ const Settings = () => {
     const [userState, setUserState] = useState(user);
     const [image, setImage] = useState(user.profilePhoto);
     const { setUserExist } = useContext(AuthContext);
+    const { colors } = useTheme();
     async function PickImage() {
         const permission = await getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
@@ -104,7 +116,7 @@ const Settings = () => {
                                             px={0}
                                             color="white"
                                             variant="unstyled"
-                                            selectionColor="white"
+                                            selectionColor={colors.primary.accent}
                                             value={userState?.name?.first}
                                             onChangeText={(e) => {
                                                 setUserState((prev) => ({
@@ -136,7 +148,7 @@ const Settings = () => {
                                             px={0}
                                             color="white"
                                             variant="unstyled"
-                                            selectionColor="white"
+                                            selectionColor={colors.primary.accent}
                                             value={userState?.name?.last}
                                             onChangeText={(e) => {
                                                 setUserState((prev) => ({

@@ -7,6 +7,7 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Text,
+    useTheme,
     VStack,
 } from "native-base";
 import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
@@ -37,6 +38,7 @@ const CreateAccount = ({ navigation }) => {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const dispatch = useDispatch();
+    const { colors } = useTheme();
     async function PickImage() {
         const permission = await getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
@@ -157,7 +159,7 @@ const CreateAccount = ({ navigation }) => {
                                             p={0}
                                             color="white"
                                             variant="unstyled"
-                                            selectionColor="white"
+                                            selectionColor={colors.primary.accent}
                                             value={lname}
                                             onChangeText={(e) => {
                                                 setLname(e);

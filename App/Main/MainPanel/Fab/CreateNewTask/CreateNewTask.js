@@ -1,4 +1,4 @@
-import { Box, Text, VStack, Input } from "native-base";
+import { Box, Text, VStack, Input, useTheme } from "native-base";
 import { useEffect, useRef, useState } from "react";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ function CreateNewTask() {
     const [subject, setSubject] = useState("");
     const [pillsDimensions, setPillsDimensions] = useState([]);
     const [ActiveIndexIndicator, setActiveIndexIndicator] = useState(0);
+    const { colors } = useTheme();
     const dispatch = useDispatch();
     const pillContainerRef = useRef();
     useEffect(() => {

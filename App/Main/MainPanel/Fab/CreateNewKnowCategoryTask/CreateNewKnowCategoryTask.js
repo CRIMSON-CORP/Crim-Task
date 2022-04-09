@@ -1,4 +1,4 @@
-import { Text, VStack, Input, Box } from "native-base";
+import { Text, VStack, Input, Box, useTheme } from "native-base";
 import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { CREATE_CATEGORY_TASK } from "../../../../../redux/tasks/components/task.actions";
@@ -10,6 +10,7 @@ function CreateNewKnowCategoryTask() {
     const currentCategoryId = NavigationRef.getCurrentRoute().params.categoryId;
     const [subject, setSubject] = useState("");
     const dispatch = useDispatch();
+    const { colors } = useTheme();
     return (
         <VStack w="full" space={35}>
             <VStack w="full">
@@ -26,7 +27,7 @@ function CreateNewKnowCategoryTask() {
                     variant="underlined"
                     color="white"
                     isFullWidth
-                    selectionColor="white"
+                    selectionColor={colors.primary.accent}
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
                     maxLength={35}

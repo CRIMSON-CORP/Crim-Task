@@ -157,6 +157,7 @@ const TopBar = ({ back }) => {
 export default TopBar;
 
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
+    const { colors } = useTheme();
     return (
         <Box>
             <MotiView
@@ -213,7 +214,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                                     variant="unstyled"
                                     size={"md"}
                                     autoFocus
-                                    selectionColor="white"
+                                    selectionColor={colors.primary.accent}
                                     color="white"
                                     value={value}
                                     onChangeText={(text) => setValue(text.trim())}
