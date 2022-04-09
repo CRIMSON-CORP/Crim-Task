@@ -38,7 +38,12 @@ const SwipableView = ({ children, swipeExe, simultaneousHandlers }) => {
         transform: [{ scale: scaleShared.value }, { translateX: transitionX.value }],
     }));
     return (
-        <PanGestureHandler onGestureEvent={gesture} simultaneousHandlers={simultaneousHandlers}>
+        <PanGestureHandler
+            failOffsetY={[-5, 5]}
+            activeOffsetX={[-5, 5]}
+            onGestureEvent={gesture}
+            simultaneousHandlers={simultaneousHandlers}
+        >
             <AnimatedBox style={AnimatedHSTackStyles}>{children}</AnimatedBox>
         </PanGestureHandler>
     );

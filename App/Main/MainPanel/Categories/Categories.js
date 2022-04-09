@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Box, Heading, Image, Text, VStack } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import CategoryCardItem from "../../../Reusables/CategoryCardItem/CategoryCardItem";
 import SwipableView from "../../../Reusables/SwipableView";
@@ -13,11 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispath = useDispatch();
-    const [refState, setRefState] = useState();
     const scrollRef = useRef();
-    useEffect(() => {
-        setRefState(scrollRef);
-    }, []);
     return (
         <Box flex={1}>
             <SafeAreaView style={{ flex: 1 }}>
@@ -27,18 +23,18 @@ const Categories = () => {
                         <Heading>Categories</Heading>
                     </VStack>
                 </VStack>
-                <Box flex={1} pt="10">
+                <Box pt="10" flex={1}>
                     {categories.length ? (
-                        <ScrollView
-                            ref={scrollRef}
-                            contentContainerStyle={{
-                                flexGrow: 1,
-                                paddingHorizontal: 20,
-                            }}
-                            showsVerticalScrollIndicator={false}
-                        >
-                            <AnimatePresence>
-                                {categories.map((item) => (
+                        <AnimatePresence>
+                            <FlatList
+                                data={categories}
+                                showsVerticalScrollIndicator={false}
+                                keyExtractor={(item) => item.categoryId}
+                                ref={scrollRef}
+                                contentContainerStyle={{
+                                    paddingHorizontal: 20,
+                                }}
+                                renderItem={({ item }) => (
                                     <ListAnimatePrescence
                                         key={item.categoryId}
                                         spacing={40}
@@ -51,7 +47,7 @@ const Categories = () => {
                                                     payload: { id: item.categoryId },
                                                 })
                                             }
-                                            simultaneousHandlers={refState}
+                                            simultaneousHandlers={scrollRef}
                                         >
                                             <CategoryCardItem
                                                 categoryColor={item.categoryColor}
@@ -64,9 +60,9 @@ const Categories = () => {
                                             />
                                         </SwipableView>
                                     </ListAnimatePrescence>
-                                ))}
-                            </AnimatePresence>
-                        </ScrollView>
+                                )}
+                            />
+                        </AnimatePresence>
                     ) : (
                         <Box justifyContent="flex-start" h={250} p={5}>
                             <Image
