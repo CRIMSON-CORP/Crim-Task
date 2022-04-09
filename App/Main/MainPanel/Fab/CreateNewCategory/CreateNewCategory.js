@@ -47,6 +47,9 @@ function CreateNewCategory() {
     const [title, setTitle] = useState("");
     const loadedRef = useRef(false);
     const dispatch = useDispatch();
+    const placeholder = useRef(
+        categoryNameExamples[Math.floor(Math.random() * categoryNameExamples.length)]
+    ).current;
     const gesture = useAnimatedGestureHandler({
         onActive: (e) => {
             translate.value = Math.min(
@@ -90,12 +93,7 @@ function CreateNewCategory() {
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
                     maxLength={20}
-                    placeholder={
-                        "e.g. " +
-                        categoryNameExamples[
-                            Math.floor(Math.random() * categoryNameExamples.length)
-                        ]
-                    }
+                    placeholder={"e.g. " + placeholder}
                     placeholderTextColor={"#ffffffdd"}
                     px="5"
                     value={title}

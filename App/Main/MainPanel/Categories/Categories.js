@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Box, Heading, Image, Text, VStack } from "native-base";
 import TopBar from "../../../Reusables/TopBar";
-import { FlatList } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import CategoryCardItem from "../../../Reusables/CategoryCardItem/CategoryCardItem";
 import SwipableView from "../../../Reusables/SwipableView";
@@ -25,16 +25,16 @@ const Categories = () => {
                 </VStack>
                 <Box pt="10" flex={1}>
                     {categories.length ? (
-                        <AnimatePresence>
-                            <FlatList
-                                data={categories}
-                                showsVerticalScrollIndicator={false}
-                                keyExtractor={(item) => item.categoryId}
-                                ref={scrollRef}
-                                contentContainerStyle={{
-                                    paddingHorizontal: 20,
-                                }}
-                                renderItem={({ item }) => (
+                        <ScrollView
+                            ref={scrollRef}
+                            contentContainerStyle={{
+                                flexGrow: 1,
+                                paddingHorizontal: 20,
+                            }}
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <AnimatePresence>
+                                {categories.map((item) => (
                                     <ListAnimatePrescence
                                         key={item.categoryId}
                                         spacing={40}
@@ -60,9 +60,9 @@ const Categories = () => {
                                             />
                                         </SwipableView>
                                     </ListAnimatePrescence>
-                                )}
-                            />
-                        </AnimatePresence>
+                                ))}
+                            </AnimatePresence>
+                        </ScrollView>
                     ) : (
                         <Box justifyContent="flex-start" h={250} p={5}>
                             <Image

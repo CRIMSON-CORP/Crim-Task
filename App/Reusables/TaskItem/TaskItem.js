@@ -19,7 +19,7 @@ const TaskItem = ({
 }) => {
     const dispath = useDispatch();
     return (
-        <ListAnimatePrescence spacing={30} height={60}>
+        <ListAnimatePrescence spacing={30} height={60} animkey={task.id}>
             <SwipableView
                 swipeExe={() =>
                     dispath({
