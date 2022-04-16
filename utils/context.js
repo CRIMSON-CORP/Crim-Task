@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { Easing, runOnJS, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
-import { useSelector } from "react-redux";
-import { debounce } from "./utils";
+import { useFocusEffect } from "@react-navigation/native";
+import { BackHandler } from "react-native";
 export const NavigationContext = createContext(undefined);
 export const FabButtonContext = createContext();
 export const AuthContext = createContext();
@@ -77,6 +77,36 @@ export function FabContextProvider({ children }) {
             setFlag({ flag: null, title: "", subject: "", categoryId: null, themeColor: null });
         }
     }
+
+    useEffect(() => {
+        function backPress() {
+            if (AnimateOpen) {
+                runOnJS(setCanPress)(false);
+                runOnJS(setAnimateOpen)(false);
+
+                content.value = withTiming(200, {}, () => {
+                    runOnJS(setOpen)(false);
+                    runOnJS(setBackDropOpen)(false);
+                });
+                rad.value = withDelay(
+                    500,
+                    withTiming(0, { duration: 500, easing: Easing.out(Easing.quad) }, () => {
+                        runOnJS(setCanPress)(true);
+                    })
+                );
+                return true;
+            } else {
+                return false;
+            }
+        }
+        const backEvt = BackHandler.addEventListener("hardwareBackPress", backPress);
+        return () => backEvt.remove();
+    }, [AnimateOpen]);
+
+    useEffect(() => {
+        if (flag.flag) setShowFab(true);
+        else setShowFab(false);
+    }, [flag.flag]);
     return (
         <FabButtonContext.Provider
             value={{
@@ -97,51 +127,5 @@ export function FabContextProvider({ children }) {
         >
             {children}
         </FabButtonContext.Provider>
-    );
-}
-
-export function SearchProvider({ children }) {
-    const [OpenSearch, setOpenSearch] = useState(false);
-    const [results, setResults] = useState([]);
-    const [value, setValue] = useState("");
-    const categories = useSelector((state) => state.tasks);
-    const FindResults = useCallback(() => {
-        let res = [];
-        if (!value) return setResults([]);
-        categories.forEach((cat) => {
-            cat.tasks.forEach((t) => {
-                t.task.toLowerCase().match(value.toLowerCase()) &&
-                    res.push({
-                        ...t,
-                        categoryId: cat.categoryId,
-                        categoryColor: cat.categoryColor,
-                    });
-            });
-        });
-        setResults(res);
-    }, [value, categories]);
-
-    useEffect(() => {
-        debounce(FindResults(), 1000);
-        if (!OpenSearch) {
-            setResults([]);
-            setValue("");
-        }
-    }, [value, OpenSearch]);
-
-    return (
-        <SearchContext.Provider
-            value={{
-                OpenSearch,
-                setOpenSearch,
-                results,
-                setResults,
-                value,
-                setValue,
-                FindResults,
-            }}
-        >
-            {children}
-        </SearchContext.Provider>
     );
 }
