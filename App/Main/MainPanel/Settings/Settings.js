@@ -27,7 +27,7 @@ import {
     launchImageLibraryAsync,
 } from "expo-image-picker";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
-import { AuthContext } from "../../../../utils/context";
+import { AuthContext, NavigationContext } from "../../../../utils/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UserIcon from "../../../Reusables/UserIcon/UserIcon";
 import { ScrollView } from "react-native-gesture-handler";
@@ -39,6 +39,7 @@ const Settings = () => {
     const [userState, setUserState] = useState(user);
     const [image, setImage] = useState(user.profilePhoto);
     const { setUserExist } = useContext(AuthContext);
+    const { NavigationRef } = useContext(NavigationContext);
     const { colors } = useTheme();
     async function PickImage() {
         const permission = await getMediaLibraryPermissionsAsync();
@@ -79,7 +80,7 @@ const Settings = () => {
     return (
         <Box flex={1}>
             <SafeAreaView style={{ flex: 1, padding: 20 }}>
-                <VStack space={10} flexGrow={1}>
+                <VStack space={16} flexGrow={1}>
                     <TopBar back />
                     <AnimatedText text="Settings" />
                     <Box flex={1} pb={4}>
@@ -253,6 +254,27 @@ const Settings = () => {
                                             offThumbColor="gray.300"
                                         />
                                     </HStack>
+                                    <VStack bg="#ffffff30" px="5" py="3" rounded="15" space="2.5">
+                                        <Text fontSize="sm">How to use</Text>
+                                        <Text fontSize="xs">
+                                            Information on how to use the Application properly
+                                        </Text>
+                                        <AnimatedPressable
+                                            onPress={() => {
+                                                NavigationRef.navigate("how_to_use");
+                                            }}
+                                        >
+                                            <Box bg="white" w="full" p="4" py="3" rounded="10">
+                                                <Text
+                                                    textAlign="center"
+                                                    color="primary.200"
+                                                    fontWeight={"700"}
+                                                >
+                                                    How to use
+                                                </Text>
+                                            </Box>
+                                        </AnimatedPressable>
+                                    </VStack>
                                     <VStack bg="#ff000050" px="5" py="3" rounded="15" space="2.5">
                                         <Text fontSize="sm">Delete Profile</Text>
                                         <Text fontSize="xs">

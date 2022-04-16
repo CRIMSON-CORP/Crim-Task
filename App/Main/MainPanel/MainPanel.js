@@ -21,10 +21,9 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 import SingleCategory from "./SingleCategory";
 import Fab from "./Fab";
 import Settings from "./Settings";
-import { FabContextProvider, SearchProvider } from "../../../utils/context";
-import { AnimatePresence } from "moti";
-import { View as MotiView } from "moti";
-import SearchBar from "./SearchBar";
+import { FabContextProvider } from "../../../utils/context";
+import Notification from "./Notification";
+import HowToUse from "./HowToUse/HowToUse";
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
 const SharedStack = createSharedElementStackNavigator();
@@ -116,22 +115,21 @@ const MainPanel = () => {
                 ]}
             >
                 <FabContextProvider>
-                    <SearchProvider>
-                        <SharedStack.Navigator
-                            screenOptions={{
-                                headerMode: "none",
-                                cardStyle: {
-                                    overflow: "visible",
-                                },
-                            }}
-                        >
-                            <SharedStack.Screen name="lists" component={List} />
-                            <SharedStack.Screen name="categories" component={Categories} />
-                            <SharedStack.Screen name="singleCategory" component={SingleCategory} />
-                            <SharedStack.Screen name="settings" component={Settings} />
-                            <SharedStack.Screen name="search" component={SearchBar} />
-                        </SharedStack.Navigator>
-                    </SearchProvider>
+                    <SharedStack.Navigator
+                        screenOptions={{
+                            headerMode: "none",
+                            cardStyle: {
+                                overflow: "visible",
+                            },
+                        }}
+                    >
+                        <SharedStack.Screen name="lists" component={List} />
+                        <SharedStack.Screen name="categories" component={Categories} />
+                        <SharedStack.Screen name="singleCategory" component={SingleCategory} />
+                        <SharedStack.Screen name="settings" component={Settings} />
+                        <SharedStack.Screen name="notifications" component={Notification} />
+                        <SharedStack.Screen name="how_to_use" component={HowToUse} />
+                    </SharedStack.Navigator>
                     <Fab />
                 </FabContextProvider>
             </AnimatedMainpanel>
