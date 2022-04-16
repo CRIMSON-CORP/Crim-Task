@@ -38,9 +38,11 @@ function MainWrapper() {
                 await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
                 if (AsyncData) {
                     setUserExist(true);
-                    getAsyncAccountData();
-                    getAsyncTaskData();
-                    getAsyncUIData();
+                    await Promise.all([
+                        getAsyncAccountData(),
+                        getAsyncTaskData(),
+                        getAsyncUIData(),
+                    ]);
                 } else {
                     setUserExist(false);
                 }
