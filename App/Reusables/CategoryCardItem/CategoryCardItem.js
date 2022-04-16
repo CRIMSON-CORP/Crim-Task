@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
 import { View } from "react-native";
-import { NavigationContext } from "../../../utils/context";
+import { NavigationContext, useFab } from "../../../utils/context";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");
 const CategoryCardItem = ({
@@ -63,6 +63,7 @@ const CategoryCardItem = ({
     const {
         colors: { primary },
     } = useTheme();
+    const { setFlag, ToggleOpenFab } = useFab();
     return (
         <Pressable
             onPress={() =>
@@ -72,6 +73,15 @@ const CategoryCardItem = ({
                     categoryTitle,
                 })
             }
+            onLongPress={() => {
+                setFlag({
+                    flag: "EDIT_CATEGORY",
+                    title: categoryTitle,
+                    color: categoryColor,
+                    categoryId,
+                });
+                ToggleOpenFab(true);
+            }}
         >
             <Box
                 {...props}
@@ -127,13 +137,12 @@ const CategoryCardItem = ({
                             style={{
                                 left: 20,
                                 top: 55,
-                                fontSize: 28,
+                                fontSize: 20,
                                 fontFamily: "Raleway-Bold",
-                                lineHeight: 28,
+                                lineHeight: 20,
                                 color: "white",
                             }}
                             numberOfLines={1}
-                            adjustsFontSizeToFit
                             position={"absolute"}
                         >
                             {categoryTitle}

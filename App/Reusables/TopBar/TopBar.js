@@ -1,4 +1,4 @@
-import { Box, HStack, Input, useTheme } from "native-base";
+import { Box, HStack, Input, useTheme, Image, VStack, Text } from "native-base";
 import Menu from "./TopBarIcons/Menu";
 import Search from "./TopBarIcons/Search";
 import Bell from "./TopBarIcons/Bell";
@@ -8,12 +8,22 @@ import { OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import BackArrow from "./TopBarIcons/BackArrow";
 import { SharedElement } from "react-navigation-shared-element";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { NavigationContext, useSearch } from "../../../utils/context";
+import { NavigationContext, useFab, useSearch } from "../../../utils/context";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Dimensions, StyleSheet, StatusBar } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import TaskItem from "../TaskItem";
 import { debounce } from "../../../utils/utils";
+import Waiting from "./SearchImages/waiting_search.png";
+import NothingFound from "./SearchImages/no_items_found.png";
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withDelay,
+    withTiming,
+    interpolate,
+} from "react-native-reanimated";
+const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width, height } = Dimensions.get("screen");
 const scaleTransition = {
     from: {
@@ -32,20 +42,58 @@ const scaleTransition = {
 
 const TopBar = ({ back }) => {
     const dispath = useDispatch();
+    const bgShared = useSharedValue(0);
+    const ContentShared = useSharedValue(0);
     const { NavigationRef } = useContext(NavigationContext);
-    const { OpenSearch, setOpenSearch, value, setValue, FindResults } = useSearch();
+    const [OpenSearch, setOpenSearch] = useState(false);
+    const [value, setValue] = useState("");
+    const { colors } = useTheme();
+    const { setShowFab } = useFab();
+    const bgStyles = useAnimatedStyle(() => ({
+        backgroundColor: colors.primary[300],
+        opacity: bgShared.value,
+        zIndex: 997,
+    }));
+
+    const contentStyles = useAnimatedStyle(() => ({
+        opacity: ContentShared.value,
+        zIndex: 998,
+        transform: [{ translateY: interpolate(ContentShared.value, [0, 1], [50, 0]) }],
+    }));
+
     useEffect(() => {
-        const unsub = NavigationRef.addListener("state", (e) => {
-            if (!NavigationRef.getCurrentRoute().name === "search") {
-                setOpenSearch(false);
-            }
-        });
-        return unsub;
-    }, []);
+        if (OpenSearch) {
+            bgShared.value = withTiming(1);
+            ContentShared.value = withDelay(500, withTiming(1));
+            setShowFab(false);
+        } else {
+            bgShared.value = withDelay(500, withTiming(0));
+            ContentShared.value = withTiming(0);
+            setShowFab(true);
+        }
+    }, [OpenSearch]);
+
+    const fullScreen = {
+        width,
+        height,
+        left: -20,
+        top: -StatusBar.currentHeight - 20,
+    };
 
     return (
-        <Box zIndex={999}>
-            <HStack justifyContent={"space-between"}>
+        <Box>
+            <AnimatedBox
+                pointerEvents="none"
+                style={[StyleSheet.absoluteFill, bgStyles, fullScreen]}
+            />
+            <AnimatedBox style={contentStyles}>
+                {OpenSearch && (
+                    <Box style={fullScreen}>
+                        <SearchResultList value={value} setValue={setValue} />
+                    </Box>
+                )}
+            </AnimatedBox>
+            <HStack justifyContent={"space-between"} zIndex={998} position="absolute" w="full">
                 <AnimatePresence>
                     {!OpenSearch && (
                         <MotiView>
@@ -76,7 +124,6 @@ const TopBar = ({ back }) => {
                         <SearchBar
                             setOpenSearch={setOpenSearch}
                             OpenSearch={OpenSearch}
-                            FindResults={FindResults}
                             value={value}
                             setValue={setValue}
                         />
@@ -87,7 +134,6 @@ const TopBar = ({ back }) => {
                                 <MotiView {...scaleTransition} key={2}>
                                     <AnimatedPressable
                                         onPress={() => {
-                                            NavigationRef.goBack();
                                             setOpenSearch(false);
                                         }}
                                     >
@@ -96,7 +142,9 @@ const TopBar = ({ back }) => {
                                 </MotiView>
                             ) : (
                                 <MotiView key={1}>
-                                    <AnimatedPressable>
+                                    <AnimatedPressable
+                                        onPress={() => NavigationRef.navigate("notifications")}
+                                    >
                                         <Bell />
                                     </AnimatedPressable>
                                 </MotiView>
@@ -109,11 +157,112 @@ const TopBar = ({ back }) => {
     );
 };
 
+function SearchResultList({ value, setValue }) {
+    const [results, setResults] = useState([]);
+    const categories = useSelector((state) => state.tasks);
+    const FindResults = useCallback(() => {
+        let res = [];
+        if (!value) return setResults([]);
+        categories.forEach((cat) => {
+            cat.tasks.forEach((t) => {
+                t.task.toLowerCase().match(value.toLowerCase()) &&
+                    res.push({
+                        ...t,
+                        categoryId: cat.categoryId,
+                        categoryColor: cat.categoryColor,
+                    });
+            });
+        });
+        setResults(res);
+    }, [value, categories]);
+
+    useEffect(() => {
+        if (value.length > 2) debounce(FindResults(), 1000);
+        else setResults([]);
+    }, [value, categories]);
+    useEffect(() => {
+        return () => {
+            setResults([]);
+            setValue("");
+        };
+    }, []);
+    const animation = {
+        from: {
+            opacity: 0,
+            transform: [{ translateY: 50 }],
+        },
+        animate: {
+            opacity: 1,
+            transform: [{ translateY: 0 }],
+        },
+    };
+    return (
+        <Box pt="40" p="5">
+            <AnimatePresence>
+                {value.length && results.length && (
+                    <MotiView {...animation} key="list">
+                        <AnimatePresence>
+                            {results.map((item, index) => {
+                                return (
+                                    <TaskItem
+                                        key={item.id}
+                                        itemId={item.id}
+                                        task={item.task}
+                                        completed={item.completed}
+                                        categoryColor={item.categoryColor}
+                                        categoryId={item.categoryId}
+                                        index={index}
+                                        dark
+                                    />
+                                );
+                            })}
+                        </AnimatePresence>
+                    </MotiView>
+                )}
+                {value.length < 3 && !results.length && (
+                    <MotiView {...animation} key="waiting">
+                        <VStack alignItems="center" justifyContent="flex-start" space="5">
+                            <Image
+                                source={Waiting}
+                                w="100%"
+                                h={140}
+                                resizeMode="contain"
+                                alt="waiting"
+                            />
+                            <Text fontSize={12} opacity={40}>
+                                {value.length == 0
+                                    ? "Waiting to Search..."
+                                    : "Please write up to 3 Characters for search"}
+                            </Text>
+                        </VStack>
+                    </MotiView>
+                )}
+
+                {value.length > 2 && !results.length && (
+                    <MotiView {...animation} key="nothing_found">
+                        <VStack alignItems="center" justifyContent="flex-start" space="5">
+                            <Image
+                                source={NothingFound}
+                                w="100%"
+                                h={140}
+                                resizeMode="contain"
+                                alt="nothing found"
+                            />
+                            <Text fontSize={12} opacity={40}>
+                                No Task matched your search
+                            </Text>
+                        </VStack>
+                    </MotiView>
+                )}
+            </AnimatePresence>
+        </Box>
+    );
+}
+
 export default TopBar;
 
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     const { colors } = useTheme();
-    const { NavigationRef } = useContext(NavigationContext);
     return (
         <Box zIndex={999}>
             <MotiView
@@ -160,14 +309,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                             </MotiView>
                         )}
                     </AnimatePresence>
-                    <AnimatedPressable
-                        onPress={() =>
-                            setOpenSearch((prev) => {
-                                !prev ? NavigationRef.navigate("search") : NavigationRef.goBack();
-                                return !prev;
-                            })
-                        }
-                    >
+                    <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>
                         <Search />
                     </AnimatedPressable>
                     <AnimatePresence>

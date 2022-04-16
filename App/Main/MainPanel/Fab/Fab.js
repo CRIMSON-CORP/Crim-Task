@@ -1,14 +1,6 @@
 import { Box, Center } from "native-base";
-import { useState, useContext, useEffect, useRef } from "react";
-import Animated, {
-    Easing,
-    interpolate,
-    runOnJS,
-    useAnimatedStyle,
-    useSharedValue,
-    withDelay,
-    withTiming,
-} from "react-native-reanimated";
+import { useContext, useEffect, useRef } from "react";
+import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import { Dimensions } from "react-native";
@@ -33,10 +25,11 @@ const Fab = () => {
     }));
 
     const { NavigationRef } = useContext(NavigationContext);
+    const noFabScreens = ["notifications", "settings", "how_to_use"];
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", (e) => {
             let routename = NavigationRef.getCurrentRoute().name;
-            setShowFab(routename !== "settings" && routename !== "search");
+            setShowFab(!noFabScreens.includes(routename));
         });
 
         return unsub;

@@ -93,7 +93,7 @@ function CreateNewCategory({ flag }) {
             </VStack>
             <VStack space="30">
                 <Text fontSize="sm" opacity={0.7}>
-                    Category name
+                    {flag ? "Change Category name" : "Category name"}
                 </Text>
                 <Input
                     size="xl"
@@ -113,7 +113,7 @@ function CreateNewCategory({ flag }) {
             </VStack>
             <VStack space="30">
                 <Text fontSize="sm" opacity={0.7}>
-                    Category theme Color
+                    {flag ? "Change Theme Color" : "Select theme Color"}
                 </Text>
                 <Box w={categoryColors.length * 65} px={2.5}>
                     <PanGestureHandler onGestureEvent={gesture}>
