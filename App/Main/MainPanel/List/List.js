@@ -5,7 +5,7 @@ import ListWrapper from "./ListWrapper/";
 const List = () => {
     return (
         <SafeAreaView style={{ flex: 1, padding: 20 }}>
-            <VStack space="10">
+            <VStack space="16">
                 <Topbar />
                 <ListWrapper />
             </VStack>

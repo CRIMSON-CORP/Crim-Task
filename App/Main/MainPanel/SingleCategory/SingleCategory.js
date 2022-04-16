@@ -27,7 +27,7 @@ const SingleCategory = ({ route }) => {
                 <View style={[{ backgroundColor: primary[300] }, StyleSheet.absoluteFillObject]} />
             </SharedElement>
             <Box p="5" style={{ paddingTop: StatusBar.currentHeight + 20 }}>
-                <VStack space="10">
+                <VStack space="16">
                     <TopBar back />
                     <VStack>
                         <SharedElement

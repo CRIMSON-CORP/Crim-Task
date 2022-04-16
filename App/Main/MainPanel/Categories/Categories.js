@@ -18,7 +18,7 @@ const Categories = () => {
     return (
         <Box flex={1}>
             <SafeAreaView style={customStyles.flex}>
-                <VStack space="10" p="5">
+                <VStack space="16" p="5">
                     <TopBar back />
                     <VStack space="10">
                         <Heading>Categories</Heading>
