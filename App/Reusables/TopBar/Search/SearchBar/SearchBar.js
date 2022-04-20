@@ -3,9 +3,21 @@ import { Box, HStack, Input, useTheme } from "native-base";
 import AnimatedPressable from "../../../AnimatedPressable";
 import Search from "../../TopBarIcons/Search";
 import { Dimensions } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { NavigationContext } from "../../../../../utils/context";
 const { width } = Dimensions.get("screen");
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     const { colors } = useTheme();
+    const [openSearchIcon, setOpenSearchIcon] = useState(true);
+    const { NavigationRef } = useContext(NavigationContext);
+    useEffect(() => {
+        const unsub = NavigationRef.addListener("state", (e) => {
+            let routename = NavigationRef.getCurrentRoute().name;
+            setOpenSearchIcon(!["settings", "how_to_use"].includes(routename));
+        });
+
+        return unsub;
+    }, []);
     return (
         <Box zIndex={999}>
             <MotiView
@@ -44,9 +56,17 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                             />
                         )}
                     </AnimatePresence>
-                    <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>
-                        <Search />
-                    </AnimatedPressable>
+                    <MotiView
+                        animate={{
+                            opacity: openSearchIcon ? 1 : 0,
+                            scale: openSearchIcon ? 1 : 0.5,
+                        }}
+                        pointerEvents={openSearchIcon ? "auto" : "none"}
+                    >
+                        <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>
+                            <Search />
+                        </AnimatedPressable>
+                    </MotiView>
                     <AnimatePresence>
                         {OpenSearch && (
                             <MotiView>
