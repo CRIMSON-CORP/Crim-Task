@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import TaskItem from "../../../Reusables/TaskItem/TaskItem";
 import TopBar from "../../../Reusables/TopBar";
 import IdleTask from "../../../../assets/crim-task/idle/idle_task.png";
+import { TopBarSharedElements } from "../../../../utils/utils";
 
 const SingleCategory = ({ route }) => {
     const { categoryId, categoryTitle } = route.params;
@@ -127,10 +128,7 @@ SingleCategory.sharedElements = ({ route }) => {
         { id: `item.${categoryId}.bg`, resize: "clip" },
         { id: `item.${categoryId}.tasks` },
         { id: `item.${categoryId}.title` },
-        { id: "item.menu", animation: "fade" },
-        { id: "item.back", animation: "fade" },
-        { id: "item.search" },
-        { id: "item.bell" },
+        ...TopBarSharedElements,
     ];
 };
 const customStyles = StyleSheet.create({

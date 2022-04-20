@@ -73,3 +73,10 @@ export async function getAsyncAccountData() {
 export function ClearStore() {
     store.dispatch({ type: "CLEAR_ALL_DATA" });
 }
+
+export const TopBarSharedElements = [
+    { id: "item.menu", animation: "fade" },
+    { id: "item.back", animation: "fade" },
+    { id: "item.search" },
+    { id: "item.bell" },
+];
