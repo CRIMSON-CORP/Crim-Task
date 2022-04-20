@@ -17,7 +17,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                     duration: 500,
                 }}
             >
-                <HStack w="full" alignItems={"center"} mt={OpenSearch ? -2 : 0}>
+                <HStack w="full" alignItems={"center"}>
                     <AnimatePresence>
                         {OpenSearch && (
                             <MotiView
@@ -36,20 +36,12 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                                 }}
                                 style={{
                                     position: "absolute",
-                                    bottom: 0,
                                     left: -5,
+                                    height: 45,
+                                    borderRadius: 10,
+                                    backgroundColor: colors.primary[200],
                                 }}
-                            >
-                                <Box
-                                    w="100%"
-                                    h={44}
-                                    p="5"
-                                    bottom={0}
-                                    bg="primary.200"
-                                    rounded={10}
-                                    position={"absolute"}
-                                />
-                            </MotiView>
+                            />
                         )}
                     </AnimatePresence>
                     <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>

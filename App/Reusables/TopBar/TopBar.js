@@ -71,9 +71,16 @@ const TopBar = ({ back }) => {
                 style={[StyleSheet.absoluteFill, bgStyles, fullScreen]}
             />
             <SearchResults value={value} OpenSearch={OpenSearch} />
-            <HStack justifyContent={"space-between"} zIndex={998} position="absolute" w="full">
+            <HStack
+                justifyContent={"space-between"}
+                zIndex={998}
+                position="absolute"
+                w="full"
+                h={45}
+                alignItems="center"
+            >
                 <MenuBackButton OpenSearch={OpenSearch} back={back} />
-                <HStack space="5" left={0} zIndex={999}>
+                <HStack space="5" left={0} zIndex={999} alignItems="center">
                     <SharedElement id="item.search">
                         <SearchBar
                             setOpenSearch={setOpenSearch}
