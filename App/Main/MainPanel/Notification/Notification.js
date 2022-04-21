@@ -1,6 +1,6 @@
 import { Box, Image, VStack, Text } from "native-base";
 import { StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { TopBarSharedElements } from "../../../../utils/utils";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import TopBar from "../../../Reusables/TopBar";
 import no_notification from "./NotificationImages/no_notification.png";
