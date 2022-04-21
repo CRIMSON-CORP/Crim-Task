@@ -1,13 +1,13 @@
 import { HStack, Pressable } from "native-base";
-import AnimatedCheckBox from "./AnimatedCheckBox/";
 import PropTypes from "prop-types";
-import { UPDATE_TASK, DELETE_TASK } from "../../../redux/tasks/components/task.actions";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
-import SwipableView from "../SwipableView";
+import { DELETE_TASK, UPDATE_TASK } from "../../../redux/tasks/components/task.actions";
+import { useFab } from "../../../utils/context";
 import AnimatedTaskText from "../AnimatedTaaskText/AnimatedTaskText";
 import ListAnimatePrescence from "../ListAnimatePrescence";
-import { memo } from "react";
-import { useFab } from "../../../utils/context";
+import SwipableView from "../SwipableView";
+import AnimatedCheckBox from "./AnimatedCheckBox/";
 
 const TaskItem = ({
     task,

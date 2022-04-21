@@ -1,11 +1,11 @@
-import { Center, Image, Box, useTheme } from "native-base";
+import { Center, Image, useTheme } from "native-base";
 import { useContext } from "react";
+import Svg, { Circle } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
 import { NavigationContext } from "../../../../../utils/context";
-import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
-import Svg, { Circle } from "react-native-svg";
+import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 const ProfilePhoto = () => {
     const profile = useSelector((state) => state.account.profilePhoto);
     const { NavigationRef } = useContext(NavigationContext);

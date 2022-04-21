@@ -1,4 +1,8 @@
-import { useContext, useState } from "react";
+import {
+    getMediaLibraryPermissionsAsync,
+    launchImageLibraryAsync,
+    requestMediaLibraryPermissionsAsync,
+} from "expo-image-picker";
 import {
     Box,
     Center,
@@ -10,18 +14,10 @@ import {
     useTheme,
     VStack,
 } from "native-base";
-import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
+import { useContext, useState } from "react";
+import { Alert, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AnimatedPressable from "../Reusables/AnimatedPressable";
-import BackArrow from "../Reusables/TopBar/TopBarIcons/BackArrow";
-import {
-    getMediaLibraryPermissionsAsync,
-    requestMediaLibraryPermissionsAsync,
-    launchImageLibraryAsync,
-} from "expo-image-picker";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import UserIcon from "../Reusables/UserIcon/UserIcon";
-import { AuthContext } from "../../utils/context";
 import { useDispatch } from "react-redux";
 import {
     CHANGE_FIRST_NAME,
@@ -29,8 +25,12 @@ import {
     CHANGE_PROFILE_PHOTO,
     SET_ACCOUNT_INITIAL_STATE,
 } from "../../redux/account/component/account.actions";
-import { Dimensions, Alert } from "react-native";
+import { AuthContext } from "../../utils/context";
 import { debounce } from "../../utils/utils";
+import AnimatedPressable from "../Reusables/AnimatedPressable";
+import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
+import BackArrow from "../Reusables/TopBar/TopBarIcons/BackArrow";
+import UserIcon from "../Reusables/UserIcon/UserIcon";
 const { height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
     const [image, setImage] = useState(null);

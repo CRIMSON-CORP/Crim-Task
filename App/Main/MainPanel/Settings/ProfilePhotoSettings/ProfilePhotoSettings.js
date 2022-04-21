@@ -1,3 +1,8 @@
+import {
+    getMediaLibraryPermissionsAsync,
+    launchImageLibraryAsync,
+    requestMediaLibraryPermissionsAsync,
+} from "expo-image-picker";
 import { AnimatePresence, View } from "moti";
 import { Center, Image, Pressable, Text, VStack } from "native-base";
 import { memo, useCallback, useState } from "react";
@@ -5,11 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_PROFILE_PHOTO } from "../../../../../redux/account/component/account.actions";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
-import {
-    getMediaLibraryPermissionsAsync,
-    requestMediaLibraryPermissionsAsync,
-    launchImageLibraryAsync,
-} from "expo-image-picker";
 const ProfilePhotoSettings = () => {
     const user = useSelector((state) => state.account);
     const [image, setImage] = useState(user.profilePhoto);

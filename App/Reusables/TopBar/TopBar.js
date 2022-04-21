@@ -1,22 +1,21 @@
-import { Box, HStack, useTheme } from "native-base";
-import Bell from "./TopBarIcons/Bell";
-import AnimatedPressable from "../AnimatedPressable";
-import { useDispatch, useSelector } from "react-redux";
-import { SharedElement } from "react-navigation-shared-element";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { NavigationContext, useFab, useSearch } from "../../../utils/context";
-import { AnimatePresence, View as MotiView } from "moti";
-import { Dimensions, StyleSheet, StatusBar } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { AnimatePresence, View as MotiView } from "moti";
+import { Box, HStack, useTheme } from "native-base";
+import { useContext, useEffect, useState } from "react";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withDelay,
     withTiming,
 } from "react-native-reanimated";
+import { SharedElement } from "react-navigation-shared-element";
+import { NavigationContext, useFab } from "../../../utils/context";
+import AnimatedPressable from "../AnimatedPressable";
+import MenuBackButton from "./MenuBackButton";
 import SearchBar from "./Search/SearchBar/SearchBar";
 import SearchResults from "./Search/SearchResults";
-import MenuBackButton from "./MenuBackButton";
+import Bell from "./TopBarIcons/Bell";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width, height } = Dimensions.get("screen");
 const scaleTransition = {

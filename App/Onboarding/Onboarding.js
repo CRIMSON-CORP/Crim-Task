@@ -1,4 +1,8 @@
-import { Box, Center, FlatList, Heading, HStack, Text, VStack, Image } from "native-base";
+import { Entypo } from "@expo/vector-icons";
+import { AnimatePresence, View as MotiView } from "moti";
+import { Box, Center, FlatList, Heading, HStack, Image, Text, VStack } from "native-base";
+import { useState } from "react";
+import { Dimensions, StyleSheet } from "react-native";
 import Animated, {
     Extrapolate,
     interpolate,
@@ -6,13 +10,9 @@ import Animated, {
     useAnimatedStyle,
     useSharedValue,
 } from "react-native-reanimated";
-import { Art1, Art2, Art3, Art4 } from "./Arts";
-import { Dimensions, StyleSheet } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import AnimatedPressable from "../Reusables/AnimatedPressable";
-import { AnimatePresence, View as MotiView } from "moti";
-import { useState } from "react";
 import Svg, { Path } from "react-native-svg";
+import AnimatedPressable from "../Reusables/AnimatedPressable";
+import { Art1, Art2, Art3, Art4 } from "./Arts";
 const { width, height } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const AnimatedCenter = Animated.createAnimatedComponent(Center);

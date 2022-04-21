@@ -1,7 +1,7 @@
-import { useContext } from "react";
 import { Box, Text } from "native-base";
-import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
+import { useContext } from "react";
 import { FabButtonContext } from "../../../../../utils/context";
+import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 
 const FabCTA = ({ title, onClick }) => {
     const { ToggleOpenFab } = useContext(FabButtonContext);

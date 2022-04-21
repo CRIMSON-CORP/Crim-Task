@@ -1,10 +1,10 @@
 import { MotiView } from "moti";
-import { Box, Image, Text, VStack } from "native-base";
+import { Image, Text, VStack } from "native-base";
 import { Dimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { useSelector } from "react-redux";
-import CategoryCardItem from "../../../../../Reusables/CategoryCardItem/CategoryCardItem";
 import IdleCategory from "../../../../../../assets/crim-task/idle/idle_category.png";
+import CategoryCardItem from "../../../../../Reusables/CategoryCardItem/CategoryCardItem";
 const { width } = Dimensions.get("window");
 const ListCategory = () => {
     const categories = useSelector((state) => state.tasks);

@@ -1,8 +1,8 @@
 import { VStack } from "native-base";
-import NavbarItem from "./NavBarItem";
-import List from "./NabBarIcons/List";
 import Category from "./NabBarIcons/Category";
+import List from "./NabBarIcons/List";
 import Settings from "./NabBarIcons/Settings";
+import NavbarItem from "./NavBarItem";
 const NavBar = () => {
     return (
         <VStack space="5">

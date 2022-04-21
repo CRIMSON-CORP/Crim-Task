@@ -1,10 +1,10 @@
+import { View } from "moti";
 import { HStack, Text } from "native-base";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
-import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
-import { View } from "moti";
-import { useContext, useEffect, useState } from "react";
 import { NavigationContext } from "../../../../../utils/context";
+import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 const NavbarItem = ({ icon, text, slug }) => {
     const dispath = useDispatch();
     const { NavigationRef } = useContext(NavigationContext);

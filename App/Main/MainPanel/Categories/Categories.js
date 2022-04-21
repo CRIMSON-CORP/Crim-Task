@@ -1,16 +1,16 @@
-import { useRef } from "react";
-import { Box, Heading, Image, Text, VStack } from "native-base";
-import TopBar from "../../../Reusables/TopBar";
-import { ScrollView } from "react-native-gesture-handler";
-import { useDispatch, useSelector } from "react-redux";
-import SwipableView from "../../../Reusables/SwipableView";
-import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions";
 import { AnimatePresence } from "moti";
-import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
-import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Box, Heading, Image, Text, VStack } from "native-base";
+import { useRef } from "react";
 import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
+import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions";
 import CategoryListItem from "../../../Reusables/CategoryListItem";
+import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
+import SwipableView from "../../../Reusables/SwipableView";
+import TopBar from "../../../Reusables/TopBar";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispath = useDispatch();

@@ -1,4 +1,4 @@
-import { Box, Image, VStack, Text } from "native-base";
+import { Box, Image, Text, VStack } from "native-base";
 import { StatusBar } from "react-native";
 import { TopBarSharedElements } from "../../../../utils/utils";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";

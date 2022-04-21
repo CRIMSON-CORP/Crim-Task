@@ -1,15 +1,15 @@
+import { AntDesign } from "@expo/vector-icons";
+import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Center } from "native-base";
 import { useContext, useEffect, useRef } from "react";
-import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
-import { AntDesign } from "@expo/vector-icons";
-import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import { Dimensions } from "react-native";
-import { AnimatePresence, View as MotiView } from "moti";
-import CreateNewCategory from "./CreateNewCategory";
-import CreateNewTask from "./CreateNewTask";
-import { NavigationContext, useFab } from "../../../../utils/context";
-import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask/CreateNewKnowCategoryTask";
+import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSelector } from "react-redux";
+import { NavigationContext, useFab } from "../../../../utils/context";
+import AnimatedPressable from "../../../Reusables/AnimatedPressable";
+import CreateNewCategory from "./CreateNewCategory";
+import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask/CreateNewKnowCategoryTask";
+import CreateNewTask from "./CreateNewTask";
 const { width: w, height: h } = Dimensions.get("screen");
 export const AnimatedBox = Animated.createAnimatedComponent(Box);
 

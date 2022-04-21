@@ -1,10 +1,10 @@
-import { Text, VStack, Input, Box, useTheme } from "native-base";
-import { useState, useContext } from "react";
+import { Box, Input, Text, useTheme, VStack } from "native-base";
+import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CREATE_CATEGORY_TASK } from "../../../../../redux/tasks/components/task.actions";
-import FabCTA from "../FabCTA";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
+import FabCTA from "../FabCTA";
 function CreateNewKnowCategoryTask() {
     const { NavigationRef } = useContext(NavigationContext);
     const currentCategoryId = NavigationRef.getCurrentRoute().params.categoryId;

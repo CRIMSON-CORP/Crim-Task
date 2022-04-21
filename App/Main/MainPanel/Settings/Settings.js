@@ -1,21 +1,21 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Box, HStack, Switch, Text, VStack } from "native-base";
 import { useContext } from "react";
-import { Box, Text, VStack, Switch, HStack } from "native-base";
-import TopBar from "../../../Reusables/TopBar";
-import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import {
     CHANGE_FIRST_NAME,
     CHANGE_LAST_NAME,
     CHANGE_ROUNDED_CORNER,
 } from "../../../../redux/account/component/account.actions";
+import { AuthContext, NavigationContext } from "../../../../utils/context";
 import { ClearStore } from "../../../../utils/utils";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
-import { AuthContext, NavigationContext } from "../../../../utils/context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import ProfilePhotoSettings from "./ProfilePhotoSettings";
+import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
+import TopBar from "../../../Reusables/TopBar";
 import InputBox from "./InputBox";
+import ProfilePhotoSettings from "./ProfilePhotoSettings";
 const Settings = () => {
     const user = useSelector((state) => state.account);
     const dispatch = useDispatch();

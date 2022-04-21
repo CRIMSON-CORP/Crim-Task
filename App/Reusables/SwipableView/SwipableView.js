@@ -1,4 +1,6 @@
 import { Box } from "native-base";
+import PropTypes from "prop-types";
+import { Dimensions } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
     runOnJS,
@@ -8,8 +10,6 @@ import Animated, {
     withSpring,
     withTiming,
 } from "react-native-reanimated";
-import { Dimensions } from "react-native";
-import PropTypes from "prop-types";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");
 const SWIPE_LIMIT = -180;

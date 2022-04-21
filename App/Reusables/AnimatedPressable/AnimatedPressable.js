@@ -1,11 +1,11 @@
 import { Pressable } from "native-base";
+import PropTypes from "prop-types";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withSpring,
     withTiming,
 } from "react-native-reanimated";
-import PropTypes from "prop-types";
 const AnimatedPressableWrapper = Animated.createAnimatedComponent(Pressable);
 const AnimatedPressable = ({ children, onPress, style }) => {
     const AnimatedPressableScaleShared = useSharedValue(1);

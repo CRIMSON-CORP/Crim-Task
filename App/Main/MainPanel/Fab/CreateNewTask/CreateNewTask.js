@@ -1,14 +1,14 @@
-import { Box, Text, VStack, Input, useTheme } from "native-base";
+import { View as MotiView } from "moti";
+import { Box, Input, Text, useTheme, VStack } from "native-base";
 import { useEffect, useRef, useState } from "react";
-import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { useDispatch, useSelector } from "react-redux";
 import {
     CREATE_CATEGORY_TASK,
     EDIT_TASK,
 } from "../../../../../redux/tasks/components/task.actions";
-import FabCTA from "../FabCTA";
+import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
-import { View as MotiView } from "moti";
+import FabCTA from "../FabCTA";
 function CreateNewTask({ flag }) {
     const state_categories = useSelector((state) => state.tasks);
     const categories = state_categories.map((cat) => ({

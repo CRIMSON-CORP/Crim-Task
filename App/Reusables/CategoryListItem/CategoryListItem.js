@@ -1,10 +1,9 @@
-import { VStack, Box, Pressable, useTheme } from "native-base";
-import { useContext } from "react";
-import { StyleSheet, Text } from "react-native";
-import { Shadow } from "react-native-shadow-2";
+import { Box, Pressable, useTheme, VStack } from "native-base";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Shadow } from "react-native-shadow-2";
 import { SharedElement } from "react-navigation-shared-element";
-import { View } from "react-native";
 import { NavigationContext, useFab } from "../../../utils/context";
 const CategoryListItem = ({
     tasks = [],

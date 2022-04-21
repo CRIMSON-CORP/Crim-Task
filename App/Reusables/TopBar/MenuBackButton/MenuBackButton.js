@@ -1,21 +1,21 @@
+import { Box } from "native-base";
+import PropTypes from "prop-types";
 import { memo, useContext, useEffect, useRef } from "react";
+import { BackHandler } from "react-native";
+import Animated, {
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+    withTiming,
+} from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
 import { useDispatch, useSelector } from "react-redux";
+import { CLOSE_SIDE, OPEN_SIDE } from "../../../../redux/ui/components/ui.actions";
 import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
-import PropTypes from "prop-types";
-import { CLOSE_SIDE, OPEN_SIDE } from "../../../../redux/ui/components/ui.actions";
-import Animated, {
-    withTiming,
-    withSpring,
-    useAnimatedStyle,
-    useSharedValue,
-    interpolate,
-} from "react-native-reanimated";
-import { Box } from "native-base";
-import { BackHandler } from "react-native";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const MenuBackButton = ({ back, OpenSearch }) => {
     const AnimatedBoxShared = useSharedValue(1);

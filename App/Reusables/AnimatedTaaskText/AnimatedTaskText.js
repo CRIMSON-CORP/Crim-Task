@@ -1,13 +1,13 @@
 import { Box, Text } from "native-base";
+import PropTypes from "prop-types";
 import { useEffect } from "react";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
-    withTiming,
-    withSequence,
     withDelay,
+    withSequence,
+    withTiming,
 } from "react-native-reanimated";
-import PropTypes from "prop-types";
 const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const AnimatedTaskText = ({ task, completed }) => {

@@ -1,18 +1,18 @@
-import { Box, Center, Heading, Text, VStack, Input, useTheme } from "native-base";
-import { useState, useContext, useRef, useEffect } from "react";
+import { View as MotiView } from "moti";
+import { Box, Center, Input, Text, useTheme, VStack } from "native-base";
+import { useEffect, useRef, useState } from "react";
+import { Dimensions } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
     useAnimatedGestureHandler,
     useAnimatedStyle,
     useSharedValue,
 } from "react-native-reanimated";
-import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
-import { View as MotiView } from "moti";
-import { PanGestureHandler } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { CREATE_CATEGORY, EDIT_CATEGORY } from "../../../../../redux/tasks/components/task.actions";
-import { Dimensions } from "react-native";
-import FabCTA from "../FabCTA";
+import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
+import FabCTA from "../FabCTA";
 const { width: w } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const categoryColors = [

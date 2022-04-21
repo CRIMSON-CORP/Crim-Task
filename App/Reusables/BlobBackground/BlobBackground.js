@@ -1,6 +1,6 @@
-import Svg, { G, Path } from "react-native-svg";
-import { Dimensions, StyleSheet } from "react-native";
 import { useTheme } from "native-base";
+import { Dimensions, StyleSheet } from "react-native";
+import Svg, { G, Path } from "react-native-svg";
 const { width, height } = Dimensions.get("screen");
 const BlobBackground = ({ full }) => {
     const { colors } = useTheme();

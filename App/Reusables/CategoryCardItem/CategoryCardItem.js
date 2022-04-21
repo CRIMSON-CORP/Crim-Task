@@ -1,8 +1,7 @@
-import { VStack, Box, Pressable, useTheme } from "native-base";
-import { useContext, useEffect } from "react";
-import { Dimensions, StyleSheet, Text } from "react-native";
-import { Shadow } from "react-native-shadow-2";
+import { Box, Pressable, useTheme, VStack } from "native-base";
 import PropTypes from "prop-types";
+import { useContext, useEffect } from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Animated, {
     Easing,
     useAnimatedStyle,
@@ -11,8 +10,8 @@ import Animated, {
     withSequence,
     withTiming,
 } from "react-native-reanimated";
+import { Shadow } from "react-native-shadow-2";
 import { SharedElement } from "react-navigation-shared-element";
-import { View } from "react-native";
 import { NavigationContext, useFab } from "../../../utils/context";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");

@@ -1,5 +1,5 @@
-import Svg, { Path } from "react-native-svg";
 import PropTypes from "prop-types";
+import Svg, { Path } from "react-native-svg";
 const UserIcon = ({ size, style, onPress, notClickable }) => {
     return (
         <Svg

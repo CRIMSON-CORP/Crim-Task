@@ -1,4 +1,5 @@
-import { Svg, Circle, Path } from "react-native-svg";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
 import Animated, {
     Easing,
     interpolate,
@@ -7,8 +8,7 @@ import Animated, {
     withDelay,
     withTiming,
 } from "react-native-reanimated";
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import { Circle, Path, Svg } from "react-native-svg";
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 

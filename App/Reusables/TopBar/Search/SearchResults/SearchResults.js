@@ -1,10 +1,8 @@
 import { AnimatePresence, View as MotiView } from "moti";
-import { Box, Image, VStack, Text } from "native-base";
-import Waiting from "./SearchResultImages/waiting_search.png";
-import NothingFound from "./SearchResultImages/no_items_found.png";
-import TaskItem from "../../../TaskItem";
-import { useSelector } from "react-redux";
+import { Box, Image, Text, VStack } from "native-base";
 import PropTypes from "prop-types";
+import { useCallback, useEffect, useState } from "react";
+import { Dimensions, StatusBar } from "react-native";
 import Animated, {
     interpolate,
     useAnimatedStyle,
@@ -12,10 +10,12 @@ import Animated, {
     withDelay,
     withTiming,
 } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 import { useFab } from "../../../../../utils/context";
 import { debounce } from "../../../../../utils/utils";
-import { useCallback, useEffect, useState } from "react";
-import { Dimensions, StatusBar } from "react-native";
+import TaskItem from "../../../TaskItem";
+import NothingFound from "./SearchResultImages/no_items_found.png";
+import Waiting from "./SearchResultImages/waiting_search.png";
 
 const { width, height } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);

@@ -1,14 +1,14 @@
 import { AnimatePresence, View as MotiView } from "moti";
-import { Box, Image, useTheme, VStack, Text } from "native-base";
+import { Box, Image, Text, useTheme, VStack } from "native-base";
 import { useRef } from "react";
-import { StyleSheet, View, StatusBar } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SharedElement } from "react-navigation-shared-element";
 import { useSelector } from "react-redux";
-import TaskItem from "../../../Reusables/TaskItem/TaskItem";
-import TopBar from "../../../Reusables/TopBar";
 import IdleTask from "../../../../assets/crim-task/idle/idle_task.png";
 import { TopBarSharedElements } from "../../../../utils/utils";
+import TaskItem from "../../../Reusables/TaskItem/TaskItem";
+import TopBar from "../../../Reusables/TopBar";
 
 const SingleCategory = ({ route }) => {
     const { categoryId, categoryTitle } = route.params;

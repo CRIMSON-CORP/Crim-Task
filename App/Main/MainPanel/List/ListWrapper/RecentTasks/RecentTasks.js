@@ -1,8 +1,8 @@
+import { AnimatePresence } from "moti";
 import { Image, Text, VStack } from "native-base";
 import { useSelector } from "react-redux";
-import TaskItem from "../../../../../Reusables/TaskItem/TaskItem";
-import { AnimatePresence } from "moti";
 import IdleTask from "../../../../../../assets/crim-task/idle/idle_task.png";
+import TaskItem from "../../../../../Reusables/TaskItem/TaskItem";
 
 const RecentTasks = () => {
     let AllTasksCategories = useSelector((state) => state.tasks);

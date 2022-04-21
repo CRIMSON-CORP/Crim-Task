@@ -13,17 +13,17 @@ import Animated, {
     withSpring,
     withTiming,
 } from "react-native-reanimated";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_SIDE, OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
-import List from "./List";
-import Categories from "./Categories";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
-import SingleCategory from "./SingleCategory";
-import Fab from "./Fab";
-import Settings from "./Settings";
 import { FabContextProvider } from "../../../utils/context";
-import Notification from "./Notification";
+import Categories from "./Categories";
+import Fab from "./Fab";
 import HowToUse from "./HowToUse/HowToUse";
+import List from "./List";
+import Notification from "./Notification";
+import Settings from "./Settings";
+import SingleCategory from "./SingleCategory";
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
 const SharedStack = createSharedElementStackNavigator();

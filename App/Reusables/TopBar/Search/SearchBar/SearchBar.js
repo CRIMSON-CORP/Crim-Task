@@ -1,10 +1,10 @@
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, HStack, Input, useTheme } from "native-base";
+import { useContext, useEffect, useState } from "react";
+import { Dimensions } from "react-native";
+import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../AnimatedPressable";
 import Search from "../../TopBarIcons/Search";
-import { Dimensions } from "react-native";
-import { useContext, useEffect, useState } from "react";
-import { NavigationContext } from "../../../../../utils/context";
 const { width } = Dimensions.get("screen");
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     const { colors } = useTheme();
