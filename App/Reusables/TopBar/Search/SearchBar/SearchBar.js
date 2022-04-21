@@ -13,7 +13,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", (e) => {
             let routename = NavigationRef.getCurrentRoute().name;
-            setOpenSearchIcon(!["settings", "how_to_use"].includes(routename));
+            setOpenSearchIcon(!["settings", "how_to_use", "notifications"].includes(routename));
         });
 
         return unsub;
@@ -61,6 +61,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                             opacity: openSearchIcon ? 1 : 0,
                             scale: openSearchIcon ? 1 : 0.5,
                         }}
+                        transition={{ type: "spring", damping: openSearchIcon ? 4 : 10 }}
                         pointerEvents={openSearchIcon ? "auto" : "none"}
                     >
                         <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>
