@@ -1,4 +1,4 @@
-import { AnimatePresence } from "moti";
+import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Heading, Image, Text, VStack } from "native-base";
 import { useRef } from "react";
 import { StyleSheet } from "react-native";
@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
 import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions";
 import CategoryListItem from "../../../Reusables/CategoryListItem";
-import ListAnimatePrescence from "../../../Reusables/ListAnimatePrescence";
 import SwipableView from "../../../Reusables/SwipableView";
 import TopBar from "../../../Reusables/TopBar";
+import { Layout } from "react-native-reanimated";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispath = useDispatch();
@@ -36,11 +36,7 @@ const Categories = () => {
                         >
                             <AnimatePresence>
                                 {categories.map((item) => (
-                                    <ListAnimatePrescence
-                                        key={item.categoryId}
-                                        spacing={40}
-                                        height={120}
-                                    >
+                                    <MotiView key={item.categoryId} layout={Layout.springify()}>
                                         <SwipableView
                                             swipeExe={() =>
                                                 dispath({
@@ -56,11 +52,12 @@ const Categories = () => {
                                                 categoryId={item.categoryId}
                                                 tasks={item.tasks}
                                                 mr="5"
+                                                mb="10"
                                                 shadow="7"
                                                 fwidth={true}
                                             />
                                         </SwipableView>
-                                    </ListAnimatePrescence>
+                                    </MotiView>
                                 ))}
                             </AnimatePresence>
                         </ScrollView>

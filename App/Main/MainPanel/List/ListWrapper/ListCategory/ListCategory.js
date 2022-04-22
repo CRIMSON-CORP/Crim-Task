@@ -23,6 +23,7 @@ const ListCategory = () => {
                         overflow: "visible",
                         width,
                     }}
+                    defaultIndex={0}
                     data={categories}
                     renderItem={({ item, index }) => (
                         <MotiView

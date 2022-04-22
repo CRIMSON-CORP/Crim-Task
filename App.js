@@ -99,7 +99,16 @@ function MainWrapper() {
                             </GestureHandlerRootView>
                         </NavigationContext.Provider>
                     </Box>
-                ) : null}
+                ) : (
+                    <Box
+                        positon="absolute"
+                        top={0}
+                        bottom={0}
+                        left={0}
+                        right={0}
+                        bg="primary.200"
+                    />
+                )}
             </NativeBaseProvider>
         </NavigationContainer>
     );
