@@ -62,7 +62,10 @@ const CreateAccount = ({ navigation }) => {
         <Box flex={1}>
             <BlobBackground full />
             <SafeAreaView style={{ flex: 1 }}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps="always"
+                >
                     <KeyboardAvoidingView flex={1}>
                         <VStack p="6" pt="3" justifyContent={"space-between"} flex={1} space="10">
                             <AnimatedPressable
