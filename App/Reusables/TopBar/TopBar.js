@@ -2,7 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, HStack, useTheme } from "native-base";
 import { useContext, useEffect, useState } from "react";
-import { Dimensions, StatusBar, StyleSheet } from "react-native";
+import { BackHandler, Dimensions, StatusBar, StyleSheet } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -55,6 +55,18 @@ const TopBar = ({ back }) => {
             setShowFab(true);
             setValue("");
         }
+    }, [OpenSearch]);
+
+    useEffect(() => {
+        const backHandler = () => {
+            if (OpenSearch) {
+                setOpenSearch(false);
+                return true;
+            } else return false;
+        };
+
+        const backEnvt = BackHandler.addEventListener("hadwarebackPress", backHandler);
+        return () => backEnvt.remove();
     }, [OpenSearch]);
 
     const fullScreen = {
