@@ -50,8 +50,6 @@ function CreateNewTask({ flag }) {
                     selectionColor={colors.primary.accent}
                     borderBottomColor="white"
                     underlineColorAndroid={"transparent"}
-                    maxLength={35}
-                    numberOfLines={1}
                     px="5"
                     value={subject}
                     onChangeText={(text) => setSubject(text)}
@@ -70,8 +68,8 @@ function CreateNewTask({ flag }) {
                             position: "absolute",
                         }}
                         animate={{
-                            width: pillsDimensions[ActiveIndexIndicator]?.width || 50,
-                            height: pillsDimensions[ActiveIndexIndicator]?.height || 50,
+                            width: pillsDimensions[ActiveIndexIndicator]?.width || 38,
+                            height: pillsDimensions[ActiveIndexIndicator]?.height || 38,
                             left: pillsDimensions[ActiveIndexIndicator]?.pageX || 0,
                             top: pillsDimensions[ActiveIndexIndicator]?.pageY || 0,
                         }}

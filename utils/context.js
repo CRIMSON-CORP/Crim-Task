@@ -105,7 +105,6 @@ export function FabContextProvider({ children }) {
 
     useEffect(() => {
         if (flag.flag) setShowFab(true);
-        else setShowFab(false);
     }, [flag.flag]);
     return (
         <FabButtonContext.Provider
