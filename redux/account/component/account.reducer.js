@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const initialState = {
     name: {
         first: "",
-        last: "CRIMSON",
+        last: "",
     },
     profilePhoto: null,
     roundedPanelCorners: true,
@@ -14,8 +14,8 @@ export const getAsyncAccountData = createAsyncThunk("get-account-data", async ()
     try {
         const data = await AsyncStorage.getItem("crim-task-data");
         if (data) {
-            return { data: await JSON.parse(data).account };
-        } else return { data: initialState };
+            return await JSON.parse(data).account;
+        } else return initialState;
     } catch (error) {
         return initialState;
     }
@@ -25,28 +25,23 @@ const accountReducer = createSlice({
     name: "account",
     initialState,
     reducers: {
-        setInitialState(state, action) {
-            state = action.payload.data;
+        changeFirstName(state, { payload }) {
+            state.name.first = payload;
         },
-        changeFirstName(state, action) {
-            state.name.first = action.payload.data;
+        changeLastName(state, { payload }) {
+            state.name.last = payload;
         },
-        changeLastName(state, action) {
-            state.name.last = action.payload.data;
-        },
-        changeRoundedCorners(state, action) {
-            state.roundedPanelCorners = action.payload.state;
+        changeRoundedCorners(state, { payload }) {
+            state.roundedPanelCorners = payload;
         },
         changeProfilePhoto(state, action) {
             state.profilePhoto = action.payload;
         },
-        resetAccount(state) {
-            state = {};
-        },
+        resetAccount: () => initialState,
     },
     extraReducers(builder) {
-        builder.addCase(getAsyncAccountData.fulfilled, (state, action) =>
-            Object.assign(state, action.payload.data)
+        builder.addCase(getAsyncAccountData.fulfilled, (state, { payload }) =>
+            Object.assign(state, payload)
         );
     },
 });

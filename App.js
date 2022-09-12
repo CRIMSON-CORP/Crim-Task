@@ -35,7 +35,6 @@ function MainWrapper() {
     const [Loading, setLoading] = useState(true);
     const [userExist, setUserExist] = useState(false);
     const NavigationRef = useRef();
-    const dispatch = useDispatch();
     useEffect(() => {
         async function getData() {
             try {

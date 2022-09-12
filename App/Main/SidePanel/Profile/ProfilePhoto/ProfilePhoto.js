@@ -10,7 +10,7 @@ import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 const ProfilePhoto = () => {
     const profile = useSelector((state) => state.account);
     const { NavigationRef } = useContext(NavigationContext);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const { colors } = useTheme();
 
     return (
@@ -18,7 +18,7 @@ const ProfilePhoto = () => {
             <AnimatedPressable
                 onPress={() => {
                     NavigationRef.navigate("settings");
-                    closeSide();
+                    dispatch(closeSide());
                 }}
                 style={{
                     width: 120,

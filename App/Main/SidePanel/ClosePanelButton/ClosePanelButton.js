@@ -12,9 +12,9 @@ import { closeSide } from "../../../../redux/ui/components/ui.reducer";
  */
 
 const ClosePanelButton = ({ width = 50 }) => {
-    // const dispath = useDispatch();
+    const dispatch = useDispatch();
     return (
-        <AnimatedPressable onPress={closeSide}>
+        <AnimatedPressable onPress={() => dispatch(closeSide())}>
             <Svg width={width} height={width} viewBox={`0 0 ${width} ${width}`} fill="none">
                 <Circle
                     cx={width / 2}

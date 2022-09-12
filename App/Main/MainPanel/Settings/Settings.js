@@ -1,3 +1,4 @@
+import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Box, HStack, Switch, Text, VStack } from "native-base";
 import { useContext } from "react";
@@ -5,10 +6,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    CHANGE_FIRST_NAME,
-    CHANGE_LAST_NAME,
-    CHANGE_ROUNDED_CORNER,
-} from "../../../../redux/account/component/account.actions";
+    changeFirstName,
+    changeLastName,
+    changeRoundedCorners,
+} from "../../../../redux/account/component/account.reducer";
 import { AuthContext, NavigationContext } from "../../../../utils/context";
 import { ClearStore } from "../../../../utils/utils";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
@@ -36,26 +37,12 @@ const Settings = () => {
                                     <InputBox
                                         header="Change First name"
                                         value={user?.name?.first}
-                                        onChangeText={(e) => {
-                                            dispatch({
-                                                type: CHANGE_FIRST_NAME,
-                                                payload: {
-                                                    data: e.trim(),
-                                                },
-                                            });
-                                        }}
+                                        onChangeText={(e) => dispatch(changeFirstName(e.trim()))}
                                     />
                                     <InputBox
                                         header="Change Last name"
                                         value={user?.name?.last}
-                                        onChangeText={(e) => {
-                                            dispatch({
-                                                type: CHANGE_LAST_NAME,
-                                                payload: {
-                                                    data: e.trim(),
-                                                },
-                                            });
-                                        }}
+                                        onChangeText={(e) => dispatch(changeLastName(e.trim()))}
                                     />
                                     <HStack bg="#ffffff30" px="5" py="3" rounded="15" space={0}>
                                         <VStack space={2} flex={1}>
@@ -76,12 +63,7 @@ const Settings = () => {
                                             size="lg"
                                             value={!user.roundedPanelCorners}
                                             onValueChange={(val) => {
-                                                dispatch({
-                                                    type: CHANGE_ROUNDED_CORNER,
-                                                    payload: {
-                                                        state: !val,
-                                                    },
-                                                });
+                                                dispatch(changeRoundedCorners(!val));
                                             }}
                                             onTrackColor="primary.300"
                                             onThumbColor="primary.100"
