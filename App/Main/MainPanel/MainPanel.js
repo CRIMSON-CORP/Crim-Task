@@ -57,6 +57,13 @@ const MainPanel = () => {
         }
     }, [side_panel_opened]);
 
+    function _closeSide() {
+        dispatch(closeSide());
+    }
+    function _openSide() {
+        dispatch(openSide());
+    }
+
     const AnimatedMainPanelStyles = useAnimatedStyle(() => ({
         transform: [
             { translateX: interpolate(AnimatedPanelSharedValue.value, [0, 1], [0, width - 140]) },
@@ -95,7 +102,7 @@ const MainPanel = () => {
                             damping: 8,
                             restDisplacementThreshold: 0.001,
                         },
-                        () => runOnJS(dispatch)(openSide)
+                        () => runOnJS(_openSide)()
                     );
                 } else {
                     AnimatedPanelSharedValue.value = withTiming(
@@ -104,7 +111,7 @@ const MainPanel = () => {
                             duration: 500,
                             easing: Easing.out(Easing.quad),
                         },
-                        () => runOnJS(dispatch)(closeSide)
+                        () => runOnJS(_closeSide)()
                     );
                 }
             }
