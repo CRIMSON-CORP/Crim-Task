@@ -1,9 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SET_ACCOUNT_INITIAL_STATE } from "../redux/account/component/account.actions";
 import store from "../redux/store";
-import { SET_INITIAL_STATE } from "../redux/tasks/components/task.actions";
+// import { SET_INITIAL_STATE } from "../redux/tasks/components/task.actions";
 import { setInitialState } from "../redux/tasks/components/task.reducer";
-import { setInitialState as setAccountInitialState } from "../redux/account/component/account.reducer";
+import { setInitialState as setAccountInitialState } from "../redux/account/account.reducer";
 export function debounce(func, delay = 500) {
     let timer;
     return () => {

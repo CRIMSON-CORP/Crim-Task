@@ -1,3 +1,4 @@
+import React from "react";
 import {
     getMediaLibraryPermissionsAsync,
     launchImageLibraryAsync,
@@ -19,18 +20,18 @@ import { Alert, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { useDispatch } from "react-redux";
-import {
-    CHANGE_FIRST_NAME,
-    CHANGE_LAST_NAME,
-    CHANGE_PROFILE_PHOTO,
-    SET_ACCOUNT_INITIAL_STATE,
-} from "../../redux/account/component/account.actions";
 import { AuthContext } from "../../utils/context";
 import { debounce } from "../../utils/utils";
 import AnimatedPressable from "../Reusables/AnimatedPressable";
 import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
 import BackArrow from "../Reusables/TopBar/TopBarIcons/BackArrow";
 import UserIcon from "../Reusables/UserIcon/UserIcon";
+import {
+    changeFirstName,
+    changeLastName,
+    changeProfilePhoto,
+    changeRoundedCorners,
+} from "../../redux/account/account.reducer";
 const { height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
     const [image, setImage] = useState(null);
@@ -50,12 +51,7 @@ const CreateAccount = ({ navigation }) => {
         });
         if (!data.cancelled) {
             setImage({ uri: data.base64 });
-            dispatch({
-                type: CHANGE_PROFILE_PHOTO,
-                payload: {
-                    uri: data.base64,
-                },
-            });
+            dispatch(changeProfilePhoto(data.base64));
         }
     }
     return (
@@ -132,15 +128,7 @@ const CreateAccount = ({ navigation }) => {
                                             value={fname}
                                             onChangeText={(e) => {
                                                 setFname(e);
-                                                debounce(
-                                                    dispatch({
-                                                        type: CHANGE_FIRST_NAME,
-                                                        payload: {
-                                                            data: e.trim(),
-                                                        },
-                                                    }),
-                                                    2000
-                                                );
+                                                debounce(dispatch(changeFirstName(e.trim())), 2000);
                                             }}
                                         />
                                     </VStack>
@@ -166,15 +154,7 @@ const CreateAccount = ({ navigation }) => {
                                             value={lname}
                                             onChangeText={(e) => {
                                                 setLname(e);
-                                                debounce(
-                                                    dispatch({
-                                                        type: CHANGE_LAST_NAME,
-                                                        payload: {
-                                                            data: e.trim(),
-                                                        },
-                                                    }),
-                                                    2000
-                                                );
+                                                debounce(dispatch(changeLastName(e.trim())), 2000);
                                             }}
                                         />
                                     </VStack>
@@ -184,15 +164,8 @@ const CreateAccount = ({ navigation }) => {
                                 onPress={() => {
                                     if (fname && lname) {
                                         setUserExist(true);
-                                        dispatch({
-                                            type: SET_ACCOUNT_INITIAL_STATE,
-                                            payload: {
-                                                data: {
-                                                    profilePhoto: image,
-                                                    roundedPanelCorners: true,
-                                                },
-                                            },
-                                        });
+                                        dispatch(changeProfilePhoto(image));
+                                        dispatch(changeRoundedCorners(true));
                                     } else
                                         Alert.alert(
                                             "Empty Field",

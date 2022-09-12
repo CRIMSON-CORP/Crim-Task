@@ -1,3 +1,4 @@
+import React from "react";
 import { Center, Image, useTheme } from "native-base";
 import { useContext } from "react";
 import Svg, { Circle } from "react-native-svg";
@@ -8,7 +9,7 @@ import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 const ProfilePhoto = () => {
-    const profile = useSelector((state) => state.account);
+    const { profilePhoto } = useSelector((state) => state.account);
     const { NavigationRef } = useContext(NavigationContext);
     const dispatch = useDispatch();
     const { colors } = useTheme();
@@ -47,11 +48,11 @@ const ProfilePhoto = () => {
                             strokeLinecap="round"
                         />
                     </Svg>
-                    {profile ? (
+                    {profilePhoto ? (
                         <Image
                             rounded="full"
                             source={{
-                                uri: `data:image/*;base64,${profile.uri}`,
+                                uri: `data:image/*;base64,${profilePhoto}`,
                             }}
                             w={110}
                             h={110}

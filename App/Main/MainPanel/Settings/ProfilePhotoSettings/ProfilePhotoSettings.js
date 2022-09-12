@@ -1,3 +1,4 @@
+import React from "react";
 import {
     getMediaLibraryPermissionsAsync,
     launchImageLibraryAsync,
@@ -7,9 +8,9 @@ import { AnimatePresence, View } from "moti";
 import { Center, Image, Pressable, Text, VStack } from "native-base";
 import { memo, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CHANGE_PROFILE_PHOTO } from "../../../../../redux/account/component/account.actions";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
+import { changeProfilePhoto } from "../../../../../redux/account/account.reducer";
 const ProfilePhotoSettings = () => {
     const user = useSelector((state) => state.account);
     const [image, setImage] = useState(user.profilePhoto);
@@ -25,21 +26,13 @@ const ProfilePhotoSettings = () => {
         });
         if (!data.cancelled) {
             setImage({ uri: data.base64 });
-            dispatch({
-                type: CHANGE_PROFILE_PHOTO,
-                payload: {
-                    uri: data.base64,
-                },
-            });
+            dispatch(changeProfilePhoto(data.base64));
         }
     }, [image, setImage, dispatch]);
 
     const removeProfilePic = useCallback(() => {
         setImage(null);
-        dispatch({
-            type: CHANGE_PROFILE_PHOTO,
-            payload: null,
-        });
+        dispatch(changeProfilePhoto(null));
     }, [image, setImage, dispatch]);
 
     const imageStyles = {

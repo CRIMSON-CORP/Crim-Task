@@ -17,7 +17,7 @@ import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
-import { getAsyncAccountData } from "../../../../redux/account/component/account.reducer";
+import { getAsyncAccountData } from "../../../../redux/account/account.reducer";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 /**

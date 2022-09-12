@@ -18,12 +18,13 @@ import store from "./redux";
 import { AuthContext, NavigationContext } from "./utils/context";
 import { navigationCardTheme, theme } from "./utils/theme";
 import { getAsyncTaskData, getAsyncUIData } from "./utils/utils";
-import { useDispatch } from "react-redux";
-import { getAsyncAccountData } from "./redux/account/component/account.reducer";
+import { getAsyncAccountData } from "./redux/account/account.reducer";
+
 enableScreens();
 const Stack = createStackNavigator();
 
 store.dispatch(getAsyncAccountData());
+
 export default function App() {
     return (
         <Provider store={store}>

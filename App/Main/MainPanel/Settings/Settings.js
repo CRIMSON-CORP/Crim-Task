@@ -9,7 +9,7 @@ import {
     changeFirstName,
     changeLastName,
     changeRoundedCorners,
-} from "../../../../redux/account/component/account.reducer";
+} from "../../../../redux/account/account.reducer";
 import { AuthContext, NavigationContext } from "../../../../utils/context";
 import { ClearStore } from "../../../../utils/utils";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
