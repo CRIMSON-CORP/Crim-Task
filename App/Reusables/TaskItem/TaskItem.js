@@ -1,3 +1,4 @@
+import React from "react";
 import { MotiView } from "moti";
 import { HStack, Pressable } from "native-base";
 import PropTypes from "prop-types";
@@ -5,6 +6,7 @@ import { memo } from "react";
 import { Layout } from "react-native-reanimated";
 import { useDispatch } from "react-redux";
 import { DELETE_TASK, UPDATE_TASK } from "../../../redux/tasks/components/task.actions";
+import { deleteTask, updateTask } from "../../../redux/tasks/components/task.reducer";
 import { useFab } from "../../../utils/context";
 import AnimatedTaskText from "../AnimatedTaaskText/AnimatedTaskText";
 import SwipableView from "../SwipableView";
@@ -19,19 +21,21 @@ const TaskItem = ({
     dark,
     simultaneousHandlers,
 }) => {
-    const dispath = useDispatch();
+    // const dispath = useDispatch();
     const { setFlag, ToggleOpenFab } = useFab();
     return (
         <MotiView layout={Layout.springify()}>
             <SwipableView
-                swipeExe={() =>
-                    dispath({
-                        type: DELETE_TASK,
-                        payload: {
+                swipeExe={
+                    () =>
+                        deleteTask({
                             categoryId,
                             itemId,
-                        },
-                    })
+                        })
+                    // dispath({
+                    //     type: DELETE_TASK,
+                    //     payload: ,
+                    // })
                 }
                 simultaneousHandlers={simultaneousHandlers}
             >
@@ -46,13 +50,14 @@ const TaskItem = ({
                         ToggleOpenFab(true);
                     }}
                     onPress={() => {
-                        dispath({
-                            type: UPDATE_TASK,
-                            payload: {
-                                categoryId,
-                                itemId,
-                            },
+                        updateTask({
+                            categoryId,
+                            itemId,
                         });
+                        // dispath({
+                        //     type: UPDATE_TASK,
+                        //     payload: ,
+                        // });
                     }}
                     mb={30}
                 >

@@ -2,14 +2,15 @@ import { Center, Image, useTheme } from "native-base";
 import { useContext } from "react";
 import Svg, { Circle } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
+// import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
+import { closeSide } from "../../../../../redux/ui/components/ui.reducer";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 const ProfilePhoto = () => {
-    const profile = useSelector((state) => state.account.profilePhoto);
+    const profile = useSelector((state) => state.account);
     const { NavigationRef } = useContext(NavigationContext);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { colors } = useTheme();
 
     return (
@@ -17,7 +18,7 @@ const ProfilePhoto = () => {
             <AnimatedPressable
                 onPress={() => {
                     NavigationRef.navigate("settings");
-                    dispatch({ type: CLOSE_SIDE });
+                    closeSide();
                 }}
                 style={{
                     width: 120,
