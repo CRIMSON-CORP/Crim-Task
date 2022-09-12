@@ -1,3 +1,4 @@
+import React from "react";
 import { Box } from "native-base";
 import PropTypes from "prop-types";
 import { memo, useContext, useEffect, useRef } from "react";
@@ -11,13 +12,24 @@ import Animated, {
 } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_SIDE, OPEN_SIDE } from "../../../../redux/ui/components/ui.actions";
+import { closeSide, openSide } from "../../../../redux/ui/components/ui.reducer";
 import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
-const MenuBackButton = ({ back, OpenSearch }) => {
+
+/**
+ * @typedef MenuBackButtonParams
+ * @property {boolean} back
+ * @property {boolean} openSearch
+ */
+
+/**
+ * @param {MenuBackButtonParams}
+ * @returns {JSX.Element}
+ */
+function MenuBackButton({ back, OpenSearch }) {
     const AnimatedBoxShared = useSharedValue(1);
     const { NavigationRef } = useContext(NavigationContext);
     const { side_panel_opened } = useSelector((state) => state.ui);
@@ -37,13 +49,14 @@ const MenuBackButton = ({ back, OpenSearch }) => {
     useEffect(() => {
         const sideClose = () => {
             if (side_panel_opened) {
-                dispath({ type: CLOSE_SIDE });
+                dispath(closeSide());
                 return true;
             } else return false;
         };
         const BackEvnt = BackHandler.addEventListener("hardwareBackPress", sideClose);
         return () => BackEvnt.remove();
     }, [side_panel_opened]);
+
     return (
         <AnimatedBox style={AnimatedBoxStyles}>
             <AnimatedPressable
@@ -51,7 +64,7 @@ const MenuBackButton = ({ back, OpenSearch }) => {
                     if (NavigationRef.canGoBack()) {
                         NavigationRef.goBack();
                     } else {
-                        dispath({ type: OPEN_SIDE });
+                        dispath(openSide());
                     }
                 }}
             >
@@ -67,7 +80,7 @@ const MenuBackButton = ({ back, OpenSearch }) => {
             </AnimatedPressable>
         </AnimatedBox>
     );
-};
+}
 
 MenuBackButton.propTypes = {
     back: PropTypes.bool,

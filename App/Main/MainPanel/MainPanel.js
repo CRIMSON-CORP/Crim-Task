@@ -1,3 +1,4 @@
+import React from "react";
 import { Box } from "native-base";
 import { useEffect } from "react";
 import { Dimensions, StyleSheet } from "react-native";
@@ -15,7 +16,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_SIDE, OPEN_SIDE } from "../../../redux/ui/components/ui.actions";
 import { FabContextProvider } from "../../../utils/context";
 import Categories from "./Categories";
 import Fab from "./Fab";
@@ -24,16 +24,24 @@ import List from "./List";
 import Notification from "./Notification";
 import Settings from "./Settings";
 import SingleCategory from "./SingleCategory";
+import { closeSide, openSide } from "../../../redux/ui/components/ui.reducer";
+
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
 const SharedStack = createSharedElementStackNavigator();
 
+const CLOSE_THRESHOLD = 40;
+const OPEN_THRESHOLD = 120;
+
 const MainPanel = () => {
     const { side_panel_opened } = useSelector((state) => state.ui);
     const { roundedPanelCorners } = useSelector((state) => state.account);
+
+    const dispatch = useDispatch();
+
     const AnimatedPanelSharedValue = useSharedValue(0);
     const AnimatedPanelGestureStartSharedValue = useSharedValue(0);
-    const dispath = useDispatch();
+
     useEffect(() => {
         AnimatedPanelSharedValue.value = withSpring(side_panel_opened ? 1 : 0, {
             damping: 8,
@@ -59,7 +67,7 @@ const MainPanel = () => {
     const gesture = useAnimatedGestureHandler({
         onStart: (e) => {
             AnimatedPanelGestureStartSharedValue.value = e.x;
-            if (AnimatedPanelGestureStartSharedValue.value <= 40 && e.y >= 120) {
+            if (AnimatedPanelGestureStartSharedValue.value <= CLOSE_THRESHOLD && e.y >= 120) {
                 AnimatedPanelSharedValue.value = withTiming(
                     interpolate(e.absoluteX, [0, width], [0, 1]),
                     { duration: 100 }
@@ -68,14 +76,18 @@ const MainPanel = () => {
         },
         onActive: (e) => {
             if (
-                (AnimatedPanelGestureStartSharedValue.value <= 40 || side_panel_opened) &&
-                e.absoluteY >= 120
+                (AnimatedPanelGestureStartSharedValue.value <= CLOSE_THRESHOLD ||
+                    side_panel_opened) &&
+                e.absoluteY >= OPEN_THRESHOLD
             ) {
                 AnimatedPanelSharedValue.value = interpolate(e.absoluteX, [0, width], [0, 1]);
             }
         },
         onFinish: (e) => {
-            if (AnimatedPanelGestureStartSharedValue.value <= 40 || side_panel_opened) {
+            if (
+                AnimatedPanelGestureStartSharedValue.value <= CLOSE_THRESHOLD ||
+                side_panel_opened
+            ) {
                 if (width - e.absoluteX <= width * 0.5) {
                     AnimatedPanelSharedValue.value = withSpring(
                         1,
@@ -83,7 +95,7 @@ const MainPanel = () => {
                             damping: 8,
                             restDisplacementThreshold: 0.001,
                         },
-                        () => runOnJS(dispath)({ type: OPEN_SIDE })
+                        () => runOnJS(dispatch)(openSide)
                     );
                 } else {
                     AnimatedPanelSharedValue.value = withTiming(
@@ -92,7 +104,7 @@ const MainPanel = () => {
                             duration: 500,
                             easing: Easing.out(Easing.quad),
                         },
-                        () => runOnJS(dispath)({ type: CLOSE_SIDE })
+                        () => runOnJS(dispatch)(closeSide)
                     );
                 }
             }
