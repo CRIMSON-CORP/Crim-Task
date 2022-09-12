@@ -1,14 +1,25 @@
-// import * as ACTIONS from "./account.actions";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
     name: {
         first: "",
-        last: "",
+        last: "CRIMSON",
     },
     profilePhoto: null,
     roundedPanelCorners: true,
 };
+
+export const getAsyncAccountData = createAsyncThunk("get-account-data", async () => {
+    try {
+        const data = await AsyncStorage.getItem("crim-task-data");
+        if (data) {
+            return { data: await JSON.parse(data).account };
+        } else return { data: initialState };
+    } catch (error) {
+        return initialState;
+    }
+});
 
 const accountReducer = createSlice({
     name: "account",
@@ -33,46 +44,13 @@ const accountReducer = createSlice({
             state = {};
         },
     },
+    extraReducers(builder) {
+        builder.addCase(getAsyncAccountData.fulfilled, (state, action) =>
+            Object.assign(state, action.payload.data)
+        );
+    },
 });
-// function accountReducer(state = account, ACTION) {
-//     switch (ACTION.type) {
-//         case ACTIONS.SET_ACCOUNT_INITIAL_STATE:
-//             return {
-//                 ...state,
-//                 ...ACTION.payload.data,
-//             };
-//         case ACTIONS.CHANGE_FIRST_NAME:
-//             return {
-//                 ...state,
-//                 name: {
-//                     ...state.name,
-//                     first: ACTION.payload.data,
-//                 },
-//             };
-//         case ACTIONS.CHANGE_LAST_NAME:
-//             return {
-//                 ...state,
-//                 name: {
-//                     ...state.name,
-//                     last: ACTION.payload.data,
-//                 },
-//             };
-//         case ACTIONS.CHANGE_ROUNDED_CORNER:
-//             return {
-//                 ...state,
-//                 roundedPanelCorners: ACTION.payload.state,
-//             };
-//         case ACTIONS.CHANGE_PROFILE_PHOTO:
-//             return {
-//                 ...state,
-//                 profilePhoto: ACTION.payload,
-//             };
-//         case "CLEAR_ALL_DATA":
-//             return {};
-//         default:
-//             return state;
-//     }
-// }
+
 export const {
     setInitialState,
     changeFirstName,

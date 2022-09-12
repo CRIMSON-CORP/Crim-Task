@@ -17,6 +17,7 @@ import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
+import { getAsyncAccountData } from "../../../../redux/account/component/account.reducer";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 /**
@@ -33,7 +34,7 @@ function MenuBackButton({ back, OpenSearch }) {
     const AnimatedBoxShared = useSharedValue(1);
     const { NavigationRef } = useContext(NavigationContext);
     const { side_panel_opened } = useSelector((state) => state.ui);
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const shouldAnimate = useRef(false);
     const AnimatedBoxStyles = useAnimatedStyle(() => ({
         opacity: AnimatedBoxShared.value,
@@ -49,7 +50,7 @@ function MenuBackButton({ back, OpenSearch }) {
     useEffect(() => {
         const sideClose = () => {
             if (side_panel_opened) {
-                dispath(closeSide());
+                dispatch(closeSide());
                 return true;
             } else return false;
         };
@@ -64,7 +65,8 @@ function MenuBackButton({ back, OpenSearch }) {
                     if (NavigationRef.canGoBack()) {
                         NavigationRef.goBack();
                     } else {
-                        dispath(openSide());
+                        dispatch(openSide());
+                        dispatch(getAsyncAccountData());
                     }
                 }}
             >

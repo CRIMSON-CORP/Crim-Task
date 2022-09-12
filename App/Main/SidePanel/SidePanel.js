@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, VStack } from "native-base";
 import ClosePanelButton from "./ClosePanelButton";
 import NavBar from "./NavBar";

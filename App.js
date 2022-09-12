@@ -17,9 +17,13 @@ import Fonts from "./assets/fonts";
 import store from "./redux";
 import { AuthContext, NavigationContext } from "./utils/context";
 import { navigationCardTheme, theme } from "./utils/theme";
-import { getAsyncAccountData, getAsyncTaskData, getAsyncUIData } from "./utils/utils";
+import { getAsyncTaskData, getAsyncUIData } from "./utils/utils";
+import { useDispatch } from "react-redux";
+import { getAsyncAccountData } from "./redux/account/component/account.reducer";
 enableScreens();
 const Stack = createStackNavigator();
+
+store.dispatch(getAsyncAccountData());
 export default function App() {
     return (
         <Provider store={store}>
@@ -31,6 +35,7 @@ function MainWrapper() {
     const [Loading, setLoading] = useState(true);
     const [userExist, setUserExist] = useState(false);
     const NavigationRef = useRef();
+    const dispatch = useDispatch();
     useEffect(() => {
         async function getData() {
             try {
@@ -39,11 +44,7 @@ function MainWrapper() {
                 await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
                 if (AsyncData) {
                     setUserExist(true);
-                    await Promise.all([
-                        getAsyncAccountData(),
-                        getAsyncTaskData(),
-                        getAsyncUIData(),
-                    ]);
+                    await Promise.all([getAsyncTaskData(), getAsyncUIData()]);
                 } else {
                     setUserExist(false);
                 }

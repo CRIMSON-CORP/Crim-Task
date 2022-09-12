@@ -1,6 +1,4 @@
-import * as ACTIONS from "./task.actions";
-import { generate } from "shortid";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const taskReducer = createSlice({
     name: "tasks",
@@ -33,7 +31,7 @@ const taskReducer = createSlice({
         },
         createCategory(state, action) {
             state.push({
-                categoryId: generate(),
+                categoryId: nanoid(6),
                 categoryTitle: action.payload.title,
                 categoryColor: action.payload.color,
                 tasks: [],
@@ -44,7 +42,7 @@ const taskReducer = createSlice({
                 (cat) => cat.categoryId === action.payload.categoryId
             );
             const newTask = {
-                id: generate(),
+                id: nanoid(6),
                 task: action.payload.subject,
                 completed: false,
                 timeStamp: Date.now(),
@@ -135,7 +133,7 @@ const taskReducer = createSlice({
 //             return [...state.filter((cat) => cat.categoryId !== ACTION.payload.id)];
 //         case ACTIONS.CREATE_CATEGORY:
 //             const newCategory = {
-//                 categoryId: generate(),
+//                 categoryId: nanoid(6),
 //                 categoryTitle: ACTION.payload.title,
 //                 categoryColor: ACTION.payload.color,
 //                 tasks: [],
@@ -146,7 +144,7 @@ const taskReducer = createSlice({
 //                 (cat) => cat.categoryId === ACTION.payload.categoryId
 //             );
 //             const newTask = {
-//                 id: generate(),
+//                 id: nanoid(6),
 //                 task: ACTION.payload.subject,
 //                 completed: false,
 //                 timeStamp: Date.now(),

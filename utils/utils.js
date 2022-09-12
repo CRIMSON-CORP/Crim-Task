@@ -50,29 +50,29 @@ export async function getAsyncUIData() {
         };
     }
 }
-export async function getAsyncAccountData() {
-    try {
-        const data = await AsyncStorage.getItem("crim-task-data");
-        if (data) {
-            setAccountInitialState({ data: await JSON.parse(data).account });
-            // return store.dispatch({
-            //     type: SET_ACCOUNT_INITIAL_STATE,
-            //     payload: {
-            //         ,
-            //     },
-            // });
-        }
-        throw "";
-    } catch (error) {
-        return {
-            name: {
-                first: "",
-                last: "",
-            },
-            roundedPanelCorners: true,
-        };
-    }
-}
+// export async function getAsyncAccountData() {
+//     try {
+//         const data = await AsyncStorage.getItem("crim-task-data");
+//         if (data) {
+//             setAccountInitialState({ data: await JSON.parse(data).account });
+//             // return store.dispatch({
+//             //     type: SET_ACCOUNT_INITIAL_STATE,
+//             //     payload: {
+//             //         ,
+//             //     },
+//             // });
+//         }
+//         throw "";
+//     } catch (error) {
+//         return {
+//             name: {
+//                 first: "",
+//                 last: "",
+//             },
+//             roundedPanelCorners: true,
+//         };
+//     }
+// }
 
 export function ClearStore() {
     store.dispatch({ type: "CLEAR_ALL_DATA" });
