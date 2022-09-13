@@ -42,8 +42,8 @@ const Categories = () => {
                                         style={styles.categoryCardMotiWrapperStyle}
                                     >
                                         <SwipableView
-                                            swipeExe={() => swipetoDelete(item.categoryId)}
                                             simultaneousHandlers={scrollRef}
+                                            swipeExe={() => swipetoDelete(item.categoryId)}
                                         >
                                             <CategoryListItem
                                                 mr="5"

@@ -41,8 +41,8 @@ const taskReducer = createSlice({
             );
             state[categoryIndex].tasks.splice(taskIndex, 1);
         },
-        deleteCategory(state, action) {
-            const categoryIndex = state.findIndex((cat) => cat.categoryId === action.payload.id);
+        deleteCategory(state, { payload }) {
+            const categoryIndex = state.findIndex((cat) => cat.categoryId === payload);
             state.splice(categoryIndex, 1);
         },
         createCategory(state, action) {
@@ -111,9 +111,7 @@ const taskReducer = createSlice({
                 state[newCategoryindex].tasks.push(newProps);
             }
         },
-        resetTasks(state) {
-            state = [];
-        },
+        resetTasks: () => [],
     },
 });
 
