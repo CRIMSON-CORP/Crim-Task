@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { Entypo } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Center, FlatList, Heading, HStack, Image, Text, VStack } from "native-base";
@@ -13,6 +15,7 @@ import Animated, {
 import Svg, { Path } from "react-native-svg";
 import AnimatedPressable from "../../Reusables/AnimatedPressable";
 import { Art1, Art2, Art3, Art4 } from "./Arts";
+
 const { width, height } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const AnimatedCenter = Animated.createAnimatedComponent(Center);
@@ -54,7 +57,8 @@ const buttonAnimation = {
         transform: [{ translateY: 0 }],
     },
 };
-const Onboarding = ({ navigation }) => {
+
+function Onboarding({ navigation }) {
     const progress = useSharedValue(0);
     const [scrollEnd, setScrollEnd] = useState(false);
     return (
@@ -106,13 +110,11 @@ const Onboarding = ({ navigation }) => {
                 onPress={() => navigation.navigate("createAcc")}
             >
                 <HStack alignItems={"center"} m="5" space="3">
-                    <AnimatePresence>
+                    <AnimatePresence initial={false}>
                         {scrollEnd ? (
                             <MotiView
                                 key="create"
-                                from={buttonAnimation.from}
-                                exit={buttonAnimation.exit}
-                                animate={buttonAnimation.animate}
+                                {...buttonAnimation}
                                 style={[customStyles.absolute, { right: 20 }]}
                             >
                                 <Text fontFamily={"Gisha"} fontSize={24}>
@@ -122,10 +124,8 @@ const Onboarding = ({ navigation }) => {
                         ) : (
                             <MotiView
                                 key="skip"
+                                {...buttonAnimation}
                                 style={[customStyles.absolute, { right: 20 }]}
-                                from={buttonAnimation.from}
-                                exit={buttonAnimation.exit}
-                                animate={buttonAnimation.animate}
                             >
                                 <Text fontFamily={"Gisha"} fontSize={24}>
                                     Skip
@@ -143,6 +143,10 @@ const Onboarding = ({ navigation }) => {
             </AnimatedPressable>
         </Box>
     );
+}
+
+Onboarding.propTypes = {
+    navigation: PropTypes.object,
 };
 
 function Background({ progress }) {
