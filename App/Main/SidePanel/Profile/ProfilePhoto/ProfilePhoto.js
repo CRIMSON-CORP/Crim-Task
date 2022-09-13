@@ -2,24 +2,23 @@ import React from "react";
 import { Center, Image, useTheme } from "native-base";
 import { useContext } from "react";
 import Svg, { Circle } from "react-native-svg";
-import { useDispatch, useSelector } from "react-redux";
-// import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
-import { closeSide } from "../../../../../redux/ui/components/ui.reducer";
+import { useSelector } from "react-redux";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
+import { useSidePanel } from "../../../../../utils/contexts/sidePanelOpenedContext";
 const ProfilePhoto = () => {
     const { profilePhoto } = useSelector((state) => state.account);
     const { NavigationRef } = useContext(NavigationContext);
-    const dispatch = useDispatch();
     const { colors } = useTheme();
+    const { setSidePanelOpened } = useSidePanel();
 
     return (
         <Center size={120}>
             <AnimatedPressable
                 onPress={() => {
                     NavigationRef.navigate("settings");
-                    dispatch(closeSide());
+                    setSidePanelOpened(false);
                 }}
                 style={{
                     width: 120,
