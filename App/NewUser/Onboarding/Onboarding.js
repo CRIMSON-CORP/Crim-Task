@@ -157,6 +157,10 @@ function Background({ progress }) {
     return <AnimatedBox style={[AnimatedBackgroundStyles, StyleSheet.absoluteFill]} />;
 }
 
+Background.propTypes = {
+    progress: PropTypes.number.isRequired,
+};
+
 function BlobBackground() {
     return (
         <Svg
@@ -184,6 +188,10 @@ function Indicators({ progress }) {
     );
 }
 
+Indicators.propTypes = {
+    progress: PropTypes.number,
+};
+
 function IndicatorCenter({ progress, index }) {
     const AnimatedCenterStyles = useAnimatedStyle(() => ({
         transform: [
@@ -199,6 +207,13 @@ function IndicatorCenter({ progress, index }) {
     }));
     return <AnimatedCenter style={AnimatedCenterStyles} size={"2.5"} bg="white" rounded="full" />;
 }
+
+IndicatorCenter.propTypes = {
+    progress: PropTypes.shape({
+        value: PropTypes.number,
+    }),
+    index: PropTypes.number,
+};
 
 function Square({ progress }) {
     const inputRange = [0, 0.5, 1];
@@ -235,6 +250,12 @@ function Square({ progress }) {
         />
     );
 }
+
+Square.propTypes = {
+    progress: PropTypes.shape({
+        value: PropTypes.number,
+    }),
+};
 
 const customStyles = StyleSheet.create({
     absolute: {
