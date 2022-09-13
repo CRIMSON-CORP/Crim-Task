@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
     getMediaLibraryPermissionsAsync,
     launchImageLibraryAsync,
@@ -15,13 +16,11 @@ import {
     useTheme,
     VStack,
 } from "native-base";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Alert, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { useDispatch } from "react-redux";
-import { AuthContext } from "../../../utils/context";
-import { debounce } from "../../../utils/utils";
 import AnimatedPressable from "../../Reusables/AnimatedPressable";
 import BlobBackground from "../../Reusables/BlobBackground/BlobBackground";
 import BackArrow from "../../Reusables/TopBar/TopBarIcons/BackArrow";
@@ -31,16 +30,20 @@ import {
     changeLastName,
     changeProfilePhoto,
     changeRoundedCorners,
+    updateUserExistence,
 } from "../../../redux/account/account.reducer";
+import { useCallback } from "react";
+
 const { height } = Dimensions.get("screen");
-const CreateAccount = ({ navigation }) => {
+
+function CreateAccount({ navigation }) {
     const [image, setImage] = useState(null);
-    const { setUserExist } = useContext(AuthContext);
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const dispatch = useDispatch();
     const { colors } = useTheme();
-    async function PickImage() {
+
+    const PickImage = useCallback(async () => {
         const permission = await getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
             await requestMediaLibraryPermissionsAsync();
@@ -51,9 +54,19 @@ const CreateAccount = ({ navigation }) => {
         });
         if (!data.cancelled) {
             setImage({ uri: data.base64 });
-            dispatch(changeProfilePhoto(data.base64));
         }
-    }
+    }, [image]);
+
+    const createUser = useCallback(() => {
+        if (fname && lname) {
+            dispatch(changeProfilePhoto(image));
+            dispatch(changeRoundedCorners(true));
+            dispatch(changeFirstName(fname));
+            dispatch(changeLastName(lname));
+            dispatch(updateUserExistence(true));
+        } else Alert.alert("Empty Field", "Firstname and Lastname should be filled! ");
+    }, [image, fname, lname]);
+
     return (
         <Box flex={1}>
             <BlobBackground full />
@@ -81,7 +94,7 @@ const CreateAccount = ({ navigation }) => {
                                         overflow={"hidden"}
                                     >
                                         {image ? (
-                                            <Pressable onPress={() => PickImage()} w={200} h={200}>
+                                            <Pressable onPress={PickImage} w={200} h={200}>
                                                 <Image
                                                     source={{
                                                         uri: `data:image/*;base64,${image.uri}`,
@@ -96,13 +109,10 @@ const CreateAccount = ({ navigation }) => {
                                                 />
                                             </Pressable>
                                         ) : (
-                                            <UserIcon
-                                                size={height * 0.1}
-                                                onPress={() => PickImage()}
-                                            />
+                                            <UserIcon size={height * 0.1} onPress={PickImage} />
                                         )}
                                     </Center>
-                                    <Text opacity={60} onPress={() => PickImage()} fontWeight={300}>
+                                    <Text opacity={60} onPress={PickImage} fontWeight={300}>
                                         Add profile picture
                                     </Text>
                                 </VStack>
@@ -128,7 +138,6 @@ const CreateAccount = ({ navigation }) => {
                                             value={fname}
                                             onChangeText={(e) => {
                                                 setFname(e);
-                                                debounce(dispatch(changeFirstName(e.trim())), 2000);
                                             }}
                                         />
                                     </VStack>
@@ -154,25 +163,12 @@ const CreateAccount = ({ navigation }) => {
                                             value={lname}
                                             onChangeText={(e) => {
                                                 setLname(e);
-                                                debounce(dispatch(changeLastName(e.trim())), 2000);
                                             }}
                                         />
                                     </VStack>
                                 </Box>
                             </VStack>
-                            <AnimatedPressable
-                                onPress={() => {
-                                    if (fname && lname) {
-                                        setUserExist(true);
-                                        dispatch(changeProfilePhoto(image));
-                                        dispatch(changeRoundedCorners(true));
-                                    } else
-                                        Alert.alert(
-                                            "Empty Field",
-                                            "Firstname and Lastname should be filled! "
-                                        );
-                                }}
-                            >
+                            <AnimatedPressable onPress={createUser}>
                                 <Box w="full" p="4" bg="white" rounded="10">
                                     <Text textAlign="center" color="primary.200" fontWeight={"700"}>
                                         Create Profile
@@ -185,6 +181,10 @@ const CreateAccount = ({ navigation }) => {
             </SafeAreaView>
         </Box>
     );
+}
+
+CreateAccount.propTypes = {
+    navigation: PropTypes.object,
 };
 
 export default CreateAccount;

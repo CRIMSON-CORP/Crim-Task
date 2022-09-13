@@ -9,9 +9,9 @@ import {
     changeFirstName,
     changeLastName,
     changeRoundedCorners,
+    updateUserExistence,
 } from "../../../../redux/account/account.reducer";
-import { AuthContext, NavigationContext } from "../../../../utils/context";
-import { ClearStore } from "../../../../utils/utils";
+import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import TopBar from "../../../Reusables/TopBar";
@@ -20,7 +20,6 @@ import ProfilePhotoSettings from "./ProfilePhotoSettings";
 const Settings = () => {
     const user = useSelector((state) => state.account);
     const dispatch = useDispatch();
-    const { setUserExist } = useContext(AuthContext);
     const { NavigationRef } = useContext(NavigationContext);
 
     return (
@@ -99,9 +98,8 @@ const Settings = () => {
                                         </Text>
                                         <AnimatedPressable
                                             onPress={() => {
-                                                ClearStore();
                                                 AsyncStorage.removeItem("crim-task-data");
-                                                setUserExist(false);
+                                                dispatch(updateUserExistence(false));
                                             }}
                                         >
                                             <Box bg="red.700" w="full" p="4" py="3" rounded="10">

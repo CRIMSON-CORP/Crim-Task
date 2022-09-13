@@ -12,9 +12,10 @@ import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 import { changeProfilePhoto } from "../../../../../redux/account/account.reducer";
 const ProfilePhotoSettings = () => {
-    const user = useSelector((state) => state.account);
-    const [image, setImage] = useState(user.profilePhoto);
+    const { profilePhoto } = useSelector((state) => state.account);
+    const [image, setImage] = useState(profilePhoto);
     const dispatch = useDispatch();
+
     const PickImage = useCallback(async () => {
         const permission = await getMediaLibraryPermissionsAsync();
         if (permission.status !== "granted") {
@@ -25,15 +26,15 @@ const ProfilePhotoSettings = () => {
             base64: true,
         });
         if (!data.cancelled) {
-            setImage({ uri: data.base64 });
+            setImage(data.base64);
             dispatch(changeProfilePhoto(data.base64));
         }
-    }, [image, setImage, dispatch]);
+    }, [image]);
 
     const removeProfilePic = useCallback(() => {
         setImage(null);
         dispatch(changeProfilePhoto(null));
-    }, [image, setImage, dispatch]);
+    }, [image]);
 
     const imageStyles = {
         position: "absolute",
@@ -64,10 +65,10 @@ const ProfilePhotoSettings = () => {
                             animate={animation.show}
                             exit={animation.hide}
                         >
-                            <Pressable onPress={() => PickImage()} w="full" h="full">
+                            <Pressable onPress={PickImage} w="full" h="full">
                                 <Image
                                     source={{
-                                        uri: `data:image/*;base64,${image.uri}`,
+                                        uri: `data:image/*;base64,${image}`,
                                     }}
                                     alt="prfile photo"
                                     w="full"
@@ -87,16 +88,16 @@ const ProfilePhotoSettings = () => {
                             animate={animation.show}
                             exit={animation.hide}
                         >
-                            <UserIcon size={90} color="white" onPress={() => PickImage()} />
+                            <UserIcon size={90} color="white" onPress={PickImage} />
                         </View>
                     )}
                 </AnimatePresence>
             </Center>
             <VStack space="1" alignItems={"center"}>
-                <AnimatedPressable onPress={() => PickImage()}>
+                <AnimatedPressable onPress={PickImage}>
                     <Text opacity={60}>Tap to change Profile Photo</Text>
                 </AnimatedPressable>
-                <AnimatedPressable onPress={() => removeProfilePic()}>
+                <AnimatedPressable onPress={removeProfilePic}>
                     <Text opacity={60} color="red.400">
                         Remove Profile Photo
                     </Text>
