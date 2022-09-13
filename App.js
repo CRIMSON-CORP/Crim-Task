@@ -1,8 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
-import { useFonts } from "expo-font";
+import { loadAsync } from "expo-font";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import { Box, NativeBaseProvider } from "native-base";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import { Provider } from "react-redux";
@@ -14,7 +15,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import UserContextProvider from "./utils/contexts/userContext";
 import NewUser from "./App/NewUser";
 import NavigationProvider from "./utils/contexts/navigationContext";
-import { useCallback } from "react";
+import LoadingScreen from "./App/Reusables/LoadingScreen";
 
 enableScreens();
 
@@ -30,41 +31,35 @@ export default function App() {
     );
 }
 function MainWrapper() {
-    const [fontsLoaded] = useFonts({ ...Fonts.Raleway, ...Fonts.Gisha });
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        (async () => await preventAutoHideAsync())();
+        async function getData() {
+            try {
+                await preventAutoHideAsync();
+                await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
+            } catch (err) {
+                console.log(err);
+            } finally {
+                await hideAsync();
+                setLoading(false);
+            }
+        }
+        getData();
     }, []);
-
-    const onLayout = useCallback(async () => {
-        fontsLoaded && hideAsync();
-    }, [fontsLoaded]);
 
     return (
         <NavigationProvider>
-            <Box flex={1} onLayout={onLayout}>
-                <GestureHandlerRootView style={{ flex: 1 }}>
-                    <UserContextProvider>
-                        {(userExist) => (userExist ? <Main /> : <NewUser />)}
-                    </UserContextProvider>
-                </GestureHandlerRootView>
-            </Box>
+            {loading ? (
+                <LoadingScreen />
+            ) : (
+                <Box flex={1}>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                        <UserContextProvider>
+                            {(userExist) => (userExist ? <Main /> : <NewUser />)}
+                        </UserContextProvider>
+                    </GestureHandlerRootView>
+                </Box>
+            )}
         </NavigationProvider>
     );
-}
-
-function LoadingScreen() {
-    useEffect(() => {
-        console.log("loading mounted");
-        (async () => {
-            await preventAutoHideAsync();
-        })();
-
-        return () => {
-            console.log("loading removed");
-            (async () => {
-                await hideAsync();
-            })();
-        };
-    }, []);
-    return <Box positon="absolute" top={0} bottom={0} left={0} right={0} bg="primary.200" />;
 }

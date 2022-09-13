@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Svg, Path } from "react-native-svg";
 
 function List({ size, color }) {
-    console.log(size);
     return (
         <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
             <Path
