@@ -77,7 +77,7 @@ function Onboarding({ navigation }) {
                 keyExtractor={(item) => item.index}
                 pagingEnabled
                 bounces={false}
-                decelerationRate={100}
+                decelerationRate={"normal"}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <Box w={width} h={height} px="6">
@@ -158,7 +158,9 @@ function Background({ progress }) {
 }
 
 Background.propTypes = {
-    progress: PropTypes.number.isRequired,
+    progress: PropTypes.shape({
+        value: PropTypes.number,
+    }).isRequired,
 };
 
 function BlobBackground() {
@@ -189,7 +191,9 @@ function Indicators({ progress }) {
 }
 
 Indicators.propTypes = {
-    progress: PropTypes.number,
+    progress: PropTypes.shape({
+        value: PropTypes.number,
+    }).isRequired,
 };
 
 function IndicatorCenter({ progress, index }) {
