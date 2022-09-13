@@ -1,17 +1,18 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { View } from "moti";
 import { HStack, Text } from "native-base";
 import { useContext, useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-import { CLOSE_SIDE } from "../../../../../redux/ui/components/ui.actions";
-import { closeSide } from "../../../../../redux/ui/components/ui.reducer";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
-const NavbarItem = ({ icon, text, slug }) => {
-    // const dispath = useDispatch();
+import { useSidePanel } from "../../../../../utils/sidePanelOpenedContext";
+
+function NavbarItem({ icon, text, slug }) {
     const { NavigationRef } = useContext(NavigationContext);
     const [Active, setActive] = useState(false);
+    const { setSidePanelOpened } = useSidePanel();
     useEffect(() => {
-        const unsub = NavigationRef.addListener("state", (e) => {
+        const unsub = NavigationRef.addListener("state", () => {
             setActive(NavigationRef.getCurrentRoute().name === slug);
         });
 
@@ -27,7 +28,7 @@ const NavbarItem = ({ icon, text, slug }) => {
             <AnimatedPressable
                 onPress={() => {
                     NavigationRef.navigate(slug);
-                    closeSide();
+                    setSidePanelOpened(false);
                 }}
             >
                 <HStack space="8" alignItems="center">
@@ -39,6 +40,12 @@ const NavbarItem = ({ icon, text, slug }) => {
             </AnimatedPressable>
         </View>
     );
+}
+
+NavbarItem.propTypes = {
+    icon: PropTypes.element,
+    text: PropTypes.string,
+    slug: PropTypes.string,
 };
 
 export default NavbarItem;

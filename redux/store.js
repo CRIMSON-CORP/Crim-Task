@@ -1,5 +1,4 @@
 import taskReducer from "./tasks/components/task.reducer";
-import uiReducer from "./ui/components/ui.reducer";
 import accountReducer from "./account/account.reducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -16,12 +15,16 @@ const persistedReducer = persistReducer(
     combineReducers({
         account: accountReducer,
         tasks: taskReducer,
-        ui: uiReducer,
     })
 );
 
 const store = configureStore({
     reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            immutableCheck: false,
+            serializableCheck: false,
+        }),
 });
 
 const persistor = persistStore(store);
