@@ -1,7 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, HStack, useTheme } from "native-base";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BackHandler, Dimensions, StatusBar, StyleSheet } from "react-native";
 import Animated, {
     useAnimatedStyle,
@@ -10,7 +10,7 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
-import { NavigationContext, useFab } from "../../../utils/context";
+import { useFab } from "../../../utils/contexts/fabContext";
 import { useNavigation } from "../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../AnimatedPressable";
 import MenuBackButton from "./MenuBackButton";

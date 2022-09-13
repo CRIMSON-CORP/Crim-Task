@@ -1,34 +1,54 @@
 import { AntDesign } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Center } from "native-base";
-import { useContext, useEffect, useRef } from "react";
-import { Dimensions } from "react-native";
+import { useCallback } from "react";
+import { useEffect, useRef, useMemo } from "react";
+import { Dimensions, StyleSheet } from "react-native";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSelector } from "react-redux";
-import { NavigationContext, useFab } from "../../../../utils/context";
+import { useFab } from "../../../../utils/contexts/fabContext";
 import { useNavigation } from "../../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import CreateNewCategory from "./CreateNewCategory";
 import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask/CreateNewKnowCategoryTask";
 import CreateNewTask from "./CreateNewTask";
-const { width: w, height: h } = Dimensions.get("screen");
+
 export const AnimatedBox = Animated.createAnimatedComponent(Box);
 
-const Fab = () => {
+const fabAnimationStyles = {
+    initial: {
+        opacity: 0,
+        transform: [{ scale: 0.4 }],
+    },
+    animate: {
+        opacity: 1,
+        transform: [{ scale: 1 }],
+    },
+};
+
+const fabPlusAnimationTransition = {
+    mass: 3,
+    damping: 20,
+};
+
+function Fab() {
     const { rad, content, backDropOpen, open, ToggleOpenFab, showFab, AnimateOpen, setShowFab } =
         useFab();
+
     const Styles = useAnimatedStyle(() => ({
         transform: [{ scale: rad.value }],
     }));
+
     const ContentStyles = useAnimatedStyle(() => ({
         transform: [{ translateY: content.value }],
         opacity: interpolate(content.value, [0, 200], [1, 0]),
     }));
 
     const { NavigationRef } = useNavigation();
-    const noFabScreens = ["notifications", "settings", "how_to_use"];
+
     useEffect(() => {
-        const unsub = NavigationRef.addListener("state", (e) => {
+        const noFabScreens = ["notifications", "settings", "how_to_use"];
+        const unsub = NavigationRef.addListener("state", () => {
             let routename = NavigationRef.getCurrentRoute().name;
             setShowFab(!noFabScreens.includes(routename));
         });
@@ -36,22 +56,31 @@ const Fab = () => {
         return unsub;
     }, []);
 
+    const backDropAimationStyles = useMemo(
+        () => ({
+            opacity: backDropOpen ? 1 : 0,
+        }),
+        [backDropOpen]
+    );
+
+    const plusAnimateStyles = useMemo(
+        () => ({
+            transform: [{ rotate: AnimateOpen ? `${405}deg` : `${0}deg` }],
+        }),
+        [AnimateOpen]
+    );
+
+    const fabOpenToggler = useCallback(() => {
+        console.log("toggle", open);
+        ToggleOpenFab(!open);
+    }, [open]);
+
     return (
         <Box justifyContent={"center"}>
             <MotiView
-                style={[
-                    {
-                        backgroundColor: "#00000040",
-                        width: w,
-                        height: h,
-                        position: "absolute",
-                        bottom: 0,
-                    },
-                ]}
-                animate={{
-                    opacity: backDropOpen ? 1 : 0,
-                }}
                 pointerEvents="none"
+                style={styles.fabBackDropStyles}
+                animate={backDropAimationStyles}
             />
             <AnimatedBox
                 width={10}
@@ -71,18 +100,13 @@ const Fab = () => {
                     </Center>
                 )}
             </AnimatedBox>
-            <AnimatedPressable
-                onPress={() => {
-                    ToggleOpenFab(!open);
-                }}
-                style={{ position: "absolute", bottom: 20, right: 20 }}
-            >
+            <AnimatedPressable onPress={fabOpenToggler} style={styles.fabPressableStyles}>
                 <AnimatePresence>
                     {showFab && (
                         <MotiView
-                            from={{ opacity: 0, transform: [{ scale: 0.4 }] }}
-                            animate={{ opacity: 1, transform: [{ scale: 1 }] }}
-                            exit={{ opacity: 0, transform: [{ scale: 0.4 }] }}
+                            from={fabAnimationStyles.initial}
+                            animate={fabAnimationStyles.animate}
+                            exit={fabAnimationStyles.initial}
                         >
                             <Center
                                 size={65}
@@ -92,28 +116,14 @@ const Fab = () => {
                                 zIndex={999}
                             >
                                 <MotiView
-                                    transition={{
-                                        mass: 3,
-                                        damping: 20,
-                                    }}
-                                    animate={{
-                                        transform: [
-                                            { rotate: AnimateOpen ? `${405}deg` : `${0}deg` },
-                                        ],
-                                    }}
+                                    animate={plusAnimateStyles}
+                                    transition={fabPlusAnimationTransition}
                                 >
                                     <AntDesign
+                                        size={30}
                                         name="plus"
                                         color="#ffffff"
-                                        style={{
-                                            textShadowOffset: {
-                                                width: 0,
-                                                height: 3,
-                                            },
-                                            textShadowColor: "#00000060",
-                                            textShadowRadius: 10,
-                                        }}
-                                        size={30}
+                                        style={styles.fabPlusIconStyles}
                                     />
                                 </MotiView>
                             </Center>
@@ -123,12 +133,12 @@ const Fab = () => {
             </AnimatedPressable>
         </Box>
     );
-};
+}
 
 export default Fab;
 
 function FabScreen() {
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const currentRoute = NavigationRef.getCurrentRoute().name;
     const categories = useSelector((state) => state.tasks);
     const catRef = useRef(categories.length);
@@ -154,3 +164,23 @@ function FabScreen() {
         }
     }
 }
+
+const { width, height } = Dimensions.get("screen");
+const styles = StyleSheet.create({
+    fabBackDropStyles: {
+        width,
+        height,
+        bottom: 0,
+        position: "absolute",
+        backgroundColor: "#00000040",
+    },
+    fabPressableStyles: { position: "absolute", bottom: 20, right: 20 },
+    fabPlusIconStyles: {
+        textShadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        textShadowColor: "#00000060",
+        textShadowRadius: 10,
+    },
+});
