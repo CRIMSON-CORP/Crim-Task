@@ -2,18 +2,28 @@ import taskReducer from "./tasks/components/task.reducer";
 import uiReducer from "./ui/components/ui.reducer";
 import accountReducer from "./account/account.reducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { CRIM_TASK_STORAGE_KEY } from "../utils/constants";
+import { persistStore, persistReducer } from "redux-persist";
 
-const store = configureStore({
-    reducer: {
+const PersistReducerConfig = {
+    key: CRIM_TASK_STORAGE_KEY,
+    storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(
+    PersistReducerConfig,
+    combineReducers({
         account: accountReducer,
         tasks: taskReducer,
         ui: uiReducer,
-    },
+    })
+);
+
+const store = configureStore({
+    reducer: persistedReducer,
 });
 
-store.subscribe(async () => {
-    await AsyncStorage.setItem("crim-task-data", JSON.stringify(store.getState()));
-});
+const persistor = persistStore(store);
 
-export default store;
+export { store, persistor };

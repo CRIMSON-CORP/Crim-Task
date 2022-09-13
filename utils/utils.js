@@ -13,42 +13,42 @@ export function debounce(func, delay = 500) {
     };
 }
 
-export async function getAsyncTaskData() {
-    try {
-        let data = await AsyncStorage.getItem("crim-task-data");
-        if (data) {
-            setInitialState({ data: await JSON.parse(data).tasks });
-            // return store.dispatch({
-            //     type: SET_INITIAL_STATE,
-            //     payload: {
+// export async function getAsyncTaskData() {
+//     try {
+//         let data = await AsyncStorage.getItem("crim-task-data");
+//         if (data) {
+//             setInitialState({ data: await JSON.parse(data).tasks });
+//             // return store.dispatch({
+//             //     type: SET_INITIAL_STATE,
+//             //     payload: {
 
-            //     },
-            // });
-        } else throw "";
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
-}
-export async function getAsyncUIData() {
-    try {
-        const data = await AsyncStorage.getItem("crim-task-data");
-        if (data) {
-            // return store.dispatch({
-            //     type: SET_UI_INITIAL_STATE,
-            //     payload: {
-            //         data: await JSON.parse(data).ui,
-            //     },
-            // });
-        } else {
-            throw "";
-        }
-    } catch (error) {
-        return {
-            side_panel_opened: false,
-        };
-    }
-}
+//             //     },
+//             // });
+//         } else throw "";
+//     } catch (error) {
+//         console.log(error);
+//         return [];
+//     }
+// }
+// export async function getAsyncUIData() {
+//     try {
+//         const data = await AsyncStorage.getItem("crim-task-data");
+//         if (data) {
+//             // return store.dispatch({
+//             //     type: SET_UI_INITIAL_STATE,
+//             //     payload: {
+//             //         data: await JSON.parse(data).ui,
+//             //     },
+//             // });
+//         } else {
+//             throw "";
+//         }
+//     } catch (error) {
+//         return {
+//             side_panel_opened: false,
+//         };
+//     }
+// }
 // export async function getAsyncAccountData() {
 //     try {
 //         const data = await AsyncStorage.getItem("crim-task-data");

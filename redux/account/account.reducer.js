@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CRIM_TASK_STORAGE_KEY } from "../../utils/constants";
 
 const initialState = {
     name: {
         first: "",
-        last: "",
+        last: "123",
     },
     profilePhoto: null,
     roundedPanelCorners: true,
@@ -12,9 +13,11 @@ const initialState = {
 
 export const getAsyncAccountData = createAsyncThunk("get-account-data", async () => {
     try {
-        const data = await AsyncStorage.getItem("crim-task-data");
+        const data = await AsyncStorage.getItem(CRIM_TASK_STORAGE_KEY);
         if (data) {
-            return await JSON.parse(data).account;
+            const result = await JSON.parse(data).account;
+            console.log("account thunk", result.name.last);
+            return result;
         } else return initialState;
     } catch (error) {
         return initialState;
@@ -40,17 +43,12 @@ const accountReducer = createSlice({
         resetAccount: () => initialState,
     },
     extraReducers(builder) {
-        builder.addCase(getAsyncAccountData.fulfilled, (state, { payload }) =>
-            Object.assign(state, payload)
-        );
+        builder.addCase(getAsyncAccountData.fulfilled, (state, { payload }) => {
+            Object.assign(state, payload);
+        });
     },
 });
 
-export const {
-    setInitialState,
-    changeFirstName,
-    changeLastName,
-    changeProfilePhoto,
-    changeRoundedCorners,
-} = accountReducer.actions;
+export const { changeFirstName, changeLastName, changeProfilePhoto, changeRoundedCorners } =
+    accountReducer.actions;
 export default accountReducer.reducer;

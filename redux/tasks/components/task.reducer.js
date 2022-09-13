@@ -1,8 +1,24 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { CRIM_TASK_STORAGE_KEY } from "../../../utils/constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const initialState = [];
+
+export const getAsyncTasksData = createAsyncThunk("get-task-data", async () => {
+    try {
+        const data = await AsyncStorage.getItem(CRIM_TASK_STORAGE_KEY);
+        if (data) {
+            const result = await JSON.parse(data).account;
+            return result;
+        } else return initialState;
+    } catch (error) {
+        return initialState;
+    }
+});
 
 const taskReducer = createSlice({
     name: "tasks",
-    initialState: [],
+    initialState,
     reducers: {
         setInitialState(state, action) {
             state = action.payload.data;
@@ -101,106 +117,7 @@ const taskReducer = createSlice({
     },
 });
 
-// function taskReducer(state = [], ACTION) {
-//     switch (ACTION.type) {
-//         case ACTIONS.SET_INITIAL_STATE:
-//             return [...ACTION.payload.data];
-//         case ACTIONS.UPDATE_TASK: {
-//             const categoryIndex = state.findIndex(
-//                 (cat) => cat.categoryId === ACTION.payload.categoryId
-//             );
-//             const taskIndex = state[categoryIndex].tasks.findIndex(
-//                 (item) => item.id === ACTION.payload.itemId
-//             );
-//             const props = state[categoryIndex].tasks[taskIndex];
-//             let newProps = {
-//                 ...props,
-//                 completed: !props.completed,
-//             };
-//             state[categoryIndex].tasks[taskIndex] = newProps;
-//             return [...state];
-//         }
-//         case ACTIONS.DELETE_TASK:
-//             const categoryIndex = state.findIndex(
-//                 (cat) => cat.categoryId === ACTION.payload.categoryId
-//             );
-//             const taskIndex = state[categoryIndex].tasks.findIndex(
-//                 (item) => item.id === ACTION.payload.itemId
-//             );
-//             state[categoryIndex].tasks.splice(taskIndex, 1);
-//             return [...state];
-//         case ACTIONS.DELETE_CATEGORY:
-//             return [...state.filter((cat) => cat.categoryId !== ACTION.payload.id)];
-//         case ACTIONS.CREATE_CATEGORY:
-//             const newCategory = {
-//                 categoryId: nanoid(6),
-//                 categoryTitle: ACTION.payload.title,
-//                 categoryColor: ACTION.payload.color,
-//                 tasks: [],
-//             };
-//             return [newCategory, ...state];
-//         case ACTIONS.CREATE_CATEGORY_TASK:
-//             let category_index = state.findIndex(
-//                 (cat) => cat.categoryId === ACTION.payload.categoryId
-//             );
-//             const newTask = {
-//                 id: nanoid(6),
-//                 task: ACTION.payload.subject,
-//                 completed: false,
-//                 timeStamp: Date.now(),
-//             };
-//             state[category_index].tasks.unshift(newTask);
-//             return [...state];
-//         case ACTIONS.EDIT_CATEGORY:
-//             let category__index = state.findIndex(
-//                 (cat) => cat.categoryId === ACTION.payload.categoryId
-//             );
-//             const props = state[category__index];
-
-//             const newProps = {
-//                 ...props,
-//                 categoryTitle: ACTION.payload.title,
-//                 categoryColor: ACTION.payload.color,
-//             };
-//             state[category__index] = newProps;
-//             return [...state];
-//         case ACTIONS.EDIT_TASK: {
-//             const categoryIndex = state.findIndex(
-//                 (cat) => cat.categoryId === ACTION.payload.currentCategoryId
-//             );
-//             const taskIndex = state[categoryIndex].tasks.findIndex(
-//                 (item) => item.id === ACTION.payload.itemId
-//             );
-
-//             const props = state[categoryIndex].tasks[taskIndex];
-
-//             // edit task
-//             let newProps = {
-//                 ...props,
-//                 task: ACTION.payload.subject,
-//             };
-//             if (ACTION.payload.categoryId === ACTION.payload.currentCategoryId) {
-//                 state[categoryIndex].tasks[taskIndex] = newProps;
-//             } else {
-//                 const newCategoryindex = state.findIndex(
-//                     (cat) => cat.categoryId === ACTION.payload.categoryId
-//                 );
-//                 // remove task from former category
-//                 state[categoryIndex].tasks.splice(taskIndex, 1);
-//                 //  Add item to new category
-//                 state[newCategoryindex].tasks.push(newProps);
-//             }
-//             return [...state];
-//         }
-//         case "CLEAR_ALL_DATA":
-//             return [];
-//         default:
-//             return state;
-//     }
-// }
-
 export const {
-    setInitialState,
     updateTask,
     deleteTask,
     deleteCategory,
