@@ -17,6 +17,7 @@ import { store, persistor } from "./redux";
 import { AuthContext, NavigationContext } from "./utils/context";
 import { navigationCardTheme, theme } from "./utils/theme";
 import { PersistGate } from "redux-persist/integration/react";
+import UserContextProvider from "./utils/contexts/userContext";
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -36,7 +37,7 @@ function MainWrapper() {
     const [userExist, setUserExist] = useState(false);
     const [loading, setLoading] = useState(true);
     const NavigationRef = useNavigationContainerRef();
-    const state = useSelector((state) => state);
+    const state = useSelector((state) => state.account.userExist);
     useEffect(() => {
         async function getData() {
             try {

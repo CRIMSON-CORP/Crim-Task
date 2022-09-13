@@ -7,6 +7,7 @@ const initialState = {
         first: "",
         last: "123",
     },
+    userExist: false,
     profilePhoto: null,
     roundedPanelCorners: true,
 };
