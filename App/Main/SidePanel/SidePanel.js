@@ -4,7 +4,7 @@ import ClosePanelButton from "./ClosePanelButton";
 import NavBar from "./NavBar";
 import Profile from "./Profile";
 
-const SidePanel = () => {
+function SidePanel() {
     return (
         <Box flex={1} padding={60} pr={105}>
             <VStack>
@@ -20,6 +20,6 @@ const SidePanel = () => {
             </VStack>
         </Box>
     );
-};
+}
 
 export default SidePanel;

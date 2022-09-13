@@ -9,7 +9,7 @@ import { useSidePanel } from "../../../../utils/contexts/sidePanelOpenedContext"
  * @returns {JSX.Element}
  */
 
-const ClosePanelButton = ({ width = 50 }) => {
+function ClosePanelButton({ width = 50 }) {
     const { setSidePanelOpened } = useSidePanel();
     return (
         <AnimatedPressable onPress={() => setSidePanelOpened(false)}>
@@ -51,7 +51,7 @@ const ClosePanelButton = ({ width = 50 }) => {
             </Svg>
         </AnimatedPressable>
     );
-};
+}
 
 ClosePanelButton.propTypes = {
     width: PropTypes.number,

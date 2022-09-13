@@ -1,6 +1,8 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { Svg, Path } from "react-native-svg";
 
-const Settings = ({ size = 24, color = "#fff" }) => {
+function Settings({ size, color }) {
     return (
         <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
             <Path
@@ -19,6 +21,16 @@ const Settings = ({ size = 24, color = "#fff" }) => {
             />
         </Svg>
     );
+}
+
+Settings.defaultProps = {
+    size: 24,
+    color: "#FFFFFF",
+};
+
+Settings.propTypes = {
+    size: PropTypes.number,
+    color: PropTypes.string,
 };
 
 export default Settings;

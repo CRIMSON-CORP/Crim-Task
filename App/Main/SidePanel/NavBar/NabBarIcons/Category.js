@@ -1,6 +1,8 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { Svg, Path } from "react-native-svg";
 
-const Category = ({ size = 24, color = "#fff" }) => {
+function Category({ size, color }) {
     return (
         <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
             <Path
@@ -20,6 +22,16 @@ const Category = ({ size = 24, color = "#fff" }) => {
             />
         </Svg>
     );
+}
+
+Category.defaultProps = {
+    size: 24,
+    color: "#FFFFFF",
+};
+
+Category.propTypes = {
+    size: PropTypes.number,
+    color: PropTypes.string,
 };
 
 export default Category;
