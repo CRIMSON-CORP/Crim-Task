@@ -1,4 +1,3 @@
-import React from "react";
 import { Image } from "native-base";
 import { Dimensions } from "react-native";
 import SplashImage from "../../../assets/crim-task/SplashScreen.png";

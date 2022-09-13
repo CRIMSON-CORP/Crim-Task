@@ -1,4 +1,3 @@
-import React from "react";
 import { Box } from "native-base";
 import SidePanelOpenedProvider from "../../utils/contexts/sidePanelOpenedContext";
 import MainPanel from "./MainPanel/MainPanel";

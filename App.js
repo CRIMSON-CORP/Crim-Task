@@ -33,7 +33,7 @@ export default function App() {
 function MainWrapper() {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        async function getData() {
+        async function loadFonts() {
             try {
                 await preventAutoHideAsync();
                 await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
@@ -44,7 +44,7 @@ function MainWrapper() {
                 setLoading(false);
             }
         }
-        getData();
+        loadFonts();
     }, []);
 
     return (
