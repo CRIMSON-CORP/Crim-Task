@@ -11,7 +11,7 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
-import AnimatedPressable from "../Reusables/AnimatedPressable";
+import AnimatedPressable from "../../Reusables/AnimatedPressable";
 import { Art1, Art2, Art3, Art4 } from "./Arts";
 const { width, height } = Dimensions.get("screen");
 const AnimatedBox = Animated.createAnimatedComponent(Box);

@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 const userContext = createContext();
 
 function UserContextProvider({ children }) {
-    const state = useSelector((state) => state);
-    const [userExist, setUserExist] = useState(false);
-    return <userContext.Provider>{children}</userContext.Provider>;
+    const { userExist } = useSelector((state) => state.account);
+
+    return <userContext.Provider>{children()}</userContext.Provider>;
 }
 
 UserContextProvider.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+    children: PropTypes.func,
 };
 
 export default UserContextProvider;

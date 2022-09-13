@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Box, Heading, Text, VStack } from "native-base";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AnimatedPressable from "../Reusables/AnimatedPressable";
-import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
+import AnimatedPressable from "../../Reusables/AnimatedPressable";
+import BlobBackground from "../../Reusables/BlobBackground/BlobBackground";
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 

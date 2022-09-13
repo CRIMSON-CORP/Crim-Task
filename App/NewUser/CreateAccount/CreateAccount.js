@@ -20,18 +20,18 @@ import { Alert, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { useDispatch } from "react-redux";
-import { AuthContext } from "../../utils/context";
-import { debounce } from "../../utils/utils";
-import AnimatedPressable from "../Reusables/AnimatedPressable";
-import BlobBackground from "../Reusables/BlobBackground/BlobBackground";
-import BackArrow from "../Reusables/TopBar/TopBarIcons/BackArrow";
-import UserIcon from "../Reusables/UserIcon/UserIcon";
+import { AuthContext } from "../../../utils/context";
+import { debounce } from "../../../utils/utils";
+import AnimatedPressable from "../../Reusables/AnimatedPressable";
+import BlobBackground from "../../Reusables/BlobBackground/BlobBackground";
+import BackArrow from "../../Reusables/TopBar/TopBarIcons/BackArrow";
+import UserIcon from "../../Reusables/UserIcon/UserIcon";
 import {
     changeFirstName,
     changeLastName,
     changeProfilePhoto,
     changeRoundedCorners,
-} from "../../redux/account/account.reducer";
+} from "../../../redux/account/account.reducer";
 const { height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
     const [image, setImage] = useState(null);
