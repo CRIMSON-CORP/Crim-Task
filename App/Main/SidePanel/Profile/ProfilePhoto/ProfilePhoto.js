@@ -1,41 +1,29 @@
-import React from "react";
 import { Center, Image, useTheme } from "native-base";
-import { useContext } from "react";
 import Svg, { Circle } from "react-native-svg";
 import { useSelector } from "react-redux";
-import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 import { useSidePanel } from "../../../../../utils/contexts/sidePanelOpenedContext";
 import { useNavigation } from "../../../../../utils/contexts/navigationContext";
-const ProfilePhoto = () => {
+import { useCallback } from "react";
+import { StyleSheet } from "react-native";
+
+function ProfilePhoto() {
     const { profilePhoto } = useSelector((state) => state.account);
     const { NavigationRef } = useNavigation();
     const { colors } = useTheme();
     const { setSidePanelOpened } = useSidePanel();
 
+    const navigateToSettings = useCallback(() => {
+        NavigationRef.navigate("settings");
+        setSidePanelOpened(false);
+    }, []);
+
     return (
         <Center size={120}>
-            <AnimatedPressable
-                onPress={() => {
-                    NavigationRef.navigate("settings");
-                    setSidePanelOpened(false);
-                }}
-                style={{
-                    width: 120,
-                    height: 120,
-                }}
-            >
+            <AnimatedPressable onPress={navigateToSettings} style={styles.pressable}>
                 <Center w="full" h="full">
-                    <Svg
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            position: "absolute",
-                            transform: [{ rotate: "30deg" }],
-                        }}
-                        viewBox="0 0 100 100"
-                    >
+                    <Svg style={styles.centerSvg} viewBox="0 0 100 100">
                         <Circle cx="50" cy="50" r="49" stroke="#ffffff50" strokeWidth={2} />
                         <Circle
                             cx="50"
@@ -66,6 +54,16 @@ const ProfilePhoto = () => {
             </AnimatedPressable>
         </Center>
     );
-};
+}
 
 export default ProfilePhoto;
+
+const styles = StyleSheet.create({
+    pressable: { width: 120, height: 120 },
+    centerSvg: {
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        transform: [{ rotate: "30deg" }],
+    },
+});
