@@ -6,9 +6,10 @@ import { useContext, useEffect, useState } from "react";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import { useSidePanel } from "../../../../../utils/contexts/sidePanelOpenedContext";
+import { useNavigation } from "../../../../../utils/contexts/navigationContext";
 
 function NavbarItem({ icon, text, slug }) {
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const [Active, setActive] = useState(false);
     const { setSidePanelOpened } = useSidePanel();
     useEffect(() => {

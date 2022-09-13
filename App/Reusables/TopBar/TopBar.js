@@ -11,6 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
 import { NavigationContext, useFab } from "../../../utils/context";
+import { useNavigation } from "../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../AnimatedPressable";
 import MenuBackButton from "./MenuBackButton";
 import SearchBar from "./Search/SearchBar/SearchBar";
@@ -35,7 +36,7 @@ const scaleTransition = {
 
 const TopBar = ({ back }) => {
     const bgShared = useSharedValue(0);
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const [OpenSearch, setOpenSearch] = useState(false);
     const [value, setValue] = useState("");
     const { colors } = useTheme();

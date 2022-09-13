@@ -1,20 +1,20 @@
 import React from "react";
-import { NavigationContainer, useNavigationContainerRef } from "@react-navigation/native";
-import { loadAsync } from "expo-font";
+import { useFonts } from "expo-font";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import { Box, NativeBaseProvider } from "native-base";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import { Provider } from "react-redux";
 import Main from "./App/Main/Main";
 import Fonts from "./assets/fonts";
 import { store, persistor } from "./redux";
-import { NavigationContext } from "./utils/context";
-import { navigationCardTheme, theme } from "./utils/theme";
+import { theme } from "./utils/theme";
 import { PersistGate } from "redux-persist/integration/react";
 import UserContextProvider from "./utils/contexts/userContext";
 import NewUser from "./App/NewUser";
+import NavigationProvider from "./utils/contexts/navigationContext";
+import { useCallback } from "react";
 
 enableScreens();
 
@@ -30,47 +30,39 @@ export default function App() {
     );
 }
 function MainWrapper() {
-    const [loading, setLoading] = useState(true);
-    const NavigationRef = useNavigationContainerRef();
+    const [fontsLoaded] = useFonts({ ...Fonts.Raleway, ...Fonts.Gisha });
     useEffect(() => {
-        async function getData() {
-            try {
-                await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
-            } catch (err) {
-                console.log(err);
-            } finally {
-                setLoading(false);
-            }
-        }
-        getData();
+        (async () => await preventAutoHideAsync())();
     }, []);
 
+    const onLayout = useCallback(async () => {
+        fontsLoaded && hideAsync();
+    }, [fontsLoaded]);
+
     return (
-        <NavigationContainer theme={navigationCardTheme} ref={NavigationRef}>
-            {!loading && (
-                <Box flex={1}>
-                    <NavigationContext.Provider value={{ NavigationRef: NavigationRef.current }}>
-                        <GestureHandlerRootView style={{ flex: 1 }}>
-                            <UserContextProvider>
-                                {(userExist) => (userExist ? <Main /> : <NewUser />)}
-                            </UserContextProvider>
-                        </GestureHandlerRootView>
-                    </NavigationContext.Provider>
-                </Box>
-            )}
-        </NavigationContainer>
+        <NavigationProvider>
+            <Box flex={1} onLayout={onLayout}>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                    <UserContextProvider>
+                        {(userExist) => (userExist ? <Main /> : <NewUser />)}
+                    </UserContextProvider>
+                </GestureHandlerRootView>
+            </Box>
+        </NavigationProvider>
     );
 }
 
 function LoadingScreen() {
     useEffect(() => {
+        console.log("loading mounted");
         (async () => {
             await preventAutoHideAsync();
         })();
 
         return () => {
+            console.log("loading removed");
             (async () => {
-                hideAsync();
+                await hideAsync();
             })();
         };
     }, []);

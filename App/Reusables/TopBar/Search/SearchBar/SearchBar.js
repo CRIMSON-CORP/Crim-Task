@@ -3,13 +3,14 @@ import { Box, HStack, Input, useTheme } from "native-base";
 import { useContext, useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { NavigationContext } from "../../../../../utils/context";
+import { useNavigation } from "../../../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../../../AnimatedPressable";
 import Search from "../../TopBarIcons/Search";
 const { width } = Dimensions.get("screen");
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     const { colors } = useTheme();
     const [openSearchIcon, setOpenSearchIcon] = useState(true);
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", (e) => {
             let routename = NavigationRef.getCurrentRoute().name;

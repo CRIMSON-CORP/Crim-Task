@@ -7,9 +7,10 @@ import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 import { useSidePanel } from "../../../../../utils/contexts/sidePanelOpenedContext";
+import { useNavigation } from "../../../../../utils/contexts/navigationContext";
 const ProfilePhoto = () => {
     const { profilePhoto } = useSelector((state) => state.account);
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const { colors } = useTheme();
     const { setSidePanelOpened } = useSidePanel();
 

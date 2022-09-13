@@ -6,6 +6,7 @@ import { Dimensions } from "react-native";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSelector } from "react-redux";
 import { NavigationContext, useFab } from "../../../../utils/context";
+import { useNavigation } from "../../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import CreateNewCategory from "./CreateNewCategory";
 import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask/CreateNewKnowCategoryTask";
@@ -24,7 +25,7 @@ const Fab = () => {
         opacity: interpolate(content.value, [0, 200], [1, 0]),
     }));
 
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const noFabScreens = ["notifications", "settings", "how_to_use"];
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", (e) => {

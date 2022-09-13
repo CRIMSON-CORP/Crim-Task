@@ -16,6 +16,7 @@ import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
 import { useSidePanel } from "../../../../utils/contexts/sidePanelOpenedContext";
+import { useNavigation } from "../../../../utils/contexts/navigationContext";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 /**
@@ -30,7 +31,7 @@ const AnimatedBox = Animated.createAnimatedComponent(Box);
  */
 function MenuBackButton({ back, OpenSearch }) {
     const AnimatedBoxShared = useSharedValue(1);
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const shouldAnimate = useRef(false);
     const { sidePanelOpened, setSidePanelOpened } = useSidePanel();
     const AnimatedBoxStyles = useAnimatedStyle(() => ({
