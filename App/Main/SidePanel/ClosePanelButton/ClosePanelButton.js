@@ -2,7 +2,7 @@ import React from "react";
 import { Circle, Defs, Path, RadialGradient, Stop, Svg } from "react-native-svg";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import PropTypes from "prop-types";
-import { useSidePanel } from "../../../../utils/sidePanelOpenedContext";
+import { useSidePanel } from "../../../../utils/contexts/sidePanelOpenedContext";
 
 /**
  * @param {{width:number}} ClosePanelButtonParams

@@ -15,7 +15,7 @@ import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
-import { useSidePanel } from "../../../../utils/sidePanelOpenedContext";
+import { useSidePanel } from "../../../../utils/contexts/sidePanelOpenedContext";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 /**

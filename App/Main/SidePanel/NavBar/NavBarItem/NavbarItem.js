@@ -5,7 +5,7 @@ import { HStack, Text } from "native-base";
 import { useContext, useEffect, useState } from "react";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
-import { useSidePanel } from "../../../../../utils/sidePanelOpenedContext";
+import { useSidePanel } from "../../../../../utils/contexts/sidePanelOpenedContext";
 
 function NavbarItem({ icon, text, slug }) {
     const { NavigationRef } = useContext(NavigationContext);

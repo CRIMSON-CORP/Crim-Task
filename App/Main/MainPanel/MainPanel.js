@@ -24,7 +24,7 @@ import List from "./List";
 import Notification from "./Notification";
 import Settings from "./Settings";
 import SingleCategory from "./SingleCategory";
-import { useSidePanel } from "../../../utils/sidePanelOpenedContext";
+import { useSidePanel } from "../../../utils/contexts/sidePanelOpenedContext";
 
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
