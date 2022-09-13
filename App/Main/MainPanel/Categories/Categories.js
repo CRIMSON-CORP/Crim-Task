@@ -6,18 +6,21 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import IdleCategory from "../../../../assets/crim-task/idle/idle_category.png";
-import { DELETE_CATEGORY } from "../../../../redux/tasks/components/task.actions";
 import CategoryListItem from "../../../Reusables/CategoryListItem";
 import SwipableView from "../../../Reusables/SwipableView";
 import TopBar from "../../../Reusables/TopBar";
 import { Layout } from "react-native-reanimated";
+import { useCallback } from "react";
+import { deleteCategory } from "../../../../redux/tasks/components/task.reducer";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const scrollRef = useRef();
+
+    const swipetoDelete = useCallback((id) => dispatch(deleteCategory(id)), []);
     return (
         <Box flex={1}>
-            <SafeAreaView style={customStyles.flex}>
+            <SafeAreaView style={styles.flex}>
                 <VStack space="16" p="5">
                     <TopBar back />
                     <VStack space="10">
@@ -28,33 +31,28 @@ const Categories = () => {
                     {categories.length ? (
                         <ScrollView
                             ref={scrollRef}
-                            contentContainerStyle={{
-                                ...customStyles.flex,
-                                paddingHorizontal: 20,
-                            }}
                             showsVerticalScrollIndicator={false}
+                            contentContainerStyle={styles.ScrollViewContainerStyles}
                         >
                             <AnimatePresence>
                                 {categories.map((item) => (
-                                    <MotiView key={item.categoryId} layout={Layout.springify()}>
+                                    <MotiView
+                                        key={item.categoryId}
+                                        layout={Layout.springify()}
+                                        style={styles.categoryCardMotiWrapperStyle}
+                                    >
                                         <SwipableView
-                                            swipeExe={() =>
-                                                dispath({
-                                                    type: DELETE_CATEGORY,
-                                                    payload: { id: item.categoryId },
-                                                })
-                                            }
+                                            swipeExe={() => swipetoDelete(item.categoryId)}
                                             simultaneousHandlers={scrollRef}
                                         >
                                             <CategoryListItem
-                                                categoryColor={item.categoryColor}
-                                                categoryTitle={item.categoryTitle}
-                                                categoryId={item.categoryId}
-                                                tasks={item.tasks}
                                                 mr="5"
-                                                mb="10"
                                                 shadow="7"
                                                 fwidth={true}
+                                                tasks={item.tasks}
+                                                categoryId={item.categoryId}
+                                                categoryColor={item.categoryColor}
+                                                categoryTitle={item.categoryTitle}
                                             />
                                         </SwipableView>
                                     </MotiView>
@@ -80,9 +78,16 @@ const Categories = () => {
     );
 };
 
-const customStyles = StyleSheet.create({
+const styles = StyleSheet.create({
     flex: {
         flexGrow: 1,
+    },
+    ScrollViewContainerStyles: {
+        flexGrow: 1,
+        paddingHorizontal: 20,
+    },
+    categoryCardMotiWrapperStyle: {
+        marginBottom: 40,
     },
 });
 
