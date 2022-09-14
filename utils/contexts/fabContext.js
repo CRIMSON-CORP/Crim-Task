@@ -28,7 +28,7 @@ export const SearchContext = createContext();
  * themeColor: null,
  * }>>} setFlag
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowFab
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setFabpanelOpen
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setFabPanelOpen
  *
  */
 
