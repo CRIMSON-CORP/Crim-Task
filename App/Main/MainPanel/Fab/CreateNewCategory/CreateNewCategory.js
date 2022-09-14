@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { View as MotiView } from "moti";
 import { Box, Center, Input, Text, useTheme, VStack } from "native-base";
 import { useEffect, useRef, useState } from "react";
@@ -9,45 +10,18 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 import { useDispatch } from "react-redux";
-import { CREATE_CATEGORY, EDIT_CATEGORY } from "../../../../../redux/tasks/components/task.actions";
+import { categoryColors, categoryNameExamples } from "../../../../../utils/constants";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
 import FabCTA from "../FabCTA";
-const { width: w } = Dimensions.get("screen");
-const AnimatedBox = Animated.createAnimatedComponent(Box);
-const categoryColors = [
-    "#D002F5",
-    "#FFFFFF",
-    "#E91E63",
-    "#00CB53",
-    "#602EA5",
-    "#FF7F50",
-    "#E7B400",
-    "#D60606",
-    "#9932CC",
-    "#3D5AFE",
-    "#FFD700",
-    "#40C4FF",
-    "#1DE9B6",
-    "#00C853",
-    "#76FF03",
-    "#EEFF41",
-    "#FF6F00",
-];
+import { useCallback } from "react";
+import { createCategory, editCategory } from "../../../../../redux/tasks/components/task.reducer";
+import KeyboardViewAdjuster from "../../../../Reusables/KeyboardViewAdjuster/KeyboardViewAdjuster";
 
-const categoryNameExamples = [
-    "Travel",
-    "Health",
-    "Sports",
-    "Gym",
-    "Groceries",
-    "Important",
-    "Work",
-    "Bucket List",
-    "School",
-    "Hobbies",
-    "Personal",
-];
+const { width } = Dimensions.get("screen");
+const AnimatedBox = Animated.createAnimatedComponent(Box);
+const placeholder = categoryNameExamples[Math.floor(Math.random() * categoryNameExamples.length)];
+
 function CreateNewCategory({ flag }) {
     const translate = useSharedValue(0);
     const start = useSharedValue(0);
@@ -58,127 +32,139 @@ function CreateNewCategory({ flag }) {
     const loadedRef = useRef(false);
     const dispatch = useDispatch();
     const { colors } = useTheme();
-    const placeholder = useRef(
-        categoryNameExamples[Math.floor(Math.random() * categoryNameExamples.length)]
-    ).current;
+
     const gesture = useAnimatedGestureHandler({
         onActive: (e) => {
             translate.value = Math.min(
                 0,
-                Math.max(e.translationX + start.value, w - 20 - categoryColors.length * 65)
+                Math.max(e.translationX + start.value, width - 20 - categoryColors.length * 65)
             );
         },
-        onFinish: (e) => {
+        onFinish: () => {
             start.value = translate.value;
         },
     });
+
     const translateStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: translate.value }],
     }));
-    useEffect(() => {
-        setTimeout(() => {
-            loadedRef.current = true;
-        }, 500);
 
+    useEffect(() => {
+        loadedRef.current = true;
         return () => {
             setActiveColorIndex(0);
             setTitle("");
             loadedRef.current = null;
         };
     }, []);
+
+    const createOrEditCategory = useCallback(() => {
+        let commonProperties = {
+            title: title.trim(),
+            color: categoryColors[ActiveColorIndex],
+        };
+        if (title) {
+            if (flag) {
+                dispatch(
+                    editCategory({
+                        ...commonProperties,
+                        categoryId: flag.categoryId,
+                    })
+                );
+            } else {
+                dispatch(createCategory(commonProperties));
+            }
+        }
+    }, [title, ActiveColorIndex]);
+
+    const updateTitle = useCallback((text) => setTitle(text), []);
+
+    const colorCircleAnimationProps = useCallback(
+        (index) => ({
+            from: {
+                scale: 0.5,
+                opacity: 0,
+                translateY: 30,
+            },
+            delay: !loadedRef.current && 1600 + index * 100,
+            animate: {
+                opacity: 1,
+                scale: ActiveColorIndex === index ? 1.3 : 1,
+                translateY: ActiveColorIndex === index ? -5 : 0,
+            },
+        }),
+        [ActiveColorIndex]
+    );
+
+    const pageTitle = flag ? "Edit Category" : "Create a new Category";
+    const pageNameSubtitle = flag ? "Change Category name" : "Category name";
+    const placeHolder = "e.g. " + placeholder;
+    const pageThemeColorSubtitle = flag ? "Change Theme Color" : "Select theme Color";
+    const fabTitle = flag ? "Edit Category" : "Create New Category";
+
     return (
-        <VStack w="full" space={35}>
-            <VStack w="full">
-                <AnimatedText text={`${flag ? "Edit Category" : "Create a new Category"}`} />
-            </VStack>
-            <VStack space="30">
-                <Text fontSize="sm" opacity={0.7}>
-                    {flag ? "Change Category name" : "Category name"}
-                </Text>
-                <Input
-                    size="xl"
-                    variant="underlined"
-                    color="white"
-                    isFullWidth
-                    selectionColor={colors.primary.accent}
-                    borderBottomColor="white"
-                    underlineColorAndroid={"transparent"}
-                    maxLength={20}
-                    placeholder={"e.g. " + placeholder}
-                    placeholderTextColor={"#ffffffdd"}
-                    px="5"
-                    value={title}
-                    onChangeText={(text) => setTitle(text)}
-                />
-            </VStack>
-            <VStack space="30">
-                <Text fontSize="sm" opacity={0.7}>
-                    {flag ? "Change Theme Color" : "Select theme Color"}
-                </Text>
-                <Box w={categoryColors.length * 65} px={2.5}>
-                    <PanGestureHandler onGestureEvent={gesture}>
-                        <AnimatedBox flexDirection={"row"} style={translateStyle}>
-                            {categoryColors.map((item, index) => (
-                                <AnimatedPressable
-                                    key={item}
-                                    onPress={() => setActiveColorIndex(index)}
-                                >
-                                    <MotiView
-                                        from={{
-                                            transform: [
-                                                {
-                                                    scale: 0.5,
-                                                },
-                                                { translateY: 30 },
-                                            ],
-                                            opacity: 0,
-                                        }}
-                                        delay={!loadedRef.current && 1000 + index * 100}
-                                        animate={{
-                                            transform: [
-                                                {
-                                                    scale: ActiveColorIndex === index ? 1.3 : 1,
-                                                },
-                                                {
-                                                    translateY: ActiveColorIndex === index ? -5 : 0,
-                                                },
-                                            ],
-                                            opacity: 1,
-                                        }}
+        <KeyboardViewAdjuster>
+            <VStack w="full" space={35}>
+                <VStack w="full">
+                    <AnimatedText text={pageTitle} />
+                </VStack>
+                <VStack space="30">
+                    <Text fontSize="sm" opacity={0.7}>
+                        {pageNameSubtitle}
+                    </Text>
+                    <Input
+                        px="5"
+                        size="xl"
+                        isFullWidth
+                        color="white"
+                        value={title}
+                        maxLength={20}
+                        variant="underlined"
+                        placeholder={placeHolder}
+                        borderBottomColor="white"
+                        onChangeText={updateTitle}
+                        placeholderTextColor={"#ffffffdd"}
+                        underlineColorAndroid={"transparent"}
+                        selectionColor={colors.primary.accent}
+                    />
+                </VStack>
+                <VStack space="30">
+                    <Text fontSize="sm" opacity={0.7}>
+                        {pageThemeColorSubtitle}
+                    </Text>
+                    <Box w={categoryColors.length * 65} px={2.5}>
+                        <PanGestureHandler onGestureEvent={gesture}>
+                            <AnimatedBox flexDirection={"row"} style={translateStyle}>
+                                {categoryColors.map((item, index) => (
+                                    <AnimatedPressable
+                                        key={item}
+                                        onPress={() => setActiveColorIndex(index)}
                                     >
-                                        <Center
-                                            size="10"
-                                            bg={item}
-                                            borderColor="white"
-                                            borderWidth="4"
-                                            rounded="full"
-                                            shadow="5"
-                                            mr="25"
-                                        />
-                                    </MotiView>
-                                </AnimatedPressable>
-                            ))}
-                        </AnimatedBox>
-                    </PanGestureHandler>
-                </Box>
+                                        <MotiView {...colorCircleAnimationProps(index)}>
+                                            <Center
+                                                mr="25"
+                                                size="10"
+                                                bg={item}
+                                                shadow="5"
+                                                rounded="full"
+                                                borderWidth="4"
+                                                borderColor="white"
+                                            />
+                                        </MotiView>
+                                    </AnimatedPressable>
+                                ))}
+                            </AnimatedBox>
+                        </PanGestureHandler>
+                    </Box>
+                </VStack>
+                <FabCTA title={fabTitle} onClick={createOrEditCategory} />
             </VStack>
-            <FabCTA
-                title={`${flag ? "Edit Category" : "Create New Category"}`}
-                onClick={
-                    title &&
-                    (() =>
-                        dispatch({
-                            type: flag ? EDIT_CATEGORY : CREATE_CATEGORY,
-                            payload: {
-                                title: title.trim(),
-                                color: categoryColors[ActiveColorIndex],
-                                ...(flag && { categoryId: flag.categoryId }),
-                            },
-                        }))
-                }
-            />
-        </VStack>
+        </KeyboardViewAdjuster>
     );
 }
+
+CreateNewCategory.propTypes = {
+    flag: PropTypes.object,
+};
 
 export default CreateNewCategory;
