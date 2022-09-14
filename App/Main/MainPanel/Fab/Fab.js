@@ -61,9 +61,9 @@ function Fab() {
             canPress.current = false;
             setTimeout(() => {
                 canPress.current = true;
-            });
+            }, 1000);
         }
-    }, [fabPanelOpen]);
+    }, [fabPanelOpen, canPress.current]);
 
     return (
         <Box justifyContent={"center"}>
@@ -200,7 +200,7 @@ function AnimatedBackground({ fabPanelOpen, setFabPanelOpen }) {
     const backgroundTransition = useMemo(
         () => ({
             type: "timing",
-            duration: 1000,
+            duration: 600,
             delay: fabPanelOpen ? 0 : 500,
             easing: Easing.out(Easing.quad),
         }),
@@ -235,11 +235,12 @@ const contentAnimation = {
     },
     exitTransition: {
         delay: 0,
+        duration: 300,
     },
     transition: {
         type: "timing",
         duration: 600,
-        delay: 1000,
+        delay: 700,
         easing: Easing.out(Easing.quad),
     },
 };
