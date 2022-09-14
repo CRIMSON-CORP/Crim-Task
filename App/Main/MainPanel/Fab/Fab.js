@@ -1,18 +1,19 @@
+import PropTypes from "prop-types";
 import { AntDesign } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
-import { Box, Center } from "native-base";
-import { useCallback } from "react";
-import { useEffect, useRef, useMemo } from "react";
-import { Dimensions, StyleSheet } from "react-native";
-import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { Box, Center, useTheme } from "native-base";
+import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { BackHandler, Dimensions, StyleSheet } from "react-native";
+import Animated, { Easing } from "react-native-reanimated";
 import { useSelector } from "react-redux";
 import { useFab } from "../../../../utils/contexts/fabContext";
 import { useNavigation } from "../../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import CreateNewCategory from "./CreateNewCategory";
-import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask/CreateNewKnowCategoryTask";
+import CreateNewKnowCategoryTask from "./CreateNewKnowCategoryTask";
 import CreateNewTask from "./CreateNewTask";
 
+const { width, height } = Dimensions.get("screen");
 export const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 const fabAnimationStyles = {
@@ -32,17 +33,9 @@ const fabPlusAnimationTransition = {
 };
 
 function Fab() {
-    const { rad, content, backDropOpen, open, ToggleOpenFab, showFab, AnimateOpen, setShowFab } =
-        useFab();
-
-    const Styles = useAnimatedStyle(() => ({
-        transform: [{ scale: rad.value }],
-    }));
-
-    const ContentStyles = useAnimatedStyle(() => ({
-        transform: [{ translateY: content.value }],
-        opacity: interpolate(content.value, [0, 200], [1, 0]),
-    }));
+    const [fabPanelOpen, setFabPanelOpen] = useState(false);
+    const canPress = useRef(true);
+    const { showFab, setShowFab } = useFab();
 
     const { NavigationRef } = useNavigation();
 
@@ -56,53 +49,39 @@ function Fab() {
         return unsub;
     }, []);
 
-    const backDropAimationStyles = useMemo(
-        () => ({
-            opacity: backDropOpen ? 1 : 0,
-        }),
-        [backDropOpen]
-    );
-
     const plusAnimateStyles = useMemo(
         () => ({
-            transform: [{ rotate: AnimateOpen ? `${405}deg` : `${0}deg` }],
+            transform: [{ rotate: fabPanelOpen ? `${405}deg` : `${0}deg` }],
         }),
-        [AnimateOpen]
+        [fabPanelOpen]
     );
 
     const fabOpenToggler = useCallback(() => {
-        console.log("toggle", open);
-        ToggleOpenFab(!open);
-    }, [open]);
+        if (canPress.current) {
+            setFabPanelOpen(!fabPanelOpen);
+            canPress.current = false;
+            setTimeout(() => {
+                canPress.current = true;
+            });
+        }
+    }, [fabPanelOpen]);
 
     return (
         <Box justifyContent={"center"}>
-            <MotiView
-                pointerEvents="none"
-                style={styles.fabBackDropStyles}
-                animate={backDropAimationStyles}
-            />
-            <AnimatedBox
-                width={10}
-                height={10}
-                bg={"primary.200"}
-                rounded="full"
-                position={"absolute"}
-                pointerEvents={open ? "auto" : "none"}
-                bottom={65 / 4 + 20}
-                right={65 / 4 + 20}
-                style={[Styles]}
-            />
-            <AnimatedBox style={ContentStyles}>
-                {open && (
-                    <Center p="5" h="full">
-                        <FabScreen />
-                    </Center>
+            <BackDrop fabPanelOpen={fabPanelOpen} />
+            <AnimatedBackground fabPanelOpen={fabPanelOpen} setFabPanelOpen={setFabPanelOpen} />
+            <AnimatePresence>
+                {fabPanelOpen && (
+                    <ContentAnimatedWrapper>
+                        <Center p="5" h="full">
+                            <FabScreen />
+                        </Center>
+                    </ContentAnimatedWrapper>
                 )}
-            </AnimatedBox>
-            <AnimatedPressable onPress={fabOpenToggler} style={styles.fabPressableStyles}>
-                <AnimatePresence>
-                    {showFab && (
+            </AnimatePresence>
+            <AnimatePresence>
+                {showFab && (
+                    <AnimatedPressable onPress={fabOpenToggler} style={styles.fabPressableStyles}>
                         <MotiView
                             from={fabAnimationStyles.initial}
                             animate={fabAnimationStyles.animate}
@@ -128,9 +107,9 @@ function Fab() {
                                 </MotiView>
                             </Center>
                         </MotiView>
-                    )}
-                </AnimatePresence>
-            </AnimatedPressable>
+                    </AnimatedPressable>
+                )}
+            </AnimatePresence>
         </Box>
     );
 }
@@ -165,7 +144,125 @@ function FabScreen() {
     }
 }
 
-const { width, height } = Dimensions.get("screen");
+function BackDrop({ fabPanelOpen }) {
+    const backDropAimationStyles = useMemo(
+        () => ({
+            opacity: fabPanelOpen ? 1 : 0,
+        }),
+        [fabPanelOpen]
+    );
+    const backDropAimationTransition = useMemo(
+        () => ({
+            delay: fabPanelOpen ? 0 : 1000,
+            type: "timing",
+        }),
+        [fabPanelOpen]
+    );
+    return (
+        <MotiView
+            pointerEvents="none"
+            style={styles.fabBackDropStyles}
+            animate={backDropAimationStyles}
+            transition={backDropAimationTransition}
+        />
+    );
+}
+BackDrop.propTypes = {
+    fabPanelOpen: PropTypes.bool,
+};
+function AnimatedBackground({ fabPanelOpen, setFabPanelOpen }) {
+    const { colors } = useTheme();
+
+    useEffect(() => {
+        function backPress() {
+            if (fabPanelOpen) {
+                setFabPanelOpen(false);
+                return true;
+            } else {
+                return false;
+            }
+        }
+        const backEvt = BackHandler.addEventListener("hardwareBackPress", backPress);
+        return () => backEvt.remove();
+    }, [fabPanelOpen]);
+
+    const backgroundStyles = useMemo(
+        () => ({
+            width: 10,
+            height: 10,
+            borderRadius: 99999,
+            bottom: 65 / 4 + 20,
+            right: 65 / 4 + 20,
+            position: "absolute",
+            backgroundColor: colors.primary[200],
+        }),
+        []
+    );
+    const backgroundTransition = useMemo(
+        () => ({
+            type: "timing",
+            duration: 1000,
+            delay: fabPanelOpen ? 0 : 500,
+            easing: Easing.out(Easing.quad),
+        }),
+        [fabPanelOpen]
+    );
+
+    const coverScreenSize = (Math.sqrt(width ** 2 + height ** 2) / 10) * 2;
+
+    const backgroundAnimatedStyles = useMemo(
+        () => ({ scale: fabPanelOpen ? coverScreenSize : 0 }),
+        [fabPanelOpen]
+    );
+
+    return (
+        <MotiView
+            style={backgroundStyles}
+            transition={backgroundTransition}
+            animate={backgroundAnimatedStyles}
+        />
+    );
+}
+AnimatedBackground.propTypes = {
+    fabPanelOpen: PropTypes.bool,
+    setFabPanelOpen: PropTypes.func,
+};
+
+const contentAnimation = {
+    from: { opacity: 0, translateY: 200 },
+    animate: {
+        opacity: 1,
+        translateY: 0,
+    },
+    exitTransition: {
+        delay: 0,
+    },
+    transition: {
+        type: "timing",
+        duration: 600,
+        delay: 1000,
+        easing: Easing.out(Easing.quad),
+    },
+};
+function ContentAnimatedWrapper({ children }) {
+    return (
+        <MotiView
+            style={styles.fabContetStyles}
+            from={contentAnimation.from}
+            animate={contentAnimation.animate}
+            exit={contentAnimation.from}
+            exitTransition={contentAnimation.exitTransition}
+            transition={contentAnimation.transition}
+        >
+            {children}
+        </MotiView>
+    );
+}
+
+ContentAnimatedWrapper.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+};
+
 const styles = StyleSheet.create({
     fabBackDropStyles: {
         width,
@@ -182,5 +279,11 @@ const styles = StyleSheet.create({
         },
         textShadowColor: "#00000060",
         textShadowRadius: 10,
+    },
+    fabContetStyles: {
+        width,
+        height,
+        top: -height,
+        position: "absolute",
     },
 });
