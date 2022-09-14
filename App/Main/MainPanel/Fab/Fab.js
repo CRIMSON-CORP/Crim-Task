@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { AntDesign } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Center, useTheme } from "native-base";
-import { useCallback, useState, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useRef, useMemo } from "react";
 import { BackHandler, Dimensions, StyleSheet } from "react-native";
 import Animated, { Easing } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -33,10 +33,9 @@ const fabPlusAnimationTransition = {
 };
 
 function Fab() {
-    const [fabPanelOpen, setFabPanelOpen] = useState(false);
     const canPress = useRef(true);
-    const { showFab, setShowFab } = useFab();
 
+    const { showFab, setShowFab, fabPanelOpen, setFabPanelOpen } = useFab();
     const { NavigationRef } = useNavigation();
 
     useEffect(() => {
