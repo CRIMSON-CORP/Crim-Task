@@ -1,4 +1,3 @@
-import React from "react";
 import { Circle, Defs, Path, RadialGradient, Stop, Svg } from "react-native-svg";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import PropTypes from "prop-types";

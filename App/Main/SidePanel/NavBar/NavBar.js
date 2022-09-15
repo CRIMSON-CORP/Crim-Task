@@ -1,4 +1,3 @@
-import React from "react";
 import { VStack } from "native-base";
 import Category from "./NabBarIcons/Category";
 import List from "./NabBarIcons/List";

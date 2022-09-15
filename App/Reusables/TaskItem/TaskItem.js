@@ -1,4 +1,3 @@
-import React from "react";
 import { MotiView } from "moti";
 import { HStack, Pressable } from "native-base";
 import PropTypes from "prop-types";
