@@ -8,9 +8,28 @@ import Animated, {
     withSequence,
     withTiming,
 } from "react-native-reanimated";
+
 const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
-const AnimatedTaskText = ({ task, completed }) => {
+
+/**
+ * @typedef AnimatedTaskTextProps
+ * @property {string} task
+ * @property {boolean} completed
+ *
+ * @typedef AnimatedStrokeProps
+ * @property {number} max
+ * @property {boolean} completed
+ * @property {number} index
+
+ */
+
+/**
+ * @param {AnimatedTaskTextProps} AnimatedTaskTextProps
+ * @returns {JSX.Element}
+ */
+
+function AnimatedTaskText({ task, completed }) {
     const AnimatedTextOpacityShared = useSharedValue(1);
     const AnimatedTextTranslateShared = useSharedValue(0);
 
@@ -33,6 +52,7 @@ const AnimatedTaskText = ({ task, completed }) => {
     }, [completed]);
 
     task = task.match(/.{1,35}/g);
+
     return (
         <VStack alignItems="flex-start">
             {task.map((t, i) => {
@@ -52,7 +72,12 @@ const AnimatedTaskText = ({ task, completed }) => {
             })}
         </VStack>
     );
-};
+}
+
+/**
+ * @param {AnimatedStrokeProps} AnimatedStrokeProps
+ * @returns
+ */
 
 function AnimatedStroke({ max, completed, index }) {
     const AnimatedStrokeShared = useSharedValue(0);
@@ -92,6 +117,12 @@ function AnimatedStroke({ max, completed, index }) {
 AnimatedTaskText.propTypes = {
     task: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
+};
+
+AnimatedStroke.propTypes = {
+    max: PropTypes.number,
+    completed: PropTypes.bool,
+    index: PropTypes.object,
 };
 
 export default AnimatedTaskText;
