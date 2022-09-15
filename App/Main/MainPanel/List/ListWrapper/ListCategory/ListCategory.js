@@ -1,12 +1,13 @@
-import { MotiView } from "moti";
 import { Image, Text, VStack } from "native-base";
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { useSelector } from "react-redux";
 import IdleCategory from "../../../../../../assets/crim-task/idle/idle_category.png";
 import CategoryCardItem from "../../../../../Reusables/CategoryCardItem/CategoryCardItem";
+
 const { width } = Dimensions.get("window");
-const ListCategory = () => {
+
+function ListCategory() {
     const categories = useSelector((state) => state.tasks);
     return (
         <VStack space={35}>
@@ -16,51 +17,21 @@ const ListCategory = () => {
             {categories.length ? (
                 <Carousel
                     height={120}
-                    width={width * 0.6 + 20}
                     loop={false}
-                    scrollAnimationDuration={500}
-                    style={{
-                        overflow: "visible",
-                        width,
-                    }}
                     defaultIndex={0}
-                    data={categories}
-                    renderItem={({ item, index }) => (
-                        <MotiView
-                            from={{
-                                opacity: 0.5,
-                                transform: [{ scale: 0.8 }],
-                            }}
-                            transition={{
-                                type: "spring",
-                                delay: index * 300,
-                                damping: 5,
-                            }}
-                            animate={{
-                                opacity: 1,
-                                transform: [{ scale: 1 }],
-                            }}
-                            style={{ width: width * 0.6 }}
-                        >
-                            <CategoryCardItem
-                                categoryColor={item.categoryColor}
-                                categoryTitle={item.categoryTitle}
-                                categoryId={item.categoryId}
-                                tasks={item.tasks}
-                                key={item.categoryId}
-                                mr="5"
-                                shadow="7"
-                            />
-                        </MotiView>
-                    )}
+                    style={styles.carousel}
+                    width={width * 0.6 + 20}
+                    scrollAnimationDuration={500}
+                    data={[...categories.map((item) => JSON.stringify(item))]}
+                    renderItem={({ item }) => <CategoryCardItem {...JSON.parse(item)} />}
                 />
             ) : (
                 <VStack justifyContent="flex-start" h={120} p={5} space="2">
                     <Image
-                        source={IdleCategory}
-                        resizeMode="contain"
                         h="full"
                         alt="idle category"
+                        resizeMode="contain"
+                        source={IdleCategory}
                     />
                     <Text textAlign={"center"} fontSize={10}>
                         You have no Categories, press the "+" button to add a new Category
@@ -69,6 +40,13 @@ const ListCategory = () => {
             )}
         </VStack>
     );
-};
+}
 
 export default ListCategory;
+
+const styles = StyleSheet.create({
+    carousel: {
+        width,
+        overflow: "visible",
+    },
+});
