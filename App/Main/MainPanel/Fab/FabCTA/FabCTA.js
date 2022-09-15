@@ -1,36 +1,55 @@
-import { Box, Text } from "native-base";
-import { useContext } from "react";
-import { FabButtonContext } from "../../../../../utils/context";
+import { useCallback } from "react";
+import { Text } from "native-base";
+import { useFab } from "../../../../../utils/contexts/fabContext";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
+import PropTypes from "prop-types";
+import { View, StyleSheet } from "react-native";
+import { useTheme } from "native-base";
 
-const FabCTA = ({ title, onClick }) => {
-    const { ToggleOpenFab } = useContext(FabButtonContext);
+function FabCTA({ title, onClick }) {
+    const { setFabPanelOpen } = useFab();
+    const { colors } = useTheme();
+
+    const onPress = useCallback(() => {
+        if (onClick) {
+            onClick();
+            setTimeout(() => {
+                setFabPanelOpen(false);
+            }, 800);
+        }
+    }, [onClick]);
+
     return (
-        <Box alignItems={"flex-start"}>
-            <AnimatedPressable
-                style={{ marginTop: 20 }}
-                onPress={() => {
-                    onClick &&
-                        (onClick(),
-                        setTimeout(() => {
-                            ToggleOpenFab(false);
-                        }, 1000));
-                }}
-            >
+        <View style={styles.buttonContainer}>
+            <AnimatedPressable style={styles.pressable} onPress={onPress}>
                 <Text
-                    bg="#E81E63"
-                    px="30"
                     py="4"
-                    rounded="10"
-                    fontWeight={"600"}
+                    px="30"
                     shadow={7}
+                    rounded="10"
                     lineHeight={18}
+                    fontWeight={"600"}
+                    bg={colors.primary.accent}
                 >
                     {title}
                 </Text>
             </AnimatedPressable>
-        </Box>
+        </View>
     );
+}
+
+FabCTA.propTypes = {
+    title: PropTypes.string,
+    onClick: PropTypes.func,
 };
+
+const styles = StyleSheet.create({
+    buttonContainer: {
+        alignItems: "flex-start",
+    },
+    pressable: {
+        marginTop: 20,
+    },
+});
 
 export default FabCTA;
