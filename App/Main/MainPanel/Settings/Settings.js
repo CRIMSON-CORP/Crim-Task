@@ -1,7 +1,6 @@
-import React from "react";
+import { StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Box, HStack, Switch, Text, VStack } from "native-base";
-import { useContext } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,20 +10,32 @@ import {
     changeRoundedCorners,
     updateUserExistence,
 } from "../../../../redux/account/account.reducer";
-import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../../Reusables/AnimatedPressable";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import TopBar from "../../../Reusables/TopBar";
 import InputBox from "./InputBox";
 import ProfilePhotoSettings from "./ProfilePhotoSettings";
-const Settings = () => {
+import { useNavigation } from "../../../../utils/contexts/navigationContext";
+import { useCallback } from "react";
+
+function Settings() {
     const user = useSelector((state) => state.account);
     const dispatch = useDispatch();
-    const { NavigationRef } = useContext(NavigationContext);
+
+    const { NavigationRef } = useNavigation();
+
+    const restUser = useCallback(async () => {
+        await AsyncStorage.removeItem("crim-task-data");
+        dispatch(updateUserExistence(false));
+    }, []);
+
+    const _changeRoundedCorners = useCallback((val) => {
+        dispatch(changeRoundedCorners(!val));
+    }, []);
 
     return (
         <Box flex={1}>
-            <SafeAreaView style={{ flex: 1, padding: 20 }}>
+            <SafeAreaView style={styles.safeAreaView}>
                 <VStack space={16} flexGrow={1}>
                     <TopBar back />
                     <AnimatedText text="Settings" />
@@ -61,9 +72,7 @@ const Settings = () => {
                                         <Switch
                                             size="lg"
                                             value={!user.roundedPanelCorners}
-                                            onValueChange={(val) => {
-                                                dispatch(changeRoundedCorners(!val));
-                                            }}
+                                            onValueChange={_changeRoundedCorners}
                                             onTrackColor="primary.300"
                                             onThumbColor="primary.100"
                                             offThumbColor="gray.300"
@@ -96,12 +105,7 @@ const Settings = () => {
                                             Deleteing your profile deletes your progress including
                                             your tasks and categories, this action is irreversible!
                                         </Text>
-                                        <AnimatedPressable
-                                            onPress={() => {
-                                                AsyncStorage.removeItem("crim-task-data");
-                                                dispatch(updateUserExistence(false));
-                                            }}
-                                        >
+                                        <AnimatedPressable onPress={restUser}>
                                             <Box bg="red.700" w="full" p="4" py="3" rounded="10">
                                                 <Text
                                                     textAlign="center"
@@ -121,6 +125,10 @@ const Settings = () => {
             </SafeAreaView>
         </Box>
     );
-};
+}
+
+const styles = StyleSheet.create({
+    safeAreaView: { flex: 1, padding: 20 },
+});
 
 export default Settings;
