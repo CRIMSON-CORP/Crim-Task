@@ -51,8 +51,9 @@ export function FabContextProvider({ children }) {
     });
     useEffect(() => {
         return () => {
-            setShowFab(true);
             setFlag(null);
+            setShowFab(true);
+            setFabPanelOpen(false);
         };
     }, []);
 

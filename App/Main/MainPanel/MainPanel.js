@@ -15,7 +15,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { useSelector } from "react-redux";
-import { FabContextProvider } from "../../../utils/context";
 import Categories from "./Categories";
 import Fab from "./Fab";
 import HowToUse from "./HowToUse/HowToUse";
@@ -24,6 +23,7 @@ import Notification from "./Notification";
 import Settings from "./Settings";
 import SingleCategory from "./SingleCategory";
 import { useSidePanel } from "../../../utils/contexts/sidePanelOpenedContext";
+import FabContextProvider from "../../../utils/contexts/fabContext";
 
 const { width } = Dimensions.get("window");
 const AnimatedMainpanel = Animated.createAnimatedComponent(Box);
