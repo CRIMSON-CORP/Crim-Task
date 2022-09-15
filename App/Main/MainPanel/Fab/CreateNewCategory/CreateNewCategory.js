@@ -63,17 +63,15 @@ function CreateNewCategory({ flag }) {
             title: title.trim(),
             color: categoryColors[ActiveColorIndex],
         };
-        if (title) {
-            if (flag) {
-                dispatch(
-                    editCategory({
-                        ...commonProperties,
-                        categoryId: flag.categoryId,
-                    })
-                );
-            } else {
-                dispatch(createCategory(commonProperties));
-            }
+        if (flag) {
+            dispatch(
+                editCategory({
+                    ...commonProperties,
+                    categoryId: flag.categoryId,
+                })
+            );
+        } else {
+            dispatch(createCategory(commonProperties));
         }
     }, [title, ActiveColorIndex]);
 
@@ -157,7 +155,7 @@ function CreateNewCategory({ flag }) {
                         </PanGestureHandler>
                     </Box>
                 </VStack>
-                <FabCTA title={fabTitle} onClick={createOrEditCategory} />
+                <FabCTA title={fabTitle} onClick={title ? createOrEditCategory : null} />
             </VStack>
         </KeyboardViewAdjuster>
     );
