@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Image, Text, useTheme, VStack } from "native-base";
 import { useRef } from "react";
@@ -10,7 +11,7 @@ import { TopBarSharedElements } from "../../../../utils/utils";
 import TaskItem from "../../../Reusables/TaskItem/TaskItem";
 import TopBar from "../../../Reusables/TopBar";
 
-const SingleCategory = ({ route }) => {
+function SingleCategory({ route }) {
     const { categoryId, categoryTitle } = route.params;
     const categories = useSelector((state) => state.tasks);
     const selectedCategory = categories.find((cat) => cat.categoryId === categoryId);
@@ -27,56 +28,27 @@ const SingleCategory = ({ route }) => {
             <SharedElement id={`item.${categoryId}.bg`} style={StyleSheet.absoluteFillObject}>
                 <View style={[{ backgroundColor: primary[300] }, StyleSheet.absoluteFillObject]} />
             </SharedElement>
-            <Box p="5" style={{ paddingTop: StatusBar.currentHeight + 20 }}>
+            <Box p="5" style={styles.boxContainer}>
                 <VStack space="16">
                     <TopBar back />
                     <VStack>
-                        <SharedElement
-                            id={`item.${categoryId}.title`}
-                            style={customStyles.absolute}
-                        >
-                            <Text
-                                style={[
-                                    {
-                                        top: 0,
-                                        fontSize: 40,
-                                        lineHeight: 40,
-                                    },
-                                    customStyles.absolute,
-                                    customStyles.textStyles,
-                                ]}
-                            >
+                        <SharedElement id={`item.${categoryId}.title`} style={styles.absolute}>
+                            <Text style={[styles.title, styles.absolute, styles.textStyles]}>
                                 {categoryTitle}
                             </Text>
                         </SharedElement>
-                        <SharedElement
-                            id={`item.${categoryId}.tasks`}
-                            style={customStyles.absolute}
-                        >
-                            <Text
-                                style={[
-                                    {
-                                        top: 60,
-                                        opacity: 0.7,
-                                        fontSize: 18,
-                                    },
-                                    customStyles.absolute,
-                                    customStyles.textStyles,
-                                ]}
-                            >
+                        <SharedElement id={`item.${categoryId}.tasks`} style={styles.absolute}>
+                            <Text style={[styles.subTitle, styles.absolute, styles.textStyles]}>
                                 {taskCount} Tasks
                             </Text>
                         </SharedElement>
                     </VStack>
                 </VStack>
             </Box>
-            <Box w="full" style={{ marginTop: 100 }} flex={1}>
+            <Box w="full" style={styles.listContainer} flex={1}>
                 {tasks.length ? (
                     <ScrollView
-                        contentContainerStyle={{
-                            padding: 20,
-                            flexGrow: 1,
-                        }}
+                        contentContainerStyle={styles.scrollView}
                         ref={ScrollRef}
                         showsVerticalScrollIndicator={false}
                     >
@@ -120,6 +92,10 @@ const SingleCategory = ({ route }) => {
             </Box>
         </Box>
     );
+}
+
+SingleCategory.propTypes = {
+    route: PropTypes.object,
 };
 
 SingleCategory.sharedElements = ({ route }) => {
@@ -131,7 +107,10 @@ SingleCategory.sharedElements = ({ route }) => {
         ...TopBarSharedElements,
     ];
 };
-const customStyles = StyleSheet.create({
+const styles = StyleSheet.create({
+    boxContainer: {
+        paddingTop: StatusBar.currentHeight + 20,
+    },
     textStyles: {
         textAlignVertical: "center",
         left: 0,
@@ -140,6 +119,23 @@ const customStyles = StyleSheet.create({
     },
     absolute: {
         position: "absolute",
+    },
+    title: {
+        top: 0,
+        fontSize: 40,
+        lineHeight: 40,
+    },
+    subTitle: {
+        top: 60,
+        opacity: 0.7,
+        fontSize: 18,
+    },
+    listContainer: {
+        marginTop: 100,
+    },
+    scrollView: {
+        padding: 20,
+        flexGrow: 1,
     },
 });
 
