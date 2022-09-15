@@ -1,55 +1,59 @@
 import { Box, Input, Text, useTheme, VStack } from "native-base";
-import { useContext, useState } from "react";
+import { useContext, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { CREATE_CATEGORY_TASK } from "../../../../../redux/tasks/components/task.actions";
+import { createTask } from "../../../../../redux/tasks/components/task.reducer";
 import { NavigationContext } from "../../../../../utils/context";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
+import KeyboardViewAdjuster from "../../../../Reusables/KeyboardViewAdjuster/KeyboardViewAdjuster";
+
 import FabCTA from "../FabCTA";
 function CreateNewKnowCategoryTask() {
     const { NavigationRef } = useContext(NavigationContext);
-    const currentCategoryId = NavigationRef.getCurrentRoute().params.categoryId;
     const [subject, setSubject] = useState("");
-    const dispatch = useDispatch();
+
     const { colors } = useTheme();
+    const dispatch = useDispatch();
+    const currentCategoryId = NavigationRef.getCurrentRoute().params.categoryId;
+
+    const _createTask = useCallback(() => {
+        if (subject) {
+            dispatch(
+                createTask({
+                    subject: subject.trim(),
+                    categoryId: currentCategoryId,
+                })
+            );
+        }
+    }, []);
+
     return (
-        <VStack w="full" space={35}>
-            <VStack w="full">
-                <Box w={"80%"}>
-                    <AnimatedText text="Create a new Task" />
-                </Box>
+        <KeyboardViewAdjuster>
+            <VStack w="full" space={35}>
+                <VStack w="full">
+                    <Box w={"80%"}>
+                        <AnimatedText text="Create a new Task" />
+                    </Box>
+                </VStack>
+                <VStack space="30">
+                    <Text fontSize="sm" opacity={0.7}>
+                        Subject
+                    </Text>
+                    <Input
+                        px="5"
+                        size="xl"
+                        isFullWidth
+                        color="white"
+                        value={subject}
+                        variant="underlined"
+                        borderBottomColor="white"
+                        underlineColorAndroid={"transparent"}
+                        selectionColor={colors.primary.accent}
+                        onChangeText={(text) => setSubject(text)}
+                    />
+                </VStack>
+                <FabCTA title="Create New Task" onClick={_createTask} />
             </VStack>
-            <VStack space="30">
-                <Text fontSize="sm" opacity={0.7}>
-                    Subject
-                </Text>
-                <Input
-                    size="xl"
-                    variant="underlined"
-                    color="white"
-                    isFullWidth
-                    selectionColor={colors.primary.accent}
-                    borderBottomColor="white"
-                    underlineColorAndroid={"transparent"}
-                    px="5"
-                    value={subject}
-                    onChangeText={(text) => setSubject(text)}
-                />
-            </VStack>
-            <FabCTA
-                title="Create New Task"
-                onClick={
-                    subject &&
-                    (() =>
-                        dispatch({
-                            type: CREATE_CATEGORY_TASK,
-                            payload: {
-                                subject: subject.trim(),
-                                categoryId: currentCategoryId,
-                            },
-                        }))
-                }
-            />
-        </VStack>
+        </KeyboardViewAdjuster>
     );
 }
 
