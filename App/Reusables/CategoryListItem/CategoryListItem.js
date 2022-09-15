@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import { SharedElement } from "react-navigation-shared-element";
 import { useFab } from "../../../utils/contexts/fabContext";
+import { useNavigation } from "../../../utils/contexts/navigationContext";
 const CategoryListItem = ({
     tasks = [],
     categoryTitle = "Grocery",
@@ -15,7 +16,7 @@ const CategoryListItem = ({
     const taskCount = tasks.length;
     const taskCompletedCount = tasks.filter((item) => item.completed).length;
     let progress = (taskCompletedCount / taskCount) * 100 || 0;
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const {
         colors: { primary },
     } = useTheme();

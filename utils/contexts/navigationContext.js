@@ -15,7 +15,7 @@ function NavigationProvider({ children }) {
 
     return (
         <NavigationContainer theme={navigationCardTheme} ref={navigationContainerRef}>
-            <navigationContext.Provider value={{NavigationRef:navigationContainerRef}}>
+            <navigationContext.Provider value={{ NavigationRef: navigationContainerRef }}>
                 {children}
             </navigationContext.Provider>
         </NavigationContainer>
