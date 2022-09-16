@@ -31,7 +31,7 @@ function CreateNewKnowCategoryTask() {
             <VStack w="full" space={35}>
                 <VStack w="full">
                     <Box w={"80%"}>
-                        <AnimatedText>Create a new Task</AnimatedText>
+                        <AnimatedText delay={1000}>Create a new Task</AnimatedText>
                     </Box>
                 </VStack>
                 <VStack space="30">
@@ -51,7 +51,7 @@ function CreateNewKnowCategoryTask() {
                         onChangeText={(text) => setSubject(text)}
                     />
                 </VStack>
-                <FabCTA title="Create New Task" onClick={_createTask} />
+                <FabCTA title="Create New Task" onClick={subject ? _createTask : null} />
             </VStack>
         </KeyboardViewAdjuster>
     );

@@ -23,12 +23,14 @@ const AnimatedBox = Animated.createAnimatedComponent(Box);
 const placeholder = categoryNameExamples[Math.floor(Math.random() * categoryNameExamples.length)];
 
 function CreateNewCategory({ flag }) {
+    const EDIT_MODE = flag ? (flag.flag ? true : false) : false;
+
     const translate = useSharedValue(0);
     const start = useSharedValue(0);
     const [ActiveColorIndex, setActiveColorIndex] = useState(
-        flag ? categoryColors.findIndex((color) => flag.color === color) : 0
+        EDIT_MODE ? categoryColors.findIndex((color) => flag.color === color) : 0
     );
-    const [title, setTitle] = useState(flag ? flag.title : "");
+    const [title, setTitle] = useState(EDIT_MODE ? flag.title : "");
     const loadedRef = useRef(false);
     const dispatch = useDispatch();
     const { colors } = useTheme();
@@ -63,7 +65,7 @@ function CreateNewCategory({ flag }) {
             title: title.trim(),
             color: categoryColors[ActiveColorIndex],
         };
-        if (flag) {
+        if (EDIT_MODE) {
             dispatch(
                 editCategory({
                     ...commonProperties,
@@ -94,11 +96,11 @@ function CreateNewCategory({ flag }) {
         [ActiveColorIndex]
     );
 
-    const PAGE_TITLE = flag ? "Edit Category" : "Create a new Category";
-    const PAGE_SUBTITLE = flag ? "Change Category name" : "Category name";
+    const PAGE_TITLE = EDIT_MODE ? "Edit Category" : "Create a new Category";
+    const PAGE_SUBTITLE = EDIT_MODE ? "Change Category name" : "Category name";
     const PLACEHOLDER = "e.g. " + placeholder;
-    const PAGE_THEME_COLOR_SUBTITLE_TEXT = flag ? "Change Theme Color" : "Select theme Color";
-    const FAB_CTA_TEXT = flag ? "Edit Category" : "Create New Category";
+    const PAGE_THEME_COLOR_SUBTITLE_TEXT = EDIT_MODE ? "Change Theme Color" : "Select theme Color";
+    const FAB_CTA_TEXT = EDIT_MODE ? "Edit Category" : "Create New Category";
 
     return (
         <KeyboardViewAdjuster>

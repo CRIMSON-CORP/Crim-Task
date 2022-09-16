@@ -34,8 +34,7 @@ const fabPlusAnimationTransition = {
 
 function Fab() {
     const canPress = useRef(true);
-
-    const { showFab, setShowFab, fabPanelOpen, setFabPanelOpen } = useFab();
+    const { showFab, setShowFab, fabPanelOpen, setFabPanelOpen, animateOpen, setFlag } = useFab();
     const { NavigationRef } = useNavigation();
 
     useEffect(() => {
@@ -48,11 +47,24 @@ function Fab() {
         return unsub;
     }, []);
 
+    useEffect(() => {
+        function backPress() {
+            if (fabPanelOpen) {
+                setFabPanelOpen(false);
+                return true;
+            } else {
+                return false;
+            }
+        }
+        const backEvt = BackHandler.addEventListener("hardwareBackPress", backPress);
+        return () => backEvt.remove();
+    }, [fabPanelOpen]);
+
     const plusAnimateStyles = useMemo(
         () => ({
-            transform: [{ rotate: fabPanelOpen ? `${405}deg` : `${0}deg` }],
+            transform: [{ rotate: animateOpen ? `${405}deg` : `${0}deg` }],
         }),
-        [fabPanelOpen]
+        [animateOpen]
     );
 
     const fabOpenToggler = useCallback(() => {
@@ -65,11 +77,15 @@ function Fab() {
         }
     }, [fabPanelOpen, canPress.current]);
 
+    const onExitComplete = useCallback(() => {
+        setFlag({ flag: null });
+    }, []);
+
     return (
         <Box justifyContent={"center"}>
-            <BackDrop fabPanelOpen={fabPanelOpen} />
-            <AnimatedBackground fabPanelOpen={fabPanelOpen} setFabPanelOpen={setFabPanelOpen} />
-            <AnimatePresence>
+            <BackDrop fabPanelOpen={animateOpen} />
+            <AnimatedBackground fabPanelOpen={animateOpen} />
+            <AnimatePresence onExitComplete={onExitComplete}>
                 {fabPanelOpen && (
                     <ContentAnimatedWrapper>
                         <Center p="5" h="full">
@@ -169,21 +185,8 @@ function BackDrop({ fabPanelOpen }) {
 BackDrop.propTypes = {
     fabPanelOpen: PropTypes.bool,
 };
-function AnimatedBackground({ fabPanelOpen, setFabPanelOpen }) {
+function AnimatedBackground({ fabPanelOpen }) {
     const { colors } = useTheme();
-
-    useEffect(() => {
-        function backPress() {
-            if (fabPanelOpen) {
-                setFabPanelOpen(false);
-                return true;
-            } else {
-                return false;
-            }
-        }
-        const backEvt = BackHandler.addEventListener("hardwareBackPress", backPress);
-        return () => backEvt.remove();
-    }, [fabPanelOpen]);
 
     const backgroundStyles = useMemo(
         () => ({
@@ -224,7 +227,6 @@ function AnimatedBackground({ fabPanelOpen, setFabPanelOpen }) {
 }
 AnimatedBackground.propTypes = {
     fabPanelOpen: PropTypes.bool,
-    setFabPanelOpen: PropTypes.func,
 };
 
 const contentAnimation = {

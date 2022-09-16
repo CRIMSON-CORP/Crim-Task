@@ -15,37 +15,26 @@ const indicatorTransition = {
     damping: 13,
 };
 function CreateNewTask({ flag }) {
+    const EDIT_MODE = flag ? (flag.flag ? true : false) : false;
     const categories = useSelector((state) => state.tasks);
     const [ActiveCategoryId, setActiveCategoryId] = useState(
-        flag
+        EDIT_MODE
             ? categories.find((cat) => cat.categoryId === flag.currentCategoryId).categoryId
             : categories[0].categoryId
     );
-    const [subject, setSubject] = useState(flag ? flag.subject : "");
-    const [pillsDimensions, setPillsDimensions] = useState([]);
+    const [subject, setSubject] = useState(EDIT_MODE ? flag.subject : "");
     const [ActiveIndexIndicator, setActiveIndexIndicator] = useState(
-        flag ? categories.findIndex((cat) => cat.id === flag.currentCategoryId).categoryId : 0
+        EDIT_MODE ? categories.findIndex((cat) => cat.id === flag.currentCategoryId).categoryId : 0
     );
     const { colors } = useTheme();
     const dispatch = useDispatch();
-    const pillContainerRef = useRef();
-
-    const indicatorAnimatedStyle = useMemo(
-        () => ({
-            width: pillsDimensions[ActiveIndexIndicator]?.width || 38,
-            height: pillsDimensions[ActiveIndexIndicator]?.height || 38,
-            left: pillsDimensions[ActiveIndexIndicator]?.pageX || 0,
-            top: pillsDimensions[ActiveIndexIndicator]?.pageY || 0,
-        }),
-        [pillsDimensions, ActiveIndexIndicator]
-    );
 
     const _createTask = useCallback(() => {
         let commonProperties = {
             subject: subject.trim(),
             categoryId: ActiveCategoryId,
         };
-        if (flag) {
+        if (EDIT_MODE) {
             dispatch(
                 createTask({
                     ...commonProperties,
@@ -55,22 +44,22 @@ function CreateNewTask({ flag }) {
             );
         }
         dispatch(createTask(commonProperties));
-    }, [flag, subject, ActiveCategoryId]);
+    }, [subject, ActiveCategoryId]);
 
     useEffect(() => {
         setActiveIndexIndicator(categories.findIndex((cat) => cat.categoryId === ActiveCategoryId));
     }, [ActiveCategoryId]);
 
-    const PAGE_TITLE = flag ? "Edit Task" : "Create a new Task";
-    const PAGE_CATEGORY_SUBTITLE = flag ? "Move to another Category" : "Select Task Category";
-    const CTA_TEXT = flag ? "Edit Task" : "Create New Task";
+    const PAGE_TITLE = EDIT_MODE ? "Edit Task" : "Create a new Task";
+    const PAGE_CATEGORY_SUBTITLE = EDIT_MODE ? "Move to another Category" : "Select Task Category";
+    const CTA_TEXT = EDIT_MODE ? "Edit Task" : "Create New Task";
 
     return (
         <KeyboardViewAdjuster>
             <VStack w="full" space={35}>
                 <VStack w="full">
                     <Box w={"80%"}>
-                        <AnimatedText>{PAGE_TITLE}</AnimatedText>
+                        <AnimatedText delay={1000}>{PAGE_TITLE}</AnimatedText>
                     </Box>
                 </VStack>
                 <VStack space="30">
@@ -94,25 +83,13 @@ function CreateNewTask({ flag }) {
                     <Text fontSize="sm" opacity={0.7}>
                         {PAGE_CATEGORY_SUBTITLE}
                     </Text>
-                    <Box px={1} flexWrap="wrap" flexDirection="row" ref={pillContainerRef}>
-                        <MotiView
-                            style={styles.selectCategoryIndicator}
-                            animate={indicatorAnimatedStyle}
-                            transition={indicatorTransition}
-                        />
-                        {categories.map(({ categoryTitle, categoryId }) => (
-                            <Pill
-                                key={categoryId}
-                                categoryId={categoryId}
-                                categoryTitle={categoryTitle}
-                                setActiveCategoryId={setActiveCategoryId}
-                                setPillsDimensions={setPillsDimensions}
-                                containerRef={pillContainerRef}
-                            />
-                        ))}
-                    </Box>
+                    <ChooseCategory
+                        categories={categories}
+                        setActiveCategoryId={setActiveCategoryId}
+                        ActiveIndexIndicator={ActiveIndexIndicator}
+                    />
                 </VStack>
-                <FabCTA title={CTA_TEXT} onClick={subject && _createTask} />
+                <FabCTA title={CTA_TEXT} onClick={subject ? _createTask : null} />
             </VStack>
         </KeyboardViewAdjuster>
     );
@@ -123,6 +100,48 @@ CreateNewTask.propTypes = {
 };
 
 export default CreateNewTask;
+
+function ChooseCategory({ ActiveIndexIndicator, categories, setActiveCategoryId }) {
+    const pillContainerRef = useRef();
+    console.log(ActiveIndexIndicator);
+    const [pillsDimensions, setPillsDimensions] = useState([]);
+
+    const indicatorAnimatedStyle = useMemo(
+        () => ({
+            width: pillsDimensions[ActiveIndexIndicator]?.width || 38,
+            height: pillsDimensions[ActiveIndexIndicator]?.height || 38,
+            left: pillsDimensions[ActiveIndexIndicator]?.pageX || 0,
+            top: pillsDimensions[ActiveIndexIndicator]?.pageY || 0,
+        }),
+        [pillsDimensions, ActiveIndexIndicator]
+    );
+
+    return (
+        <Box px={1} flexWrap="wrap" flexDirection="row" ref={pillContainerRef}>
+            <MotiView
+                style={styles.selectCategoryIndicator}
+                animate={indicatorAnimatedStyle}
+                transition={indicatorTransition}
+            />
+            {categories.map(({ categoryTitle, categoryId }) => (
+                <Pill
+                    key={categoryId}
+                    categoryId={categoryId}
+                    categoryTitle={categoryTitle}
+                    setActiveCategoryId={setActiveCategoryId}
+                    setPillsDimensions={setPillsDimensions}
+                    containerRef={pillContainerRef}
+                />
+            ))}
+        </Box>
+    );
+}
+
+ChooseCategory.propTypes = {
+    ActiveIndexIndicator: PropTypes.number,
+    categories: PropTypes.array,
+    setActiveCategoryId: PropTypes.func,
+};
 
 function Pill({
     categoryId,
@@ -152,7 +171,7 @@ function Pill({
 Pill.propTypes = {
     categoryId: PropTypes.string,
     categoryTitle: PropTypes.string,
-    setActiveCategoryId: PropTypes.string,
+    setActiveCategoryId: PropTypes.func,
     setPillsDimensions: PropTypes.func,
     containerRef: PropTypes.object,
 };
