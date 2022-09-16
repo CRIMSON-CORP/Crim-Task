@@ -21,11 +21,11 @@ export const SearchContext = createContext();
  * @property {boolean} fabPanelOpen
  * @property {FlagProps} flag
  * @property {React.Dispatch<React.SetStateAction<{
- * flag: null,
+ * flag: string | null,
  * title: string,
  * subject: string,
- * categoryId: null,
- * themeColor: null,
+ * categoryId: string,
+ * themeColor: string,
  * }>>} setFlag
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowFab
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setFabPanelOpen
@@ -40,7 +40,8 @@ export function useFab() {
 }
 
 export function FabContextProvider({ children }) {
-    const [fabPanelOpen, setFabPanelOpen] = useState(false);
+    const [animateOpen, setAnimateOpen] = useState(false);
+    const [fabPanelOpen, _setFabPanelOpen] = useState(false);
     const [showFab, setShowFab] = useState(true);
     const [flag, setFlag] = useState({
         flag: null,
@@ -49,6 +50,7 @@ export function FabContextProvider({ children }) {
         categoryId: null,
         themeColor: null,
     });
+
     useEffect(() => {
         return () => {
             setFlag(null);
@@ -56,6 +58,16 @@ export function FabContextProvider({ children }) {
             setFabPanelOpen(false);
         };
     }, []);
+
+    function setFabPanelOpen(state) {
+        if (state) {
+            setAnimateOpen(state);
+            setTimeout(() => _setFabPanelOpen(state), 100);
+        } else {
+            _setFabPanelOpen(state);
+            setTimeout(() => setAnimateOpen(state), 100);
+        }
+    }
 
     useEffect(() => {
         if (flag.flag) setShowFab(true);
@@ -67,10 +79,11 @@ export function FabContextProvider({ children }) {
             setFlag,
             showFab,
             setShowFab,
+            animateOpen,
             fabPanelOpen,
             setFabPanelOpen,
         }),
-        [flag.flag, fabPanelOpen, showFab]
+        [flag.flag, animateOpen, fabPanelOpen, showFab]
     );
     return <FabButtonContext.Provider value={contextValues}>{children}</FabButtonContext.Provider>;
 }
