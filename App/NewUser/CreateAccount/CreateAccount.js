@@ -52,7 +52,7 @@ function CreateAccount({ navigation }) {
             base64: true,
         });
         if (!data.cancelled) {
-            setImage({ uri: data.base64 });
+            setImage(data.base64);
         }
     }, [image]);
 
@@ -96,7 +96,7 @@ function CreateAccount({ navigation }) {
                                             <Pressable onPress={PickImage} w={200} h={200}>
                                                 <Image
                                                     source={{
-                                                        uri: `data:image/*;base64,${image.uri}`,
+                                                        uri: `data:image/*;base64,${image}`,
                                                     }}
                                                     alt="prfile photo"
                                                     w={height * 0.2}
@@ -136,7 +136,7 @@ function CreateAccount({ navigation }) {
                                             selectionColor="white"
                                             value={fname}
                                             onChangeText={(e) => {
-                                                setFname(e);
+                                                setFname(e.trim());
                                             }}
                                         />
                                     </VStack>
@@ -161,7 +161,7 @@ function CreateAccount({ navigation }) {
                                             selectionColor={colors.primary.accent}
                                             value={lname}
                                             onChangeText={(e) => {
-                                                setLname(e);
+                                                setLname(e.trim());
                                             }}
                                         />
                                     </VStack>
