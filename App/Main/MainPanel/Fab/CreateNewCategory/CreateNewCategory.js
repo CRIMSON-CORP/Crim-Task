@@ -94,21 +94,21 @@ function CreateNewCategory({ flag }) {
         [ActiveColorIndex]
     );
 
-    const pageTitle = flag ? "Edit Category" : "Create a new Category";
-    const pageNameSubtitle = flag ? "Change Category name" : "Category name";
-    const placeHolder = "e.g. " + placeholder;
-    const pageThemeColorSubtitle = flag ? "Change Theme Color" : "Select theme Color";
-    const fabTitle = flag ? "Edit Category" : "Create New Category";
+    const PAGE_TITLE = flag ? "Edit Category" : "Create a new Category";
+    const PAGE_SUBTITLE = flag ? "Change Category name" : "Category name";
+    const PLACEHOLDER = "e.g. " + placeholder;
+    const PAGE_THEME_COLOR_SUBTITLE_TEXT = flag ? "Change Theme Color" : "Select theme Color";
+    const FAB_CTA_TEXT = flag ? "Edit Category" : "Create New Category";
 
     return (
         <KeyboardViewAdjuster>
             <VStack w="full" space={35}>
                 <VStack w="full">
-                    <AnimatedText text={pageTitle} />
+                    <AnimatedText delay={1000}>{PAGE_TITLE}</AnimatedText>
                 </VStack>
                 <VStack space="30">
                     <Text fontSize="sm" opacity={0.7}>
-                        {pageNameSubtitle}
+                        {PAGE_SUBTITLE}
                     </Text>
                     <Input
                         px="5"
@@ -118,7 +118,7 @@ function CreateNewCategory({ flag }) {
                         value={title}
                         maxLength={20}
                         variant="underlined"
-                        placeholder={placeHolder}
+                        placeholder={PLACEHOLDER}
                         borderBottomColor="white"
                         onChangeText={updateTitle}
                         placeholderTextColor={"#ffffffdd"}
@@ -128,7 +128,7 @@ function CreateNewCategory({ flag }) {
                 </VStack>
                 <VStack space="30">
                     <Text fontSize="sm" opacity={0.7}>
-                        {pageThemeColorSubtitle}
+                        {PAGE_THEME_COLOR_SUBTITLE_TEXT}
                     </Text>
                     <Box w={categoryColors.length * 65} px={2.5}>
                         <PanGestureHandler onGestureEvent={gesture}>
@@ -155,7 +155,7 @@ function CreateNewCategory({ flag }) {
                         </PanGestureHandler>
                     </Box>
                 </VStack>
-                <FabCTA title={fabTitle} onClick={title ? createOrEditCategory : null} />
+                <FabCTA title={FAB_CTA_TEXT} onClick={title ? createOrEditCategory : null} />
             </VStack>
         </KeyboardViewAdjuster>
     );

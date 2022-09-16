@@ -38,7 +38,9 @@ function Settings() {
             <SafeAreaView style={styles.safeAreaView}>
                 <VStack space={16} flexGrow={1}>
                     <TopBar back />
-                    <AnimatedText text="Settings" />
+                    <AnimatedText delay={600} duration={550} stagger={50}>
+                        Settings
+                    </AnimatedText>
                     <Box flex={1} pb={4}>
                         <ScrollView showsVerticalScrollIndicator={false}>
                             <Box>

@@ -1,5 +1,5 @@
 import { AnimatePresence, View as MotiView } from "moti";
-import { Box, Heading, Image, Text, VStack } from "native-base";
+import { Box, Image, Text, VStack } from "native-base";
 import { useRef } from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -12,6 +12,7 @@ import TopBar from "../../../Reusables/TopBar";
 import { Layout } from "react-native-reanimated";
 import { useCallback } from "react";
 import { deleteCategory } from "../../../../redux/tasks/components/task.reducer";
+import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 const Categories = () => {
     const categories = useSelector((state) => state.tasks);
     const dispatch = useDispatch();
@@ -24,7 +25,9 @@ const Categories = () => {
                 <VStack space="16" p="5">
                     <TopBar back />
                     <VStack space="10">
-                        <Heading>Categories</Heading>
+                        <AnimatedText delay={600} stagger={50}>
+                            Categories
+                        </AnimatedText>
                     </VStack>
                 </VStack>
                 <Box pt="10" flex={1}>

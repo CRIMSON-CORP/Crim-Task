@@ -12,7 +12,9 @@ const HowToUse = () => {
             <VStack flex={1} space="10">
                 <VStack space={16} flexGrow={1}>
                     <TopBar back />
-                    <AnimatedText text="How to use the App" />
+                    <AnimatedText delay={700} stagger={50}>
+                        How to use the App
+                    </AnimatedText>
                 </VStack>
                 <ScrollView>
                     <VStack space="5">

@@ -70,7 +70,7 @@ function CreateNewTask({ flag }) {
             <VStack w="full" space={35}>
                 <VStack w="full">
                     <Box w={"80%"}>
-                        <AnimatedText text={PAGE_TITLE} />
+                        <AnimatedText>{PAGE_TITLE}</AnimatedText>
                     </Box>
                 </VStack>
                 <VStack space="30">

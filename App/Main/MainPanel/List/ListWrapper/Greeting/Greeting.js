@@ -35,40 +35,33 @@ function Greeting() {
     if (date <= 11) {
         return (
             <Box w="90%">
-                <AnimatedText
-                    text={MorinngGreetings[
-                        Math.floor(Math.random() * MorinngGreetings.length)
-                    ].trim()}
-                    delay
-                />
+                <AnimatedText delay={2000}>
+                    {MorinngGreetings[Math.floor(Math.random() * MorinngGreetings.length)].trim()}
+                </AnimatedText>
             </Box>
         );
     } else if (date >= 12 && date <= 16) {
         return (
             <Box w="90%">
-                <AnimatedText
-                    text={AfternoonGreetings[
+                <AnimatedText delay={2000}>
+                    {AfternoonGreetings[
                         Math.floor(Math.random() * AfternoonGreetings.length)
                     ].trim()}
-                    delay
-                />
+                </AnimatedText>
             </Box>
         );
     } else if (date >= 17) {
         return (
             <Box w="90%">
-                <AnimatedText
-                    text={EveningGreetings[
-                        Math.floor(Math.random() * EveningGreetings.length)
-                    ].trim()}
-                    delay
-                />
+                <AnimatedText delay={2000}>
+                    {EveningGreetings[Math.floor(Math.random() * EveningGreetings.length)].trim()}
+                </AnimatedText>
             </Box>
         );
     } else
         return (
             <Box w="90%">
-                <AnimatedText text="Hello!" delay />
+                <AnimatedText delay={2000}>"Hello!"</AnimatedText>
             </Box>
         );
 }
