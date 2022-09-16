@@ -24,13 +24,13 @@ const taskReducer = createSlice({
             state = action.payload.data;
         },
         updateTask(state, action) {
-            const categoryIndex = state.findIndex(
-                (cat) => cat.categoryId === action.payload.categoryId
-            );
-            const taskIndex = state[categoryIndex].tasks.findIndex(
-                (item) => item.id === action.payload.itemId
-            );
-            state[categoryIndex].tasks[taskIndex] = !state[categoryIndex].tasks[taskIndex];
+            const category = state.find((cat) => cat.categoryId === action.payload.categoryId);
+            if (category) {
+                const task = category.tasks.find((item) => item.id === action.payload.itemId);
+                if (task) {
+                    task.completed = !task.completed;
+                }
+            }
         },
         deleteTask(state, action) {
             const categoryIndex = state.findIndex(
@@ -46,7 +46,7 @@ const taskReducer = createSlice({
             state.splice(categoryIndex, 1);
         },
         createCategory(state, action) {
-            state.push({
+            state.unshift({
                 categoryId: nanoid(6),
                 categoryTitle: action.payload.title,
                 categoryColor: action.payload.color,
@@ -116,13 +116,13 @@ const taskReducer = createSlice({
 });
 
 export const {
+    createTask,
+    editTask,
     updateTask,
     deleteTask,
-    deleteCategory,
     createCategory,
-    createTask,
     editCategory,
-    editTask,
+    deleteCategory,
     resetTasks,
 } = taskReducer.actions;
 export default taskReducer.reducer;
