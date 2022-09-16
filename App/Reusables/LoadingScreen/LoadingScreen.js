@@ -36,7 +36,7 @@ function LoadingScreen() {
     }));
 
     return (
-        <Center w={width} h={height} bg="primary.500">
+        <Center zIndex={0} w={width} h={height} bg="primary.500">
             <AnimatedView
                 w={35}
                 h={35}

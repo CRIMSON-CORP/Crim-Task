@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { loadAsync } from "expo-font";
-import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import { Box, NativeBaseProvider } from "native-base";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -22,44 +21,34 @@ enableScreens();
 export default function App() {
     return (
         <NativeBaseProvider theme={theme}>
-            <Provider store={store}>
-                <PersistGate loading={<LoadingScreen />} persistor={persistor}>
-                    <MainWrapper />
-                </PersistGate>
-            </Provider>
+            <NavigationProvider>
+                <Provider store={store}>
+                    <PersistGate loading={<LoadingScreen />} persistor={persistor}>
+                        <MainWrapper />
+                    </PersistGate>
+                </Provider>
+            </NavigationProvider>
         </NativeBaseProvider>
     );
 }
 function MainWrapper() {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        async function loadFonts() {
-            try {
-                await preventAutoHideAsync();
-                await loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha });
-            } catch (err) {
-                console.log(err);
-            } finally {
-                await hideAsync();
-                setLoading(false);
-            }
-        }
-        loadFonts();
+        loadAsync({ ...Fonts.Raleway, ...Fonts.Gisha })
+            .then(() => setLoading(false))
+            .catch((error) => console.log(error));
     }, []);
 
+    if (loading) {
+        return <LoadingScreen />;
+    }
     return (
-        <NavigationProvider>
-            {loading ? (
-                <LoadingScreen />
-            ) : (
-                <Box flex={1}>
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                        <UserContextProvider>
-                            {(userExist) => (userExist ? <Main /> : <NewUser />)}
-                        </UserContextProvider>
-                    </GestureHandlerRootView>
-                </Box>
-            )}
-        </NavigationProvider>
+        <Box flex={1} zIndex={5}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <UserContextProvider>
+                    {(userExist) => (userExist ? <Main /> : <NewUser />)}
+                </UserContextProvider>
+            </GestureHandlerRootView>
+        </Box>
     );
 }
