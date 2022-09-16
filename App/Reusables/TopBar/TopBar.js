@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
 import { AntDesign } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, HStack, useTheme } from "native-base";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { BackHandler, Dimensions, StatusBar, StyleSheet } from "react-native";
 import Animated, {
     useAnimatedStyle,
@@ -17,8 +18,10 @@ import MenuBackButton from "./MenuBackButton";
 import SearchBar from "./Search/SearchBar/SearchBar";
 import SearchResults from "./Search/SearchResults";
 import Bell from "./TopBarIcons/Bell";
+
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width, height } = Dimensions.get("screen");
+
 const scaleTransition = {
     from: {
         transform: [{ scale: 0 }],
@@ -34,18 +37,26 @@ const scaleTransition = {
     },
 };
 
-const TopBar = ({ back }) => {
+function TopBar({ back }) {
     const bgShared = useSharedValue(0);
-    const { NavigationRef } = useNavigation();
-    const [OpenSearch, setOpenSearch] = useState(false);
+
     const [value, setValue] = useState("");
+    const [OpenSearch, setOpenSearch] = useState(false);
+
+    const { NavigationRef } = useNavigation();
     const { colors } = useTheme();
     const { setShowFab } = useFab();
+
     const bgStyles = useAnimatedStyle(() => ({
         backgroundColor: colors.primary[300],
         opacity: bgShared.value,
-        zIndex: 997,
     }));
+
+    const closeSearch = useCallback(() => {
+        setOpenSearch(false);
+    }, []);
+
+    const goToNotifications = useCallback(() => NavigationRef.navigate("notifications"), []);
 
     useEffect(() => {
         if (OpenSearch) {
@@ -70,17 +81,11 @@ const TopBar = ({ back }) => {
         return () => backEnvt.remove();
     }, [OpenSearch]);
 
-    const fullScreen = {
-        width,
-        height,
-        left: -20,
-        top: -StatusBar.currentHeight - 20,
-    };
     return (
         <Box>
             <AnimatedBox
                 pointerEvents="none"
-                style={[StyleSheet.absoluteFill, bgStyles, fullScreen]}
+                style={[StyleSheet.absoluteFill, bgStyles, styles.fullScreen]}
             />
             <SearchResults value={value} OpenSearch={OpenSearch} />
             <HStack
@@ -105,19 +110,13 @@ const TopBar = ({ back }) => {
                         <AnimatePresence exitBeforeEnter>
                             {OpenSearch ? (
                                 <MotiView {...scaleTransition} key={2}>
-                                    <AnimatedPressable
-                                        onPress={() => {
-                                            setOpenSearch(false);
-                                        }}
-                                    >
+                                    <AnimatedPressable onPress={closeSearch}>
                                         <AntDesign name="close" size={30} color="white" />
                                     </AnimatedPressable>
                                 </MotiView>
                             ) : (
                                 <MotiView key={1}>
-                                    <AnimatedPressable
-                                        onPress={() => NavigationRef.navigate("notifications")}
-                                    >
+                                    <AnimatedPressable onPress={goToNotifications}>
                                         <Bell />
                                     </AnimatedPressable>
                                 </MotiView>
@@ -128,6 +127,20 @@ const TopBar = ({ back }) => {
             </HStack>
         </Box>
     );
+}
+
+TopBar.propTypes = {
+    back: PropTypes.bool,
 };
 
 export default TopBar;
+
+const styles = StyleSheet.create({
+    fullScreen: {
+        width,
+        height,
+        left: -20,
+        zIndex: 997,
+        top: -StatusBar.currentHeight - 20,
+    },
+});

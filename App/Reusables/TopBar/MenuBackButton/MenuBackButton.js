@@ -1,7 +1,6 @@
-import React from "react";
 import { Box } from "native-base";
 import PropTypes from "prop-types";
-import { memo, useContext, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, useCallback } from "react";
 import { BackHandler } from "react-native";
 import Animated, {
     interpolate,
@@ -11,7 +10,6 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { SharedElement } from "react-navigation-shared-element";
-import { NavigationContext } from "../../../../utils/context";
 import AnimatedPressable from "../../AnimatedPressable";
 import BackArrow from "../TopBarIcons/BackArrow";
 import Menu from "../TopBarIcons/Menu";
@@ -30,14 +28,25 @@ const AnimatedBox = Animated.createAnimatedComponent(Box);
  * @returns {JSX.Element}
  */
 function MenuBackButton({ back, OpenSearch }) {
-    const AnimatedBoxShared = useSharedValue(1);
-    const { NavigationRef } = useNavigation();
     const shouldAnimate = useRef(false);
+
+    const AnimatedBoxShared = useSharedValue(1);
+
+    const { NavigationRef } = useNavigation();
     const { sidePanelOpened, setSidePanelOpened } = useSidePanel();
+
     const AnimatedBoxStyles = useAnimatedStyle(() => ({
         opacity: AnimatedBoxShared.value,
         transform: [{ scale: interpolate(AnimatedBoxShared.value, [0, 1], [0.5, 1]) }],
     }));
+
+    const onPress = useCallback(() => {
+        if (NavigationRef.canGoBack()) {
+            NavigationRef.goBack();
+        } else {
+            setSidePanelOpened(true);
+        }
+    }, []);
 
     useEffect(() => {
         if (OpenSearch && shouldAnimate.current) AnimatedBoxShared.value = withTiming(0);
@@ -46,27 +55,19 @@ function MenuBackButton({ back, OpenSearch }) {
     }, [OpenSearch]);
 
     useEffect(() => {
-        const sideClose = () => {
+        function sideClose() {
             if (sidePanelOpened) {
                 setSidePanelOpened(false);
                 return true;
             } else return false;
-        };
+        }
         const BackEvnt = BackHandler.addEventListener("hardwareBackPress", sideClose);
         return () => BackEvnt.remove();
     }, [sidePanelOpened]);
 
     return (
         <AnimatedBox style={AnimatedBoxStyles}>
-            <AnimatedPressable
-                onPress={() => {
-                    if (NavigationRef.canGoBack()) {
-                        NavigationRef.goBack();
-                    } else {
-                        setSidePanelOpened(true);
-                    }
-                }}
-            >
+            <AnimatedPressable onPress={onPress}>
                 {back ? (
                     <SharedElement id="item.back">
                         <BackArrow />

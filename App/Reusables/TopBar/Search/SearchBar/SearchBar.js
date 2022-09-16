@@ -1,18 +1,66 @@
+import PropTypes from "prop-types";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, HStack, Input, useTheme } from "native-base";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Dimensions } from "react-native";
-import { NavigationContext } from "../../../../../utils/context";
+import { StyleSheet } from "react-native";
 import { useNavigation } from "../../../../../utils/contexts/navigationContext";
 import AnimatedPressable from "../../../AnimatedPressable";
 import Search from "../../TopBarIcons/Search";
+
 const { width } = Dimensions.get("screen");
+const transition = { type: "timing", duration: 500 };
 function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
-    const { colors } = useTheme();
     const [openSearchIcon, setOpenSearchIcon] = useState(true);
+
+    const { colors } = useTheme();
     const { NavigationRef } = useNavigation();
+
+    const searchBarContainerProps = useMemo(
+        () => ({
+            animate: {
+                width: OpenSearch ? width - 140 : 30,
+            },
+            transition,
+        }),
+        [OpenSearch]
+    );
+    const searchBarBgProps = useMemo(
+        () => ({
+            from: {
+                width: 30,
+            },
+            animate: {
+                width: width - 140,
+            },
+            exit: {
+                width: 30,
+            },
+            transition,
+            style: {
+                ...styles.searchBg,
+                backgroundColor: colors.primary[200],
+            },
+        }),
+        []
+    );
+
+    const searchIconProps = useMemo(
+        () => ({
+            animate: {
+                opacity: openSearchIcon ? 1 : 0,
+                scale: openSearchIcon ? 1 : 0.5,
+            },
+            transition: { type: "spring", damping: openSearchIcon ? 4 : 10 },
+            pointerEvents: openSearchIcon ? "auto" : "none",
+        }),
+        [openSearchIcon]
+    );
+
+    const onChangeText = useCallback((text) => setValue(text.trim()), []);
+
     useEffect(() => {
-        const unsub = NavigationRef.addListener("state", (e) => {
+        const unsub = NavigationRef.addListener("state", () => {
             let routename = NavigationRef.getCurrentRoute().name;
             setOpenSearchIcon(!["settings", "how_to_use", "notifications"].includes(routename));
         });
@@ -21,50 +69,12 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     }, []);
     return (
         <Box zIndex={999}>
-            <MotiView
-                animate={{
-                    width: OpenSearch ? width - 140 : 30,
-                }}
-                transition={{
-                    type: "timing",
-                    duration: 500,
-                }}
-            >
+            <MotiView {...searchBarContainerProps}>
                 <HStack w="full" alignItems={"center"}>
                     <AnimatePresence>
-                        {OpenSearch && (
-                            <MotiView
-                                from={{
-                                    width: 30,
-                                }}
-                                animate={{
-                                    width: width - 140,
-                                }}
-                                exit={{
-                                    width: 30,
-                                }}
-                                transition={{
-                                    type: "timing",
-                                    duration: 500,
-                                }}
-                                style={{
-                                    position: "absolute",
-                                    left: -5,
-                                    height: 45,
-                                    borderRadius: 10,
-                                    backgroundColor: colors.primary[200],
-                                }}
-                            />
-                        )}
+                        {OpenSearch && <MotiView {...searchBarBgProps} />}
                     </AnimatePresence>
-                    <MotiView
-                        animate={{
-                            opacity: openSearchIcon ? 1 : 0,
-                            scale: openSearchIcon ? 1 : 0.5,
-                        }}
-                        transition={{ type: "spring", damping: openSearchIcon ? 4 : 10 }}
-                        pointerEvents={openSearchIcon ? "auto" : "none"}
-                    >
+                    <MotiView {...searchIconProps}>
                         <AnimatedPressable onPress={() => setOpenSearch((prev) => !prev)}>
                             <Search />
                         </AnimatedPressable>
@@ -79,7 +89,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
                                     selectionColor={colors.primary.accent}
                                     color="white"
                                     value={value}
-                                    onChangeText={(text) => setValue(text.trim())}
+                                    onChangeText={onChangeText}
                                     w={width - 180}
                                     placeholder="Search Tasks..."
                                 />
@@ -92,4 +102,20 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
     );
 }
 
+SearchBar.propTypes = {
+    setOpenSearch: PropTypes.func,
+    OpenSearch: PropTypes.bool,
+    value: PropTypes.string,
+    setValue: PropTypes.func,
+};
+
 export default SearchBar;
+
+const styles = StyleSheet.create({
+    searchBg: {
+        position: "absolute",
+        left: -5,
+        height: 45,
+        borderRadius: 10,
+    },
+});
