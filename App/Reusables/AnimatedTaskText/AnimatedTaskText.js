@@ -122,7 +122,7 @@ AnimatedTaskText.propTypes = {
 AnimatedStroke.propTypes = {
     max: PropTypes.number,
     completed: PropTypes.bool,
-    index: PropTypes.object,
+    index: PropTypes.number,
 };
 
 export default AnimatedTaskText;

@@ -10,12 +10,15 @@ import Animated, {
     withSpring,
     withTiming,
 } from "react-native-reanimated";
+
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const { width } = Dimensions.get("window");
 const SWIPE_LIMIT = -180;
-const SwipableView = ({ children, swipeExe, simultaneousHandlers }) => {
+
+function SwipableView({ children, swipeExe, simultaneousHandlers }) {
     const scaleShared = useSharedValue(1);
     const transitionX = useSharedValue(0);
+
     const gesture = useAnimatedGestureHandler({
         onStart: () => {
             scaleShared.value = withTiming(0.95, { duration: 200 });
@@ -34,9 +37,11 @@ const SwipableView = ({ children, swipeExe, simultaneousHandlers }) => {
             }
         },
     });
+
     const AnimatedHSTackStyles = useAnimatedStyle(() => ({
         transform: [{ scale: scaleShared.value }, { translateX: transitionX.value }],
     }));
+
     return (
         <PanGestureHandler
             failOffsetY={[-5, 5]}
@@ -47,10 +52,11 @@ const SwipableView = ({ children, swipeExe, simultaneousHandlers }) => {
             <AnimatedBox style={AnimatedHSTackStyles}>{children}</AnimatedBox>
         </PanGestureHandler>
     );
-};
+}
 SwipableView.propTypes = {
     swipeExe: PropTypes.func,
     children: PropTypes.element.isRequired,
+    simultaneousHandlers: PropTypes.object,
 };
 
 export default SwipableView;

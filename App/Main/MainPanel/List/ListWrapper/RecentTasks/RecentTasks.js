@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import IdleTask from "../../../../../../assets/crim-task/idle/idle_task.png";
 import TaskItem from "../../../../../Reusables/TaskItem/TaskItem";
 
-const RecentTasks = () => {
+function RecentTasks() {
     let AllTasksCategories = useSelector((state) => state.tasks);
 
     let AllTasks = [];
+
     AllTasksCategories.forEach((cat) => {
         cat.tasks.forEach((task) => {
             AllTasks.push({
@@ -17,8 +18,9 @@ const RecentTasks = () => {
             });
         });
     });
-    let AllSorted = AllTasks.sort((a, b) => b.timeStamp - a.timeStamp);
-    AllSorted.length = AllSorted.length > 3 ? 3 : AllSorted.length;
+
+    let AllSorted = AllTasks.sort((a, b) => b.timeStamp - a.timeStamp).slice(0, 2);
+
     return (
         <VStack space={30}>
             <Text fontWeight={"bold"} opacity={0.7}>
@@ -52,6 +54,6 @@ const RecentTasks = () => {
             </AnimatePresence>
         </VStack>
     );
-};
+}
 
 export default RecentTasks;

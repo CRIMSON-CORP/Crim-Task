@@ -2,7 +2,8 @@ import { VStack } from "native-base";
 import Greeting from "./Greeting";
 import ListCategory from "./ListCategory";
 import RecentTasks from "./RecentTasks";
-const ListWrapper = () => {
+
+function ListWrapper() {
     return (
         <VStack space="10">
             <Greeting />
@@ -10,6 +11,6 @@ const ListWrapper = () => {
             <RecentTasks />
         </VStack>
     );
-};
+}
 
 export default ListWrapper;

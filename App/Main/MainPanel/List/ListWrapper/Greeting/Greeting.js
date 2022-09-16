@@ -4,6 +4,7 @@ import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
 function Greeting() {
     const { last } = useSelector((state) => state.account.name) || {};
+
     const MorinngGreetings = [
         `What's up ${last}?`,
         `How are you ${last}?`,
@@ -32,6 +33,7 @@ function Greeting() {
     ];
 
     const date = new Date().getHours();
+
     if (date <= 11) {
         return (
             <Box w="90%">

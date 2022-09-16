@@ -9,12 +9,14 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { Circle, Path, Svg } from "react-native-svg";
+
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-const AnimatedCheckBox = ({ completed, color }) => {
+function AnimatedCheckBox({ completed, color }) {
     const circleStrokeShared = useSharedValue(0);
     const pathStrokeShared = useSharedValue(0);
+
     useEffect(() => {
         if (completed) {
             circleStrokeShared.value = withTiming(1, {
@@ -27,6 +29,7 @@ const AnimatedCheckBox = ({ completed, color }) => {
             pathStrokeShared.value = withTiming(0, { duration: 400 });
         }
     }, [completed]);
+
     const AnimatedCircleProps = useAnimatedProps(() => ({
         strokeDashoffset: interpolate(circleStrokeShared.value, [0, 1], [60, 0]),
     }));
@@ -55,11 +58,11 @@ const AnimatedCheckBox = ({ completed, color }) => {
             />
         </Svg>
     );
-};
+}
 
 export default AnimatedCheckBox;
 
-AnimatedCheckBox.prototype = {
+AnimatedCheckBox.propTypes = {
     completed: PropTypes.bool.isRequired,
     color: PropTypes.string.isRequired,
 };

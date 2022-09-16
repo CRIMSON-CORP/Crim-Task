@@ -6,7 +6,8 @@ import { TopBarSharedElements } from "../../../../utils/utils";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import TopBar from "../../../Reusables/TopBar";
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
-const HowToUse = () => {
+
+function HowToUse() {
     return (
         <Box flex={1} bg="primary.300" p="5" style={{ paddingTop: StatusBar.currentHeight + 20 }}>
             <VStack flex={1} space="10">
@@ -42,7 +43,7 @@ const HowToUse = () => {
                             <Text fontSize={"xs"}>
                                 You can create a new Task by clicking the plus icon button at the
                                 bottom right, this will bring a popup where you can fill in the task
-                                subject. {"\n\n"}
+                                subject.{"\n\n"}
                                 Now, where you click the plus button matters,{"\n"}
                                 Clicking it in the homescreen would let you create a new task if you
                                 have one or more categories, when the popup opens, you would need to
@@ -104,7 +105,7 @@ const HowToUse = () => {
             </VStack>
         </Box>
     );
-};
+}
 
 HowToUse.sharedElements = () => {
     return TopBarSharedElements;

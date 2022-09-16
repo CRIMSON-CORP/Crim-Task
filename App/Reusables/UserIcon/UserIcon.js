@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import Svg, { Path } from "react-native-svg";
-const UserIcon = ({ size, style, onPress, notClickable }) => {
+
+function UserIcon({ size, style, onPress, notClickable }) {
     return (
         <Svg
             width={size}
@@ -26,7 +27,7 @@ const UserIcon = ({ size, style, onPress, notClickable }) => {
             />
         </Svg>
     );
-};
+}
 
 UserIcon.propTypes = {
     size: PropTypes.number,

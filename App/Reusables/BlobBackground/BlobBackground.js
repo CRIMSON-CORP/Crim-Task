@@ -1,8 +1,11 @@
+import PropTypes from "prop-types";
 import { useTheme } from "native-base";
 import { Dimensions, StyleSheet } from "react-native";
 import Svg, { G, Path } from "react-native-svg";
+
 const { width, height } = Dimensions.get("screen");
-const BlobBackground = ({ full }) => {
+
+function BlobBackground({ full }) {
     const { colors } = useTheme();
     return (
         <Svg
@@ -67,6 +70,10 @@ const BlobBackground = ({ full }) => {
             )}
         </Svg>
     );
+}
+
+BlobBackground.propTypes = {
+    full: PropTypes.bool,
 };
 
 export default BlobBackground;

@@ -4,7 +4,8 @@ import { TopBarSharedElements } from "../../../../utils/utils";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
 import TopBar from "../../../Reusables/TopBar";
 import no_notification from "./NotificationImages/no_notification.png";
-const Notification = () => {
+
+function Notification() {
     return (
         <Box flex={1} bg="primary.300" p="5" style={{ paddingTop: StatusBar.currentHeight + 20 }}>
             <VStack space={16} flexGrow={1}>
@@ -27,7 +28,7 @@ const Notification = () => {
             </VStack>
         </Box>
     );
-};
+}
 
 Notification.sharedElements = () => {
     return TopBarSharedElements;
