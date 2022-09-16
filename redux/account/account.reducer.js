@@ -34,10 +34,11 @@ const accountReducer = createSlice({
 });
 
 export const {
-    changeFirstName,
+    resetAccount,
     changeLastName,
+    changeFirstName,
     changeProfilePhoto,
-    changeRoundedCorners,
     updateUserExistence,
+    changeRoundedCorners,
 } = accountReducer.actions;
 export default accountReducer.reducer;

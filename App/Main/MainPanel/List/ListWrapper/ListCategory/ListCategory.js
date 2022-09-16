@@ -23,7 +23,7 @@ function ListCategory() {
                     width={width * 0.6 + 20}
                     scrollAnimationDuration={500}
                     data={[...categories.map((item) => JSON.stringify(item))]}
-                    renderItem={({ item }) => <CategoryCardItem {...JSON.parse(item)} />}
+                    renderItem={({ item }) => <CategoryCardItem {...JSON.parse(item)} shadow="7" />}
                 />
             ) : (
                 <VStack justifyContent="flex-start" h={120} p={5} space="2">

@@ -17,6 +17,8 @@ import InputBox from "./InputBox";
 import ProfilePhotoSettings from "./ProfilePhotoSettings";
 import { useNavigation } from "../../../../utils/contexts/navigationContext";
 import { useCallback } from "react";
+import { resetTasks } from "../../../../redux/tasks/components/task.reducer";
+import { resetAccount } from "../../../../redux/account/account.reducer";
 
 function Settings() {
     const user = useSelector((state) => state.account);
@@ -24,9 +26,12 @@ function Settings() {
 
     const { NavigationRef } = useNavigation();
 
-    const restUser = useCallback(async () => {
-        await AsyncStorage.removeItem("crim-task-data");
-        dispatch(updateUserExistence(false));
+    const restUser = useCallback(() => {
+        AsyncStorage.clear().then(() => {
+            dispatch(updateUserExistence(false));
+            dispatch(resetTasks());
+            dispatch(resetAccount());
+        });
     }, []);
 
     const _changeRoundedCorners = useCallback((val) => {
