@@ -74,7 +74,13 @@ function CategoryListItem({
                             {categoryTitle}
                         </Text>
                     </SharedElement>
-                    <Box bg="gray.600" h={0.5} rounded="full" style={styles.progress}>
+                    <Box
+                        bg="gray.600"
+                        h={0.5}
+                        rounded="full"
+                        overflow="hidden"
+                        style={styles.progress}
+                    >
                         <Box style={shadowWidthStyle}>
                             <Shadow
                                 viewStyle={styles.fwidth}

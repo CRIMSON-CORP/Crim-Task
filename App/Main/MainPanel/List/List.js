@@ -1,4 +1,3 @@
-import React from "react";
 import { VStack } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Topbar from "../../../Reusables/TopBar";

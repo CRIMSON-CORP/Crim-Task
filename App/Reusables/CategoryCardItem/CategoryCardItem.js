@@ -121,7 +121,14 @@ function CategoryCardItem({
                             {categoryTitle}
                         </Text>
                     </SharedElement>
-                    <Box bg="gray.600" w="full" h={0.5} rounded="full" style={styles.progress}>
+                    <Box
+                        bg="gray.600"
+                        w="full"
+                        h={0.5}
+                        rounded="full"
+                        overflow="hidden"
+                        style={styles.progress}
+                    >
                         <AnimatedBox style={AnimatedBoxStyles}>
                             <Shadow
                                 viewStyle={styles.shadow}
