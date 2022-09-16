@@ -13,7 +13,8 @@ import { Layout } from "react-native-reanimated";
 import { useCallback } from "react";
 import { deleteCategory } from "../../../../redux/tasks/components/task.reducer";
 import AnimatedText from "../../../Reusables/AnimatedText/AnimatedText";
-const Categories = () => {
+
+function Categories() {
     const categories = useSelector((state) => state.tasks);
     const dispatch = useDispatch();
     const scrollRef = useRef();
@@ -79,7 +80,7 @@ const Categories = () => {
             </SafeAreaView>
         </Box>
     );
-};
+}
 
 const styles = StyleSheet.create({
     flex: {
