@@ -63,10 +63,10 @@ export function FabContextProvider({ children }) {
     function setFabPanelOpen(state) {
         if (state) {
             setAnimateOpen(state);
-            setTimeout(() => _setFabPanelOpen(state), 100);
+            setTimeout(() => _setFabPanelOpen(state), 0);
         } else {
             _setFabPanelOpen(state);
-            setTimeout(() => setAnimateOpen(state), 100);
+            setTimeout(() => setAnimateOpen(state), 0);
         }
     }
 
