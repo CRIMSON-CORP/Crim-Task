@@ -3,33 +3,33 @@ import { useSelector } from "react-redux";
 import AnimatedText from "../../../../../Reusables/AnimatedText/AnimatedText";
 
 function Greeting() {
-    const { last } = useSelector((state) => state.account.name) || {};
+    const { first } = useSelector((state) => state.account.name) || {};
 
     const MorinngGreetings = [
-        `What's up ${last}?`,
-        `How are you ${last}?`,
-        `Rise and Shine ${last}!`,
-        `Hello there ${last}!`,
-        `Good Morining ${last}!`,
-        `Have a great day ${last}!`,
-        `Look Alive ${last}!`,
-        `Morning ${last}!`,
+        `What's up ${first}?`,
+        `How are you ${first}?`,
+        `Rise and Shine ${first}!`,
+        `Hello there ${first}!`,
+        `Good Morining ${first}!`,
+        `Have a great day ${first}!`,
+        `Look Alive ${first}!`,
+        `Morning ${first}!`,
     ];
 
     const AfternoonGreetings = [
-        `What's up ${last}?`,
-        `How are you ${last}?`,
-        `Look Alive ${last}!`,
-        `Greetings ${last}!`,
-        `Hi ${last}!`,
-        `Good Afternoon ${last}!`,
-        `Afternoon ${last}!`,
+        `What's up ${first}?`,
+        `How are you ${first}?`,
+        `Look Alive ${first}!`,
+        `Greetings ${first}!`,
+        `Hi ${first}!`,
+        `Good Afternoon ${first}!`,
+        `Afternoon ${first}!`,
     ];
 
     const EveningGreetings = [
-        `Good Evening ${last}!`,
-        `How was your day ${last}?`,
-        `How have you been ${last}?`,
+        `Good Evening ${first}!`,
+        `How was your day ${first}?`,
+        `How have you been ${first}?`,
     ];
 
     const date = new Date().getHours();
