@@ -65,8 +65,9 @@ function RecentTasks() {
                     <VStack justifyContent="flex-start" h={120} p={5} space="2">
                         <Image source={IdleTask} resizeMode="contain" h="full" alt="idle Task" />
                         <Text textAlign={"center"} fontSize={10}>
-                            You have no Tasks, press the "+" button to add a new Task when you have
-                            a category
+                            {AllTasksCategories.length
+                                ? 'You have no Tasks, press the "+" button to add a new Task when you have a category'
+                                : "You currently do not have any uncompleted Task!"}
                         </Text>
                     </VStack>
                 )}
