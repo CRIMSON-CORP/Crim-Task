@@ -38,6 +38,12 @@ function Settings() {
         dispatch(changeRoundedCorners(!val));
     }, []);
 
+    const onChangeFirstname = useCallback((e) => dispatch(changeFirstName(e.trim())), []);
+    const onChangeLastname = useCallback((e) => dispatch(changeLastName(e.trim())), []);
+    const navigateToHowToUse = useCallback(() => {
+        NavigationRef.navigate("how_to_use");
+    }, []);
+
     return (
         <Box flex={1}>
             <SafeAreaView style={styles.safeAreaView}>
@@ -54,12 +60,12 @@ function Settings() {
                                     <InputBox
                                         header="Change First name"
                                         value={user?.name?.first}
-                                        onChangeText={(e) => dispatch(changeFirstName(e.trim()))}
+                                        onChangeText={onChangeFirstname}
                                     />
                                     <InputBox
                                         header="Change Last name"
                                         value={user?.name?.last}
-                                        onChangeText={(e) => dispatch(changeLastName(e.trim()))}
+                                        onChangeText={onChangeLastname}
                                     />
                                     <HStack bg="#ffffff30" px="5" py="3" rounded="15" space={0}>
                                         <VStack space={2} flex={1}>
@@ -90,11 +96,7 @@ function Settings() {
                                         <Text fontSize="xs">
                                             Information on how to use the Application properly
                                         </Text>
-                                        <AnimatedPressable
-                                            onPress={() => {
-                                                NavigationRef.navigate("how_to_use");
-                                            }}
-                                        >
+                                        <AnimatedPressable onPress={navigateToHowToUse}>
                                             <Box bg="white" w="full" p="4" py="3" rounded="10">
                                                 <Text
                                                     textAlign="center"

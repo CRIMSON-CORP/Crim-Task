@@ -59,11 +59,19 @@ function CreateAccount({ navigation }) {
         if (fname && lname) {
             dispatch(changeProfilePhoto(image));
             dispatch(changeRoundedCorners(true));
-            dispatch(changeFirstName(fname));
-            dispatch(changeLastName(lname));
+            dispatch(changeFirstName(fname.trim()));
+            dispatch(changeLastName(lname.trim()));
             dispatch(updateUserExistence(true));
         } else Alert.alert("Empty Field", "Firstname and Lastname should be filled! ");
     }, [image, fname, lname]);
+
+    const onchangeFirstname = useCallback((e) => {
+        setFname(e);
+    }, []);
+
+    const onchangeLastname = useCallback((e) => {
+        setLname(e);
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -142,9 +150,7 @@ function CreateAccount({ navigation }) {
                                             variant="unstyled"
                                             selectionColor="white"
                                             value={fname}
-                                            onChangeText={(e) => {
-                                                setFname(e.trim());
-                                            }}
+                                            onChangeText={onchangeFirstname}
                                         />
                                     </VStack>
                                 </Box>
@@ -167,9 +173,7 @@ function CreateAccount({ navigation }) {
                                             variant="unstyled"
                                             selectionColor={colors.primary.accent}
                                             value={lname}
-                                            onChangeText={(e) => {
-                                                setLname(e.trim());
-                                            }}
+                                            onChangeText={onchangeLastname}
                                         />
                                     </VStack>
                                 </Box>

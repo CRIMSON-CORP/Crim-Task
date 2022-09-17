@@ -26,6 +26,8 @@ function CreateNewKnowCategoryTask() {
         }
     }, [subject, currentCategoryId]);
 
+    const onChangeText = useCallback((text) => setSubject(text), []);
+
     useEffect(() => {
         return () => setSubject("");
     }, []);
@@ -50,9 +52,9 @@ function CreateNewKnowCategoryTask() {
                         value={subject}
                         variant="underlined"
                         borderBottomColor="white"
+                        onChangeText={onChangeText}
                         underlineColorAndroid={"transparent"}
                         selectionColor={colors.primary.accent}
-                        onChangeText={(text) => setSubject(text)}
                     />
                 </VStack>
                 <FabCTA title="Create New Task" onClick={subject ? _createTask : null} />

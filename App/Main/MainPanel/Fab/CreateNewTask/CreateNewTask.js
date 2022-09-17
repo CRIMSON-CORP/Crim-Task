@@ -46,6 +46,8 @@ function CreateNewTask({ flag }) {
         dispatch(createTask(commonProperties));
     }, [subject, ActiveCategoryId]);
 
+    const onChangeText = useCallback((text) => setSubject(text));
+
     useEffect(() => {
         setActiveIndexIndicator(categories.findIndex((cat) => cat.categoryId === ActiveCategoryId));
 
@@ -80,9 +82,9 @@ function CreateNewTask({ flag }) {
                         value={subject}
                         variant="underlined"
                         borderBottomColor="white"
-                        selectionColor={colors.primary.accent}
+                        onChangeText={onChangeText}
                         underlineColorAndroid={"transparent"}
-                        onChangeText={(text) => setSubject(text)}
+                        selectionColor={colors.primary.accent}
                     />
                 </VStack>
                 <VStack space="5">
