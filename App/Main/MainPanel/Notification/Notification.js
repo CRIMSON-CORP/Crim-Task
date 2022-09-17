@@ -10,9 +10,7 @@ function Notification() {
         <Box flex={1} bg="primary.300" p="5" style={{ paddingTop: StatusBar.currentHeight + 20 }}>
             <VStack space={16} flexGrow={1}>
                 <TopBar back />
-                <AnimatedText delay={700} stagger={50}>
-                    Notifications
-                </AnimatedText>
+                <AnimatedText delay={400}>Notifications</AnimatedText>
                 <VStack flex={1} pb={4} alignItems="center" space="5">
                     <Image
                         source={no_notification}
