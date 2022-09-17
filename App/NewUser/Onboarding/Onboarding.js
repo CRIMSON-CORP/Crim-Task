@@ -1,9 +1,8 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Entypo } from "@expo/vector-icons";
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Center, FlatList, Heading, HStack, Image, Text, VStack } from "native-base";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import Animated, {
     Extrapolate,
@@ -61,6 +60,10 @@ const buttonAnimation = {
 function Onboarding({ navigation }) {
     const progress = useSharedValue(0);
     const [scrollEnd, setScrollEnd] = useState(false);
+
+    useEffect(() => {
+        setScrollEnd(false);
+    }, []);
     return (
         <Box flex={1}>
             <Background progress={progress} />

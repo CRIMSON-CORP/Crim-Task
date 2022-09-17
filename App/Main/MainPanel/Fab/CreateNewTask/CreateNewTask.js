@@ -48,6 +48,12 @@ function CreateNewTask({ flag }) {
 
     useEffect(() => {
         setActiveIndexIndicator(categories.findIndex((cat) => cat.categoryId === ActiveCategoryId));
+
+        return () => {
+            setSubject("");
+            setActiveIndexIndicator(0);
+            setActiveCategoryId("");
+        };
     }, [ActiveCategoryId]);
 
     const PAGE_TITLE = EDIT_MODE ? "Edit Task" : "Create a new Task";
@@ -103,7 +109,6 @@ export default CreateNewTask;
 
 function ChooseCategory({ ActiveIndexIndicator, categories, setActiveCategoryId }) {
     const pillContainerRef = useRef();
-    console.log(ActiveIndexIndicator);
     const [pillsDimensions, setPillsDimensions] = useState([]);
 
     const indicatorAnimatedStyle = useMemo(
@@ -115,6 +120,10 @@ function ChooseCategory({ ActiveIndexIndicator, categories, setActiveCategoryId 
         }),
         [pillsDimensions, ActiveIndexIndicator]
     );
+
+    useEffect(() => {
+        setPillsDimensions([]);
+    }, []);
 
     return (
         <Box px={1} flexWrap="wrap" flexDirection="row" ref={pillContainerRef}>

@@ -1,20 +1,24 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
-import { CRIM_TASK_STORAGE_KEY } from "../../../utils/constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
+/**
+ * @typedef TaskItem
+ * @property {string} id - Identity of each Task created
+ * @property {string} task - subject of each Task created
+ * @property {boolean} completed - Wether a task has been marked as completed or not
+ * @property {DateConstructor} timestamp - a time marker for when a task was created
+ */
+
+/**
+ * @typedef CategoryItem
+ * @property {string} categoryId - Identity of each Category created
+ * @property {string} categoryColor - Theme color of each Category created, this is also used by each Task item
+ * @property {TaskItem[]} tasks
+ */
+
+/**
+ * @type {CategoryItem[]}
+ */
 const initialState = [];
-
-export const getAsyncTasksData = createAsyncThunk("get-task-data", async () => {
-    try {
-        const data = await AsyncStorage.getItem(CRIM_TASK_STORAGE_KEY);
-        if (data) {
-            const result = await JSON.parse(data).account;
-            return result;
-        } else return initialState;
-    } catch (error) {
-        return initialState;
-    }
-});
 
 const taskReducer = createSlice({
     name: "tasks",
@@ -111,7 +115,7 @@ const taskReducer = createSlice({
                 state[newCategoryindex].tasks.push(newProps);
             }
         },
-        resetTasks: () => [],
+        resetTasks: () => initialState,
     },
 });
 

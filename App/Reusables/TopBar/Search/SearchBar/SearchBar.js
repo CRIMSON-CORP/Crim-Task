@@ -65,7 +65,10 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
             setOpenSearchIcon(!["settings", "how_to_use", "notifications"].includes(routename));
         });
 
-        return unsub;
+        return () => {
+            unsub();
+            setOpenSearchIcon(true);
+        };
     }, []);
     return (
         <Box zIndex={999}>

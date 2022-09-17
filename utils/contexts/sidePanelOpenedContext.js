@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useMemo, useState } from "react";
+import { useContext, createContext, useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 const sidePanelOpenedContext = createContext(false);
@@ -27,6 +27,10 @@ function SidePanelOpenedProvider({ children }) {
         }),
         [sidePanelOpened]
     );
+
+    useEffect(() => {
+        setSidePanelOpened(false);
+    }, []);
 
     return (
         <sidePanelOpenedContext.Provider value={contextvalues}>

@@ -28,7 +28,10 @@ function NavbarItem({ icon, text, slug }) {
             setActive(NavigationRef.getCurrentRoute().name === slug);
         });
 
-        return unsub;
+        return () => {
+            unsub();
+            setActive(false);
+        };
     }, []);
 
     const navigateToScreen = useCallback(() => {

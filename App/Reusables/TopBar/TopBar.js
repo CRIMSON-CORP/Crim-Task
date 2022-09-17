@@ -67,9 +67,7 @@ function TopBar({ back }) {
             setShowFab(true);
             setValue("");
         }
-    }, [OpenSearch]);
 
-    useEffect(() => {
         const backHandler = () => {
             if (OpenSearch) {
                 setOpenSearch(false);
@@ -80,6 +78,13 @@ function TopBar({ back }) {
         const backEnvt = BackHandler.addEventListener("hadwarebackPress", backHandler);
         return () => backEnvt.remove();
     }, [OpenSearch]);
+
+    useEffect(() => {
+        return () => {
+            setValue("");
+            setOpenSearch(false);
+        };
+    }, []);
 
     return (
         <Box>

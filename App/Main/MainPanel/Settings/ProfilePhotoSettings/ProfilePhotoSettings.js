@@ -1,4 +1,3 @@
-import React from "react";
 import {
     getMediaLibraryPermissionsAsync,
     launchImageLibraryAsync,
@@ -6,14 +5,16 @@ import {
 } from "expo-image-picker";
 import { AnimatePresence, View } from "moti";
 import { Center, Image, Pressable, Text, VStack } from "native-base";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
 import { changeProfilePhoto } from "../../../../../redux/account/account.reducer";
 const ProfilePhotoSettings = () => {
     const { profilePhoto } = useSelector((state) => state.account);
+
     const [image, setImage] = useState(profilePhoto);
+
     const dispatch = useDispatch();
 
     const PickImage = useCallback(async () => {
@@ -35,6 +36,10 @@ const ProfilePhotoSettings = () => {
         setImage(null);
         dispatch(changeProfilePhoto(null));
     }, [image]);
+
+    useEffect(() => {
+        setImage(null);
+    }, []);
 
     const imageStyles = {
         position: "absolute",

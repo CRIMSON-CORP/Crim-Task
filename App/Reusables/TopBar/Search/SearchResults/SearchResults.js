@@ -59,6 +59,12 @@ function SearchResults({ value, OpenSearch }) {
         }
     }, [OpenSearch]);
 
+    useEffect(() => {
+        return () => {
+            setResults([]);
+        };
+    }, []);
+
     const animation = {
         from: {
             opacity: 0,

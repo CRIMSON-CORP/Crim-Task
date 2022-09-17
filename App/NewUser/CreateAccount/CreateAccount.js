@@ -15,7 +15,7 @@ import {
     useTheme,
     VStack,
 } from "native-base";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Alert, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
@@ -31,7 +31,6 @@ import {
     changeRoundedCorners,
     updateUserExistence,
 } from "../../../redux/account/account.reducer";
-import { useCallback } from "react";
 
 const { height } = Dimensions.get("screen");
 
@@ -65,6 +64,14 @@ function CreateAccount({ navigation }) {
             dispatch(updateUserExistence(true));
         } else Alert.alert("Empty Field", "Firstname and Lastname should be filled! ");
     }, [image, fname, lname]);
+
+    useEffect(() => {
+        return () => {
+            setImage(null);
+            setFname("");
+            setLname("");
+        };
+    }, []);
 
     return (
         <Box flex={1}>

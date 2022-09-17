@@ -56,6 +56,7 @@ export function FabContextProvider({ children }) {
             setFlag(null);
             setShowFab(true);
             setFabPanelOpen(false);
+            setAnimateOpen(false);
         };
     }, []);
 

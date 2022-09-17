@@ -6,45 +6,44 @@ import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withRepeat,
-    withSequence,
     withTiming,
 } from "react-native-reanimated";
 
 const { width, height } = Dimensions.get("screen");
-const AnimatedView = Animated.createAnimatedComponent(Box);
+const AnimatedBoxOuter = Animated.createAnimatedComponent(Box);
+const AnimatedBoxInner = Animated.createAnimatedComponent(Box);
 
 function LoadingScreen() {
-    const translate = useSharedValue(30);
+    const rotate = useSharedValue(0);
 
     useEffect(() => {
-        translate.value = withRepeat(
-            withSequence(
-                withTiming(30, { duration: 400, easing: Easing.in(Easing.quad) }),
-                withTiming(-30, { duration: 400, easing: Easing.out(Easing.quad) })
-            ),
-            Infinity,
-            true
+        rotate.value = withRepeat(
+            withTiming(360, { duration: 1000, easing: Easing.out(Easing.cubic) }),
+            Infinity
         );
+
+        return () => {
+            rotate.value = 0;
+        };
     }, []);
 
     const animatedStyles = useAnimatedStyle(() => ({
-        transform: [
-            {
-                translateY: translate.value,
-            },
-        ],
+        transform: [{ rotate: `${rotate.value}deg` }],
     }));
 
     return (
         <Center zIndex={0} w={width} h={height} bg="primary.500">
-            <AnimatedView
+            <AnimatedBoxOuter
                 w={35}
                 h={35}
-                borderWidth={5}
-                borderColor="primary.accent"
+                p={1.5}
                 rounded="full"
+                borderWidth={4}
                 style={animatedStyles}
-            />
+                borderColor="primary.accent"
+            >
+                <AnimatedBoxInner w={2} h={2} bg="primary.accent" rounded="full" />
+            </AnimatedBoxOuter>
         </Center>
     );
 }

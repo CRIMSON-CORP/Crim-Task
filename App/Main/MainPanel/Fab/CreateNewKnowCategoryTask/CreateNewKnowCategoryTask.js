@@ -1,14 +1,14 @@
 import { Box, Input, Text, useTheme, VStack } from "native-base";
-import { useContext, useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createTask } from "../../../../../redux/tasks/components/task.reducer";
-import { NavigationContext } from "../../../../../utils/context";
+import { useNavigation } from "../../../../../utils/contexts/navigationContext";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
 import KeyboardViewAdjuster from "../../../../Reusables/KeyboardViewAdjuster/KeyboardViewAdjuster";
 
 import FabCTA from "../FabCTA";
 function CreateNewKnowCategoryTask() {
-    const { NavigationRef } = useContext(NavigationContext);
+    const { NavigationRef } = useNavigation();
     const [subject, setSubject] = useState("");
 
     const { colors } = useTheme();
@@ -24,6 +24,10 @@ function CreateNewKnowCategoryTask() {
                 })
             );
         }
+    }, [subject, currentCategoryId]);
+
+    useEffect(() => {
+        return () => setSubject("");
     }, []);
 
     return (
