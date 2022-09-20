@@ -15,12 +15,14 @@ import UserContextProvider from "./utils/contexts/userContext";
 import NewUser from "./App/NewUser";
 import NavigationProvider from "./utils/contexts/navigationContext";
 import LoadingScreen from "./App/Reusables/LoadingScreen";
+import { StatusBar } from "expo-status-bar";
 
 enableScreens();
 
 export default function App() {
     return (
         <NativeBaseProvider theme={theme}>
+            <StatusBar style="dark" translucent={true} />
             <NavigationProvider>
                 <Provider store={store}>
                     <PersistGate loading={<LoadingScreen />} persistor={persistor}>

@@ -61,7 +61,7 @@ function CategoryCardItem({
             taskCount,
             categoryTitle,
         });
-    }, []);
+    }, [categoryId, taskCount, categoryTitle]);
 
     const onLongPress = useCallback(() => {
         setFlag({
@@ -71,7 +71,7 @@ function CategoryCardItem({
             categoryId,
         });
         setFabPanelOpen(true);
-    }, []);
+    }, [categoryId, categoryColor, categoryTitle]);
 
     useEffect(() => {
         AnimatedWidthShared.value = withTiming(progress, {
@@ -121,21 +121,20 @@ function CategoryCardItem({
                             {categoryTitle}
                         </Text>
                     </SharedElement>
-                    <Box
-                        bg="gray.600"
-                        w="full"
-                        h={0.5}
-                        rounded="full"
-                        overflow="hidden"
-                        style={styles.progress}
-                    >
+                    <Box bg="gray.600" w="full" h={0.5} rounded="full" style={styles.progress}>
                         <AnimatedBox style={AnimatedBoxStyles}>
                             <Shadow
                                 viewStyle={styles.shadow}
                                 startColor={categoryColor + "35"}
                                 finalColor="#ffffff00"
                             >
-                                <Box position="absolute" bg={categoryColor} w={"full"} h={0.5} />
+                                <Box
+                                    position="absolute"
+                                    rounded="full"
+                                    bg={categoryColor}
+                                    w={"full"}
+                                    h={0.5}
+                                />
                             </Shadow>
                         </AnimatedBox>
                         <AnimatedBox style={AnimatedCelebrationOpacityStyles}>
@@ -145,7 +144,13 @@ function CategoryCardItem({
                                 distance={15}
                                 finalColor="#ffffff00"
                             >
-                                <Box position="absolute" bg={categoryColor} w={"full"} h={0.5} />
+                                <Box
+                                    position="absolute"
+                                    rounded="full"
+                                    bg={categoryColor}
+                                    w={"full"}
+                                    h={0.5}
+                                />
                             </Shadow>
                         </AnimatedBox>
                     </Box>

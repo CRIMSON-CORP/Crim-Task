@@ -8,15 +8,13 @@ import { useFab } from "../../../utils/contexts/fabContext";
 import { useNavigation } from "../../../utils/contexts/navigationContext";
 
 function CategoryListItem({
-    tasks = [],
+    taskCount,
+    progress = 0,
     categoryTitle = "Grocery",
     categoryColor = "#DB00FF",
     categoryId,
     ...props
 }) {
-    const taskCount = tasks.length;
-    const taskCompletedCount = tasks.filter((item) => item.completed).length;
-    let progress = (taskCompletedCount / taskCount) * 100 || 0;
     const { NavigationRef } = useNavigation();
 
     const {
@@ -43,7 +41,7 @@ function CategoryListItem({
             taskCount,
             categoryTitle,
         });
-    }, []);
+    }, [categoryId, taskCount, categoryTitle]);
 
     const onLongPress = useCallback(() => {
         setFlag({
@@ -53,7 +51,7 @@ function CategoryListItem({
             categoryId,
         });
         setFabPanelOpen(true);
-    }, []);
+    }, [categoryTitle, categoryColor, categoryId]);
 
     const BACKGROUND_SHARED = `item.${categoryId}.bg`;
     const TASK_SHARED = `item.${categoryId}.tasks`;
@@ -107,7 +105,8 @@ function CategoryListItem({
     );
 }
 CategoryListItem.propTypes = {
-    tasks: PropTypes.array.isRequired,
+    taskCount: PropTypes.number.isRequired,
+    progress: PropTypes.number,
     categoryTitle: PropTypes.string.isRequired,
     categoryColor: PropTypes.string.isRequired,
     fwidth: PropTypes.bool,

@@ -13,9 +13,7 @@ function FabCTA({ title, onClick }) {
     const onPress = useCallback(() => {
         if (onClick) {
             onClick();
-            setTimeout(() => {
-                setFabPanelOpen(false);
-            }, 800);
+            setFabPanelOpen(false);
         }
     }, [onClick]);
 

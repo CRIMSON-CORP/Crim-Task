@@ -53,7 +53,7 @@ function CreateAccount({ navigation }) {
         if (!data.cancelled) {
             setImage(data.base64);
         }
-    }, [image]);
+    }, []);
 
     const createUser = useCallback(() => {
         if (fname && lname) {

@@ -5,7 +5,7 @@ import {
 } from "expo-image-picker";
 import { AnimatePresence, View } from "moti";
 import { Center, Image, Pressable, Text, VStack } from "native-base";
-import { memo, useCallback, useState, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import UserIcon from "../../../../Reusables/UserIcon/UserIcon";
@@ -38,7 +38,7 @@ const ProfilePhotoSettings = () => {
     }, [image]);
 
     useEffect(() => {
-        setImage(null);
+        return () => setImage(null);
     }, []);
 
     const imageStyles = {

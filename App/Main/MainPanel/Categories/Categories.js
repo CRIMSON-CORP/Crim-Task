@@ -1,6 +1,6 @@
 import { AnimatePresence, View as MotiView } from "moti";
 import { Box, Image, Text, VStack } from "native-base";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,16 +19,28 @@ function Categories() {
     const dispatch = useDispatch();
     const scrollRef = useRef();
 
+    const categoryListData = useMemo(
+        () =>
+            categories.map(({ tasks, ...categoryProps }) => {
+                const taskCompletedCount = tasks.filter((item) => item.completed).length;
+                return {
+                    taskCount: tasks.length,
+                    progress: (taskCompletedCount / tasks.length) * 100 || 0,
+                    ...categoryProps,
+                };
+            }),
+        [categories]
+    );
+
     const swipetoDelete = useCallback((id) => dispatch(deleteCategory(id)), []);
+
     return (
         <Box flex={1}>
             <SafeAreaView style={styles.flex}>
                 <VStack space="16" p="5">
                     <TopBar back />
                     <VStack space="10">
-                        <AnimatedText delay={600} stagger={50}>
-                            Categories
-                        </AnimatedText>
+                        <AnimatedText delay={400}>Categories</AnimatedText>
                     </VStack>
                 </VStack>
                 <Box pt="10" flex={1}>
@@ -39,7 +51,7 @@ function Categories() {
                             contentContainerStyle={styles.ScrollViewContainerStyles}
                         >
                             <AnimatePresence>
-                                {categories.map((item) => (
+                                {categoryListData.map((item) => (
                                     <MotiView
                                         key={item.categoryId}
                                         layout={Layout.springify()}
@@ -53,10 +65,7 @@ function Categories() {
                                                 mr="5"
                                                 shadow="7"
                                                 fwidth={true}
-                                                tasks={item.tasks}
-                                                categoryId={item.categoryId}
-                                                categoryColor={item.categoryColor}
-                                                categoryTitle={item.categoryTitle}
+                                                {...item}
                                             />
                                         </SwipableView>
                                     </MotiView>

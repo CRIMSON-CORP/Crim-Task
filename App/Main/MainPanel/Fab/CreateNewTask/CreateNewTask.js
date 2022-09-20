@@ -17,22 +17,19 @@ const indicatorTransition = {
 function CreateNewTask({ flag }) {
     const EDIT_MODE = flag ? (flag.flag ? true : false) : false;
     const categories = useSelector((state) => state.tasks);
-    const [ActiveCategoryId, setActiveCategoryId] = useState(
-        EDIT_MODE
-            ? categories.find((cat) => cat.categoryId === flag.currentCategoryId).categoryId
-            : categories[0].categoryId
-    );
+
     const [subject, setSubject] = useState(EDIT_MODE ? flag.subject : "");
-    const [ActiveIndexIndicator, setActiveIndexIndicator] = useState(
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(
         EDIT_MODE ? categories.findIndex((cat) => cat.id === flag.currentCategoryId).categoryId : 0
     );
+
     const { colors } = useTheme();
     const dispatch = useDispatch();
 
     const _createTask = useCallback(() => {
         let commonProperties = {
             subject: subject.trim(),
-            categoryId: ActiveCategoryId,
+            categoryId: categories[selectedCategoryIndex].categoryId,
         };
         if (EDIT_MODE) {
             dispatch(
@@ -44,19 +41,15 @@ function CreateNewTask({ flag }) {
             );
         }
         dispatch(createTask(commonProperties));
-    }, [subject, ActiveCategoryId]);
+    }, [subject, selectedCategoryIndex]);
 
     const onChangeText = useCallback((text) => setSubject(text));
 
     useEffect(() => {
-        setActiveIndexIndicator(categories.findIndex((cat) => cat.categoryId === ActiveCategoryId));
-
         return () => {
             setSubject("");
-            setActiveIndexIndicator(0);
-            setActiveCategoryId("");
         };
-    }, [ActiveCategoryId]);
+    }, []);
 
     const PAGE_TITLE = EDIT_MODE ? "Edit Task" : "Create a new Task";
     const PAGE_CATEGORY_SUBTITLE = EDIT_MODE ? "Move to another Category" : "Select Task Category";
@@ -93,8 +86,8 @@ function CreateNewTask({ flag }) {
                     </Text>
                     <ChooseCategory
                         categories={categories}
-                        setActiveCategoryId={setActiveCategoryId}
-                        ActiveIndexIndicator={ActiveIndexIndicator}
+                        selectedCategoryIndex={selectedCategoryIndex}
+                        setSelectedCategoryIndex={setSelectedCategoryIndex}
                     />
                 </VStack>
                 <FabCTA title={CTA_TEXT} onClick={subject ? _createTask : null} />
@@ -109,22 +102,22 @@ CreateNewTask.propTypes = {
 
 export default CreateNewTask;
 
-function ChooseCategory({ ActiveIndexIndicator, categories, setActiveCategoryId }) {
+function ChooseCategory({ categories, selectedCategoryIndex, setSelectedCategoryIndex }) {
     const pillContainerRef = useRef();
     const [pillsDimensions, setPillsDimensions] = useState([]);
 
     const indicatorAnimatedStyle = useMemo(
         () => ({
-            width: pillsDimensions[ActiveIndexIndicator]?.width || 38,
-            height: pillsDimensions[ActiveIndexIndicator]?.height || 38,
-            left: pillsDimensions[ActiveIndexIndicator]?.pageX || 0,
-            top: pillsDimensions[ActiveIndexIndicator]?.pageY || 0,
+            width: pillsDimensions[selectedCategoryIndex]?.width || 38,
+            height: pillsDimensions[selectedCategoryIndex]?.height || 38,
+            left: pillsDimensions[selectedCategoryIndex]?.pageX || 0,
+            top: pillsDimensions[selectedCategoryIndex]?.pageY || 0,
         }),
-        [pillsDimensions, ActiveIndexIndicator]
+        [pillsDimensions, selectedCategoryIndex]
     );
 
     useEffect(() => {
-        setPillsDimensions([]);
+        return () => setPillsDimensions([]);
     }, []);
 
     return (
@@ -134,14 +127,14 @@ function ChooseCategory({ ActiveIndexIndicator, categories, setActiveCategoryId 
                 animate={indicatorAnimatedStyle}
                 transition={indicatorTransition}
             />
-            {categories.map(({ categoryTitle, categoryId }) => (
+            {categories.map(({ categoryTitle, categoryId }, index) => (
                 <Pill
+                    index={index}
                     key={categoryId}
-                    categoryId={categoryId}
                     categoryTitle={categoryTitle}
-                    setActiveCategoryId={setActiveCategoryId}
-                    setPillsDimensions={setPillsDimensions}
                     containerRef={pillContainerRef}
+                    setPillsDimensions={setPillsDimensions}
+                    setSelectedCategoryIndex={setSelectedCategoryIndex}
                 />
             ))}
         </Box>
@@ -149,19 +142,21 @@ function ChooseCategory({ ActiveIndexIndicator, categories, setActiveCategoryId 
 }
 
 ChooseCategory.propTypes = {
-    ActiveIndexIndicator: PropTypes.number,
     categories: PropTypes.array,
-    setActiveCategoryId: PropTypes.func,
+    selectedCategoryIndex: PropTypes.number,
+    setSelectedCategoryIndex: PropTypes.func,
 };
 
 function Pill({
-    categoryId,
-    categoryTitle,
-    setActiveCategoryId,
-    setPillsDimensions,
+    index,
     containerRef,
+    categoryTitle,
+    setPillsDimensions,
+    setSelectedCategoryIndex,
 }) {
     const pillRef = useRef();
+
+    const setIndex = useCallback(() => setSelectedCategoryIndex(index), [index]);
 
     useEffect(() => {
         pillRef.current.measureLayout(containerRef.current, (pageX, pageY, width, height) => {
@@ -169,7 +164,7 @@ function Pill({
         });
     }, []);
     return (
-        <AnimatedPressable onPress={() => setActiveCategoryId(categoryId)}>
+        <AnimatedPressable onPress={setIndex}>
             <MotiView ref={pillRef} style={styles.pillStyles}>
                 <Text fontWeight="600" lineHeight={18}>
                     {categoryTitle}
@@ -180,11 +175,11 @@ function Pill({
 }
 
 Pill.propTypes = {
-    categoryId: PropTypes.string,
-    categoryTitle: PropTypes.string,
-    setActiveCategoryId: PropTypes.func,
-    setPillsDimensions: PropTypes.func,
+    index: PropTypes.number,
     containerRef: PropTypes.object,
+    categoryTitle: PropTypes.string,
+    setPillsDimensions: PropTypes.func,
+    setSelectedCategoryIndex: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

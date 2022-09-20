@@ -49,7 +49,7 @@ function Settings() {
             <SafeAreaView style={styles.safeAreaView}>
                 <VStack space={16} flexGrow={1}>
                     <TopBar back />
-                    <AnimatedText delay={600} duration={550} stagger={50}>
+                    <AnimatedText delay={400} duration={550}>
                         Settings
                     </AnimatedText>
                     <Box flex={1} pb={4}>

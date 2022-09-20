@@ -93,7 +93,7 @@ function CreateNewCategory({ flag }) {
                 translateY: ActiveColorIndex === index ? -5 : 0,
             },
         }),
-        [ActiveColorIndex]
+        [ActiveColorIndex, loadedRef.current]
     );
 
     const PAGE_TITLE = EDIT_MODE ? "Edit Category" : "Create a new Category";
