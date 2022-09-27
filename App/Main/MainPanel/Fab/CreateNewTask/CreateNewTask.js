@@ -39,8 +39,7 @@ function CreateNewTask({ flag }) {
                     currentCategoryId: flag.currentCategoryId,
                 })
             );
-        }
-        dispatch(createTask(commonProperties));
+        } else dispatch(createTask(commonProperties));
     }, [subject, selectedCategoryIndex]);
 
     const onChangeText = useCallback((text) => setSubject(text));
