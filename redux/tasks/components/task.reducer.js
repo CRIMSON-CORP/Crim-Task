@@ -101,7 +101,7 @@ const taskReducer = createSlice({
                 task: action.payload.subject,
             };
 
-            // basically, if task has been moved to another category
+            // basically, if task has been moved to another category or not
             if (action.payload.categoryId === action.payload.currentCategoryId) {
                 //just update the task
                 state[categoryIndex].tasks[taskIndex] = newProps;

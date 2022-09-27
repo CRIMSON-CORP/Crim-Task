@@ -8,7 +8,7 @@ import AnimatedPressable from "../../../../Reusables/AnimatedPressable";
 import AnimatedText from "../../../../Reusables/AnimatedText/AnimatedText";
 import FabCTA from "../FabCTA";
 import KeyboardViewAdjuster from "../../../../Reusables/KeyboardViewAdjuster";
-import { createTask } from "../../../../../redux/tasks/components/task.reducer";
+import { createTask, editTask } from "../../../../../redux/tasks/components/task.reducer";
 
 const indicatorTransition = {
     type: "spring",
@@ -20,7 +20,7 @@ function CreateNewTask({ flag }) {
 
     const [subject, setSubject] = useState(EDIT_MODE ? flag.subject : "");
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(
-        EDIT_MODE ? categories.findIndex((cat) => cat.id === flag.currentCategoryId).categoryId : 0
+        EDIT_MODE ? categories.findIndex((cat) => cat.categoryId === flag.currentCategoryId) : 0
     );
 
     const { colors } = useTheme();
@@ -33,7 +33,7 @@ function CreateNewTask({ flag }) {
         };
         if (EDIT_MODE) {
             dispatch(
-                createTask({
+                editTask({
                     ...commonProperties,
                     itemId: flag.itemId,
                     currentCategoryId: flag.currentCategoryId,
