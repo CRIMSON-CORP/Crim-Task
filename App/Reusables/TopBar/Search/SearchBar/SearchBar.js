@@ -57,7 +57,7 @@ function SearchBar({ setOpenSearch, OpenSearch, value, setValue }) {
         [openSearchIcon]
     );
 
-    const onChangeText = useCallback((text) => setValue(text.trim()), []);
+    const onChangeText = useCallback((text) => setValue(text), []);
 
     useEffect(() => {
         const unsub = NavigationRef.addListener("state", () => {

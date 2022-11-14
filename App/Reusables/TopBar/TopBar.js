@@ -53,6 +53,7 @@ function TopBar({ back }) {
     }));
 
     const closeSearch = useCallback(() => {
+        setValue("");
         setOpenSearch(false);
     }, []);
 
@@ -65,7 +66,6 @@ function TopBar({ back }) {
         } else {
             bgShared.value = withDelay(500, withTiming(0));
             setShowFab(true);
-            setValue("");
         }
 
         const backHandler = () => {
