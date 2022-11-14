@@ -54,6 +54,7 @@ const taskReducer = createSlice({
                 categoryId: nanoid(6),
                 categoryTitle: action.payload.title,
                 categoryColor: action.payload.color,
+                updatedAt: null,
                 tasks: [],
             });
         },
@@ -67,6 +68,7 @@ const taskReducer = createSlice({
                 completed: false,
                 timeStamp: Date.now(),
             };
+            state[category_index].updatedAt = Date.now();
             state[category_index].tasks.unshift(newTask);
         },
         editCategory(state, action) {

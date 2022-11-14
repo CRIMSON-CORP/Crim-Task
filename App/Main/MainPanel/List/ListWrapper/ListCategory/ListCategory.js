@@ -28,7 +28,8 @@ const noTaskImageAnimationConfig = {
 };
 
 function ListCategory() {
-    const categories = useSelector((state) => state.tasks);
+    let categories = useSelector((state) => state.tasks);
+    categories = [...categories].sort((a, b) => a.updatedAt < b.updatedAt);
     return (
         <VStack space={35}>
             <Text fontWeight="bold" opacity={0.7}>
